@@ -3,7 +3,15 @@ import Navbar from "../shared/navbar";
 
 const Hero = () => {
   return (
-    <div className="bg-[#0C1316] h-[90vh] md:h-screen ">
+    <div
+      className="bg-[#0C1316] h-[90vh] md:h-screen"
+      style={{
+        backgroundImage: "url('/images/hero-bg.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <Navbar />
       <section className="brand-width  h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20">
         {/* Contents */}
