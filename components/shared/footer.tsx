@@ -8,34 +8,34 @@ import {
   moreLinks,
   socialLinks,
 } from "@/utils/constants";
-import { IceCream } from "lucide-react";
+import { IceCream, LocateIcon, LocationEditIcon, Mail, PinIcon } from "lucide-react";
 import Image from "next/image";
 
 export default function Footer() {
   return (
     <section className="relative">
       <div className="brand-width my-12 flex lg:flex-row flex-col  justify-between ">
-        <h6 className="max-w-[600px] mb-[250px] sm:mb-0 text-[22.25px] leading-[25.25px] md:leading-[70px] md:text-[50px]">
+        <h6 className="max-w-[300px] lg:max-w-[600px] mb-[150px] sm:mb-0 text-[22.25px] leading-[25.25px] lg:leading-[70px] lg:text-[50px]">
           Experience Nigeria’s first affordable intercity travel platform,
           designed with local solutions for local challenges
         </h6>
+      </div>
+      <footer className="bg-[#0e1414] relative py-12">
+        {/* Footer illustration image */}
 
-        <div className="w-full relative">
+        <div className="w-full relative ">
           <Image
             src={"/images/footer.png"}
             alt="footer image"
             height={707.6474609375}
             width={524}
-            className="absolute -bottom-42  md:-top-2 -right-10 "
+            className="absolute -top-[200px] sm:-top-[250px] md:-top-[300px] lg:-top-[350px] right-0 w-[200px] sm:w-[300px] md:w-[400px] lg:w-[524px] h-auto object-contain"
           />
         </div>
-      </div>
-      <footer className="bg-[#0e1414] py-12">
-        {/* CTA hero */}
         <div className="brand-width mt-12 md:mt-2 ">
           <div className="md:flex md:items-start md:space-x-12">
             <div className="">
-              <h2 className="font-serif  text-[20.57px] max-w-[186px] md:max-w-[613px] md:text-[61px] leading-tight text-emerald-50">
+              <h2 className="font-serif  text-[20.57px] max-w-[186px] lg:max-w-[613px] lg:text-[61px] leading-tight text-emerald-50">
                 Save up to 50% on your travel costs get ready to go!
               </h2>
 
@@ -58,7 +58,7 @@ export default function Footer() {
         {/* Main footer columns */}
         <div className=" border-[#1b2626]">
           <div className="max-w-7xl mx-auto px-6 py-14 text-sm text-[#FFFFFF">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1  md:grid-cols-6 lg:grid-cols-12 gap-8">
               <div className="md:col-span-6">
                 <Icons.logo />
                 <p className="mt-6 text-sm text-justify leading-[150%] text-[#FFFFFF] max-w-[441px]">
@@ -70,11 +70,11 @@ export default function Footer() {
                   riders and drivers.
                 </p>
 
-                <p className="mt-6 text-sm text-[#FFFFFF">
+                <p className="mt-6 text-sm text-[#FFFFFF]">
                   Travel smart. Travel safe. Travel together.
                 </p>
 
-                <div className="mt-8 max-w-xs opacity-20">
+                <div className="mt-8 lg:inline hidden max-w-xs opacity-20">
                   <svg
                     viewBox="0 0 200 60"
                     className="w-full text-emerald-800"
@@ -132,10 +132,10 @@ export default function Footer() {
                 <h3 className="text-sm text-[#FFFFFF] mb-4">Contact Details</h3>
                 <ul className="space-y-4 text-[#FFFFFF]">
                   {contactDetails.map((c) => (
-                    <li key={c.type} className="flex items-start">
-                      {c.type === "location" && <IceCream />}
-                      {c.type === "phone" && <IceCream />}
-                      {c.type === "email" && <IceCream />}
+                    <li key={c.type} className="flex items-start gap-2 ">
+                      {c.type === "location" && <Icons.pin  />}
+                      {c.type === "phone" && <Icons.phone />}
+                      {c.type === "email" && <Icons.mail />}
 
                       <div>
                         {c.href ? (
@@ -149,7 +149,7 @@ export default function Footer() {
                         {c.meta && (
                           <div className="text-xs text-white">{c.meta}</div>
                         )}
-                      </div>
+                    </div>
                     </li>
                   ))}
                 </ul>
@@ -168,34 +168,16 @@ export default function Footer() {
                     key={s.label}
                     href={s.href}
                     aria-label={s.label}
-                    className="w-8 h-8 flex items-center justify-center bg-emerald-900/30 hover:bg-white hover:text-gray-900 rounded-full text-xs text-[#FFFFFF transition"
+                    className="w-8 h-8 flex items-center justify-center    text-xs text-[#FFFFFF transition"
                   >
                     <span className="sr-only">{s.label}</span>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="text-current"
-                      aria-hidden
-                    >
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                      />
-                      <text
-                        x="12"
-                        y="15"
-                        textAnchor="middle"
-                        fontSize="8"
-                        fill="currentColor"
-                      >
-                        {s.label[0].toUpperCase()}
-                      </text>
-                    </svg>
+                    {s.label === 'facebook' && <Icons.facebook />}
+                    {s.label === 'instagram' && <Icons.instagram />}
+                    {s.label === 'twitter' && <Icons.twitter />}
+                    {s.label === 'linkedin' && <Icons.linkedin />}
+                    {s.label === 'youtube' && <Icons.youtube />}
+
+                    
                   </Link>
                 ))}
               </div>

@@ -5,14 +5,14 @@ import { Icons } from "../shared/icons";
 const DarkFeatureContainer = () => {
   return (
     <div className="brand-width">
-      <section className="bg-[#0C1316] overflow-hidden min-h-[617px] flex md:flex-row flex-col-reverse justify-between w-full  my-[42px] rounded-[24px] md:rounded-[64px] p-[20px]  md:p-[76px]">
+      <section className="bg-[#0C1316]  min-h-[617px] sm:min-h-[450px] md:min-h-[460px]  lg:min-h-[617px] overflow-hidden  flex md:flex-row flex-col-reverse justify-between w-full  my-[42px] rounded-[24px] md:rounded-[64px] p-[20px]  md:p-[76px]">
          <div className="w-full relative items-center justify-center">
           <Image
             src={"/image.png"}
             alt="feature image"
             height={856}
             width={425}
-            className="absolute -top-[280px] sm:top-[20px] md:top-[60px] lg:top-2 right-0 bottom-0 md:-left-7 lg:left-4"
+            className="absolute -top-[280px] sm:top-[20px] md:top-[60px] lg:top-2 right-0 bottom-0 md:-left-7 xl:left-4"
           />
         </div>
         

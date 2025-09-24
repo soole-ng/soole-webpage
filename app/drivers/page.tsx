@@ -2,18 +2,22 @@ import DarkFeatureContainer from "@/components/landing-page-components/dark-feat
 import FeatureContainer from "@/components/landing-page-components/feature-container";
 import Features from "@/components/landing-page-components/features";
 import GetStartStarted from "@/components/landing-page-components/get-started";
-import Hero from "@/components/landing-page-components/hero";
 import SlantPhoneSection from "@/components/landing-page-components/slant-section";
 import Footer from "@/components/shared/footer";
+import SecondHero from "@/components/shared/second-hero";
 
 export default function Home() {
   return (
     <main>
-<Hero />
+      <SecondHero 
+      mainText="Travel Smart: Share Rides, Share Costs"
+      subText="Heading out of town? Soole lets you offer empty seats to verified riders going your way. Whether you're traveling for work, family, or leisure, earn extra income and help others move safely without changing your routine."
+        backgroundImage="/images/third-hero.png"
+      />
 <Features />
-<DarkFeatureContainer />
-<GetStartStarted />
-<SlantPhoneSection />
+<FeatureContainer />
+<GetStartStarted page="driver" />
+<SlantPhoneSection backgroundColor="#C9EC7C" textColor="#0C1316" />
 <Footer />
     </main>
   );

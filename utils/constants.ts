@@ -46,7 +46,28 @@ export const steps = [
       "Arrive at the pickup point, enjoy your trip, and rate your driver afterward to help build trust in the community.",
   },
 ];
-
+export const driver_steps = [
+  {
+    title: "Download the app",
+    description: "Install the Soole app from the Google Play Store or Apple App Store on your smartphone."
+  },
+  {
+    title: "Register as a Driver",
+    description: "Sign up using your phone number or email, then choose the driver option and complete your profile with vehicle and ID details."
+  },
+  {
+    title: "List Your Ride",
+    description: "Enter your departure city, destination, travel date, and available seats. Set your fare and publish your ride for riders to see."
+  },
+  {
+    title: "Review Bookings",
+    description: "Check incoming ride requests, review rider profiles, and confirm bookings. You'll receive notifications and contact info."
+  },
+  {
+    title: "Drive and Get Rated",
+    description: "Meet your riders at the pickup point, complete the trip, and receive ratings to build your reputation in the Soole community."
+  }
+];
 
 type NavLink = { label: string; href: string };
 type ContactItem = { type: "location" | "phone" | "email"; label: string; href?: string; meta?: string };
