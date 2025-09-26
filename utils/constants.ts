@@ -149,4 +149,51 @@ export const aboutfeatures=  [
     "backgroundColor": "#0C1316",
     "textColor": "#C1C1C1"
   }
-]
+];
+
+export const faqs = [
+  {
+    "question": "What is Soole and how does it work?",
+    "answer": "Soole is a peer-to-peer intercity ride-sharing platform that connects everyday travelers with verified drivers heading in the same direction. Users can book seats, share rides, and travel safely across Nigeria."
+  },
+  {
+    "question": "Who can become a Soole driver?",
+    "answer": "Anyone traveling between cities in Nigeria can offer seats on Soole. You don't need to be a Commercial driver, just verified, responsible, and heading out of town."
+  },
+  {
+    "question": "Is my personal data safe with Soole?",
+    "answer": "Yes. We use encryption, secure storage, and strict access controls to protect your data. We do not sell your information and only share it with trusted partners or authorities when required."
+  },
+  {
+    "question": "What kind of data does Soole collect?",
+    "answer": "We collect account details, trip history, location data, payment information, and verification documents to ensure safety, improve service, and comply with regulations."
+  },
+  {
+    "question": "Is Soole a bus service or a taxi app?",
+    "answer": "No, Soole is neither a bus service nor a taxi app. We're a smarter way to travel a platform that connects people going the same way. By sharing rides with everyday drivers already on the move, you can save time, reduce costs, and avoid the stress of terminals or long waits."
+  },
+  {
+    "question": "Can I use Soole without internet access?",
+    "answer": ""
+  },
+  {
+    "question": "How does the SOS feature work?",
+    "answer": ""
+  },
+  {
+    "question": "How are fares determined?",
+    "answer": ""
+  },
+  {
+    "question": "What happens if I want to delete my account?",
+    "answer": ""
+  },
+  {
+    "question": "Does Soole work with transport unions?",
+    "answer": ""
+  },
+  {
+    "question": "How do I contact Soole support?",
+    "answer": ""
+  }
+];
