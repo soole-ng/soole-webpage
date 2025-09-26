@@ -104,3 +104,49 @@ export const contactDetails: ContactItem[] = [
   { type: "email", label: "info@soole.ng", href: "mailto:info@soole.ng" },
 ];
 
+
+
+export const aboutfeatures=  [
+  {
+    "section": "No terminals, no delays",
+    "text": "Share trips with everyday vehicles going your way, simple, affordable, and convenient.",
+    "imageUrl": "/images/about-1.png",
+    "backgroundColor": "#0C1316",
+    "textColor": "#C1C1C1"
+  },
+  {
+    "section": "Verified Community of Drivers and Passengers",
+    "text": "Every user is KYC-verified with ID, facial recognition, and emergency contacts for safer rides.",
+    "imageUrl": "/images/about-2.png",
+    "backgroundColor": "#C9EC7C",
+    "textColor": "#292D32"
+  },
+  {
+    "section": "Smart Matching & Route Mapping",
+    "text": "In the ride sharing and parcel delivery user app, customers receive important updates timely through notifications.",
+    "imageUrl": "/images/about-3.png",
+    "backgroundColor": "#0C1316",
+    "textColor": "#C1C1C1"
+  },
+  {
+    "section": "Flexible Pricing with Transparency",
+    "text": "Drivers set fares, passengers negotiate—no hidden fees, just fair travel.",
+    "imageUrl": "/images/about-4.png",
+    "backgroundColor": "#0C1316",
+    "textColor": "#C1C1C1"
+  },
+  {
+    "section": "Earn While You Travel",
+    "text": "Drivers don’t need to be commercial only, they can simply use their way and earn.",
+    "imageUrl": "/images/about-5.png",
+    "backgroundColor": "#C9EC7C",
+    "textColor": "#292D32"
+  },
+  {
+    "section": "SOS & Emergency Support",
+    "text": "SOS alerts work online and offline, capturing key trip data and notifying emergency contacts—adding real-time protection for every ride.",
+    "imageUrl": "/images/about-6.png",
+    "backgroundColor": "#0C1316",
+    "textColor": "#C1C1C1"
+  }
+]
