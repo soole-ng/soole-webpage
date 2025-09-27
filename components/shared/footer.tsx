@@ -11,14 +11,18 @@ import {
 import { IceCream, LocateIcon, LocationEditIcon, Mail, PinIcon } from "lucide-react";
 import Image from "next/image";
 
-export default function Footer() {
+export default function Footer({hideFooter = false}: {hideFooter?: boolean}) {
   return (
     <section className="relative">
       <div className="brand-width my-12 flex lg:flex-row flex-col  justify-between ">
-        <h6 className="max-w-[300px] lg:max-w-[600px] mb-[150px] sm:mb-0 text-[22.25px] leading-[25.25px] lg:leading-[70px] lg:text-[50px]">
+        {
+          !hideFooter && (
+            <h6 className="max-w-[300px] lg:max-w-[600px] mb-[150px] sm:mb-0 text-[22.25px] leading-[25.25px] lg:leading-[70px] lg:text-[50px]">
           Experience Nigeria’s first affordable intercity travel platform,
           designed with local solutions for local challenges
         </h6>
+          )
+        }
       </div>
       <footer className="bg-[#0e1414] relative py-12">
         {/* Footer illustration image */}

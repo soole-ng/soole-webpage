@@ -19,9 +19,13 @@ const links = [
   { id: 4, name: "Privacy Policy", href: "/privacy-policy" },
 ];
 
-const Navbar = () => {
+type NavbarProps = {
+  whiteBg?: boolean;
+};
+
+const Navbar = ({ whiteBg = false }: NavbarProps) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const mobileRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
@@ -43,9 +47,7 @@ const Navbar = () => {
 
   return (
     <nav className="flex justify-between items-center brand-width p-4">
-      <Link href={"/"}>
-        <Icons.logo />
-      </Link>
+      <Link href={"/"}>{whiteBg ? <Icons.darkLogo /> : <Icons.logo />}</Link>
 
       {/* Desktop Links */}
       <div className="hidden md:flex gap-6 items-center">
@@ -55,7 +57,9 @@ const Navbar = () => {
               <>
                 <button
                   onClick={toggleDropdown}
-                  className="text-[#F7F7F7] flex items-center gap-1 hover:text-[#C9EC7C] transition-colors"
+                  className={`${
+                    whiteBg ? "text-[#0C1316]" : "text-[#F7F7F7]"
+                  } flex items-center gap-1 hover:text-[#C9EC7C] transition-colors`}
                 >
                   {link.name}
                   <svg
@@ -90,7 +94,9 @@ const Navbar = () => {
               </>
             ) : (
               <Link
-                className="text-[#F7F7F7] hover:text-[#C9EC7C] transition-colors"
+                className={`${
+                  whiteBg ? "text-[#0C1316]" : "text-[#F7F7F7]"
+                } hover:text-[#C9EC7C] transition-colors`}
                 href={link.href}
               >
                 {link.name}
@@ -110,7 +116,10 @@ const Navbar = () => {
         className="md:hidden inline-block"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
-        {isMobileOpen ? <Icons.close /> : <Icons.menu />}
+        {/* {isMobileOpen ? <Icons.close /> :  */}
+        {whiteBg ? <Icons.menu /> : <Icons.darkmenu />}
+
+        {/* } */}
       </button>
 
       {/* Mobile Menu */}
