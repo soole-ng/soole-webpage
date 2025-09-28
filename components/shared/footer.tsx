@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { Icons } from "./icons";
 import {
@@ -8,25 +8,125 @@ import {
   moreLinks,
   socialLinks,
 } from "@/utils/constants";
-import { IceCream, LocateIcon, LocationEditIcon, Mail, PinIcon } from "lucide-react";
 import Image from "next/image";
+import gsap from "gsap";
+import SplitText from "gsap/SplitText";
 
-export default function Footer({hideFooter = false}: {hideFooter?: boolean}) {
-  return (
-    <section className="relative">
-      <div className="brand-width my-12 flex lg:flex-row flex-col  justify-between ">
-        {
-          !hideFooter && (
-            <h6 className="max-w-[300px] lg:max-w-[600px] mb-[150px] sm:mb-0 text-[22.25px] leading-[25.25px] lg:leading-[70px] lg:text-[50px]">
-          Experience Nigeria’s first affordable intercity travel platform,
-          designed with local solutions for local challenges
-        </h6>
-          )
+gsap.registerPlugin(SplitText);
+
+export default function Footer({
+  hideFooter = false,
+}: {
+  hideFooter?: boolean;
+}) {
+  const containerRef = useRef<HTMLElement | null>(null);
+  const h6Ref = useRef<HTMLHeadingElement | null>(null);
+  // keep refs to cleanup instances/timelines
+  const splitInstanceRef = useRef<any>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  useEffect(() => {
+    if (hideFooter) return;
+    if (!containerRef.current || !h6Ref.current) return;
+
+    const ctx = gsap.context(() => {
+      // create timeline for sequencing headline and links
+      const tl = gsap.timeline();
+      timelineRef.current = tl;
+
+      // Wait for fonts to be ready so visual line detection is correct
+      const fontsReady =
+        typeof document !== "undefined" && (document as any).fonts && (document as any).fonts.ready
+          ? (document as any).fonts.ready
+          : Promise.resolve();
+
+      fontsReady.then(() => {
+        try {
+          // Use SplitText to create masked lines (mask: "lines" will wrap lines for us)
+          const split = SplitText.create(h6Ref.current as HTMLElement, {
+            type: "lines,words",
+            linesClass: "st-line",
+            wordsClass: "st-word",
+            autoSplit: true,
+            mask: "lines",
+          });
+
+          splitInstanceRef.current = split;
+
+          // animate lines in sequence (masked reveal from bottom)
+          tl.from(
+            split.lines,
+            {
+              yPercent: 100,
+              opacity: 0,
+              duration: 0.7,
+              ease: "expo.out",
+              stagger: 0.12,
+            },
+            0
+          );
+        } catch (err) {
+          // Fallback: if SplitText isn't available or fails, do a simple reveal of the whole h6
+          tl.from(
+            h6Ref.current,
+            {
+              y: 20,
+              opacity: 0,
+              duration: 0.6,
+              ease: "power3.out",
+            },
+            0
+          );
         }
+
+        // Footer links: gather anchors in the grid and bottom area
+        const footer = containerRef.current!;
+        const links = Array.from(
+          footer.querySelectorAll<HTMLAnchorElement>(".grid a, .mt-10 a")
+        );
+
+        // start links animation slightly after headline begins (or after it finishes if you prefer)
+        tl.from(
+          links,
+          {
+            y: 12,
+            opacity: 0,
+            duration: 0.5,
+            ease: "power3.out",
+            stagger: 0.06,
+          },
+          "+=0.08"
+        );
+      });
+    }, containerRef);
+
+    return () => {
+      // cleanup: revert SplitText DOM changes and kill timeline
+      try {
+        splitInstanceRef.current?.revert?.();
+      } catch (e) {
+        // no-op
+      }
+      timelineRef.current?.kill?.();
+      ctx.revert();
+    };
+  }, [hideFooter]);
+
+  return (
+    <section className="relative" ref={containerRef}>
+      <div className="brand-width my-12 flex lg:flex-row flex-col  justify-between ">
+        {!hideFooter && (
+          <h6
+            ref={h6Ref}
+            className="split max-w-[300px] lg:max-w-[600px] mb-[150px] sm:mb-0 text-[22.25px] leading-[25.25px] lg:leading-[70px] lg:text-[50px]"
+          >
+            Experience Nigeria’s first affordable intercity travel platform,
+            designed with local solutions for local challenges
+          </h6>
+        )}
       </div>
       <footer className="bg-[#0e1414] relative py-12">
         {/* Footer illustration image */}
-
         <div className="w-full relative ">
           <Image
             src={"/images/footer.png"}
@@ -54,8 +154,6 @@ export default function Footer({hideFooter = false}: {hideFooter?: boolean}) {
                 </button>
               </div>
             </div>
-
-            {/* <div className="mt-8 md:mt-0 md:flex-1" /> */}
           </div>
         </div>
 
@@ -137,7 +235,7 @@ export default function Footer({hideFooter = false}: {hideFooter?: boolean}) {
                 <ul className="space-y-4 text-[#FFFFFF]">
                   {contactDetails.map((c) => (
                     <li key={c.type} className="flex items-start gap-2 ">
-                      {c.type === "location" && <Icons.pin  />}
+                      {c.type === "location" && <Icons.pin />}
                       {c.type === "phone" && <Icons.phone />}
                       {c.type === "email" && <Icons.mail />}
 
@@ -153,7 +251,7 @@ export default function Footer({hideFooter = false}: {hideFooter?: boolean}) {
                         {c.meta && (
                           <div className="text-xs text-white">{c.meta}</div>
                         )}
-                    </div>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -175,13 +273,11 @@ export default function Footer({hideFooter = false}: {hideFooter?: boolean}) {
                     className="w-8 h-8 flex items-center justify-center    text-xs text-[#FFFFFF transition"
                   >
                     <span className="sr-only">{s.label}</span>
-                    {s.label === 'facebook' && <Icons.facebook />}
-                    {s.label === 'instagram' && <Icons.instagram />}
-                    {s.label === 'twitter' && <Icons.twitter />}
-                    {s.label === 'linkedin' && <Icons.linkedin />}
-                    {s.label === 'youtube' && <Icons.youtube />}
-
-                    
+                    {s.label === "facebook" && <Icons.facebook />}
+                    {s.label === "instagram" && <Icons.instagram />}
+                    {s.label === "twitter" && <Icons.twitter />}
+                    {s.label === "linkedin" && <Icons.linkedin />}
+                    {s.label === "youtube" && <Icons.youtube />}
                   </Link>
                 ))}
               </div>
