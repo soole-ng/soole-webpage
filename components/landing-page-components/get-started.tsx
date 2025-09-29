@@ -68,7 +68,7 @@ const GetStartStarted = ({ page = 'both' }: GetStartStartedProps) => {
               onClick={() => setActiveTab("rider")}
               className={`px-4 py-2 rounded-full text-xs md:text-sm ${
                 activeTab === "rider"
-                  ? "bg-[#C9EC7C] text-[#0C1316] border-black border"
+                  ? "bg-[#C9EC7C] text-black border-black border"
                   : "border border-[#DEDCDA] text-black"
               }`}
             >
@@ -78,7 +78,7 @@ const GetStartStarted = ({ page = 'both' }: GetStartStartedProps) => {
               onClick={() => setActiveTab("driver")}
               className={`px-4 py-2 rounded-full text-sm font-medium ${
                 activeTab === "driver"
-                  ? "bg-[#C9EC7C] text-[#0C1316] border-black border"
+                  ? "bg-[#C9EC7C] text-black border-black border"
                   : "border border-[#DEDCDA] text-black"
               }`}
             >
@@ -101,7 +101,7 @@ const GetStartStarted = ({ page = 'both' }: GetStartStartedProps) => {
               </div>
 
               <div>
-                <h3 className="text-sm md:text-lg text-[#0C1316]">{step.title}</h3>
+                <h3 className="text-sm md:text-lg text-black">{step.title}</h3>
                 <p className="text-[#181918B2] text-xs md:text-base mt-2">
                   {step.description}
                 </p>

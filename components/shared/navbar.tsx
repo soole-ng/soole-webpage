@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import { gsap } from "gsap";
 import { Icons } from "./icons";
 import Link from "next/link";
 
@@ -27,6 +28,11 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const mobileRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
+  const desktopLinksRef = useRef<HTMLDivElement>(null);
+  const contactButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
 
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
@@ -45,12 +51,43 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // GSAP Animation
+  useEffect(() => {
+    const tl = gsap.timeline();
+
+    // Set initial states - elements start from above and invisible
+    gsap.set([logoRef.current, desktopLinksRef.current, contactButtonRef.current, mobileToggleRef.current], {
+      y: -30,
+      opacity: 0,
+    });
+
+    // Animate elements in sequence with slight stagger
+    tl.to(logoRef.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: "power2.out",
+    })
+    .to([desktopLinksRef.current, mobileToggleRef.current], {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: "power2.out",
+    }, "-=0.4") // Start 0.4s before previous animation ends
+    .to(contactButtonRef.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: "power2.out",
+    }, "-=0.4");
+  }, []);
+
   return (
-    <nav className="flex justify-between items-center brand-width p-4">
-      <Link href={"/"}>{whiteBg ? <Icons.darkLogo /> : <Icons.logo />}</Link>
+    <nav ref={navRef} className="flex justify-between items-center brand-width p-4">
+      <Link ref={logoRef} href={"/"}>{whiteBg ? <Icons.darkLogo /> : <Icons.logo />}</Link>
 
       {/* Desktop Links */}
-      <div className="hidden md:flex gap-6 items-center">
+      <div ref={desktopLinksRef} className="hidden md:flex gap-6 items-center">
         {links.map((link) => (
           <div key={link.id} className="relative">
             {link.dropdown ? (
@@ -58,7 +95,7 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
                 <button
                   onClick={toggleDropdown}
                   className={`${
-                    whiteBg ? "text-[#0C1316]" : "text-[#F7F7F7]"
+                    whiteBg ? "text-black" : "text-[#F7F7F7]"
                   } flex items-center gap-1 hover:text-[#C9EC7C] transition-colors`}
                 >
                   {link.name}
@@ -95,7 +132,7 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
             ) : (
               <Link
                 className={`${
-                  whiteBg ? "text-[#0C1316]" : "text-[#F7F7F7]"
+                  whiteBg ? "text-black" : "text-[#F7F7F7]"
                 } hover:text-[#C9EC7C] transition-colors`}
                 href={link.href}
               >
@@ -107,12 +144,13 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
       </div>
 
       {/* Desktop Contact Button */}
-      <button className="bg-[#C9EC7C] hidden md:inline-block px-3 py-2 font-medium rounded-md text-[#0C1316]">
+      <button ref={contactButtonRef} className="bg-[#C9EC7C] hidden md:inline-block px-3 py-2 font-medium rounded-md text-black">
         Contact Us
       </button>
 
       {/* Mobile Menu Toggle */}
       <button
+        ref={mobileToggleRef}
         className="md:hidden inline-block"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
@@ -134,7 +172,7 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
                 <div>
                   <button
                     onClick={toggleDropdown}
-                    className="flex items-center text-[#0C1316] text-[14px] justify-between w-full text-left font-medium"
+                    className="flex items-center text-black text-[14px] justify-between w-full text-left font-medium"
                   >
                     {link.name}
                     <svg
@@ -159,7 +197,7 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
                         <Link
                           key={child.id}
                           href={child.href}
-                          className="text-[#0C1316] text-[14px] hover:text-black"
+                          className="text-black text-[14px] hover:text-black"
                           onClick={() => setIsMobileOpen(false)}
                         >
                           {child.name}
@@ -171,7 +209,7 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
               ) : (
                 <Link
                   href={link.href}
-                  className="text-[#0C1316] text-[14px] hover:text-black"
+                  className="text-black text-[14px] hover:text-black"
                   onClick={() => setIsMobileOpen(false)}
                 >
                   {link.name}
@@ -181,7 +219,7 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
           ))}
 
           {/* Contact Us button */}
-          <button className="bg-[#C9EC7C] px-3 py-2 mt-auto rounded-md font-medium text-[#0C1316]">
+          <button className="bg-[#C9EC7C] px-3 py-2 mt-auto rounded-md font-medium text-black">
             Contact Us
           </button>
         </div>
