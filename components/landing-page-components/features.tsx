@@ -1,15 +1,18 @@
-"use client";
-import { features } from "@/utils/constants";
-import React, { useEffect, useRef } from "react";
-import { Icons } from "../shared/icons";
+"use client"
+import { features } from "@/utils/constants"
+import { motion } from "framer-motion"
+import { Icons } from "../shared/icons"
 
 const Features = () => {
   return (
     <div className="brand-width  my:[42px] md:my-[100px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]">
       {features.map((feature, index) => (
-        <div
+        <motion.div
           key={feature.id}
           className="flex-col max-w-[394.3333435058594px] gap-4 flex"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, delay: 0.2 + index * 0.1 }}
         >
           <div className="flex items-center gap-4 ">
             <Icons.badge className="size-8 md:size-12" />
@@ -17,13 +20,11 @@ const Features = () => {
               {feature.heading}
             </h3>
           </div>
-          <p className="text-[#042011] md:text-[20px] text-justify ">
-            {feature.description}
-          </p>
-        </div>
+          <p className="text-[#042011] md:text-[20px] text-justify ">{feature.description}</p>
+        </motion.div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Features;
+export default Features
