@@ -99,7 +99,7 @@ const FeatureContainer = () => {
             </div>
           <h4 
             ref={headingRef}
-            className="text-[#0C1316] mt-12 text-center md:text-start md:max-w-[553px] font-semibold text-[24px] leading-[31.94px] md:text-[38px] md:leading-[35px] lg:text-[49px] lg:leading-[56px] cursor-pointer transition-transform"
+            className="text-[#0C1316] font-funnel-display mt-12 text-center md:text-start md:max-w-[553px] font-semibold text-[24px] leading-[31.94px] md:text-[38px] md:leading-[35px] lg:text-[49px] lg:leading-[56px] cursor-pointer transition-transform"
           >
             Heading out? Someone nearby might be going your way too.
           </h4>

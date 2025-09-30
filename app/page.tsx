@@ -11,6 +11,7 @@ export default function Home() {
     <main>
 <Hero />
 <Features />
+
 <FeatureContainer />
 <DarkFeatureContainer />
 <GetStartStarted />

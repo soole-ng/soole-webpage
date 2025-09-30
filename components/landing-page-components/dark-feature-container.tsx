@@ -98,7 +98,7 @@ const DarkFeatureContainer = () => {
             </div>
           <h4 
             ref={headingRef}
-            className="text-[#E8F1ED] mt-12  text-start md:max-w-[553px] font-semibold text-[24px] leading-[31.94px] md:text-[49px] md:leading-[56px] cursor-pointer transition-transform"
+            className="text-[#E8F1ED] font-funnel-display mt-12  text-start md:max-w-[553px] font-semibold text-[24px] leading-[31.94px] md:text-[49px] md:leading-[56px] cursor-pointer transition-transform"
           >
             Ride for less with neighbors going your way.
           </h4>

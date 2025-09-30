@@ -221,12 +221,12 @@ export default function Footer({
   }, [hideFooter])
 
   return (
-    <section className="relative" ref={containerRef}>
+    <section className="relative overflow-hidden" ref={containerRef}>
       <div className="brand-width my-12 flex lg:flex-row flex-col justify-between">
         {!hideFooter && (
           <h6
             ref={h6Ref}
-            className="text-black max-w-[300px] lg:max-w-[600px] mb-[150px] sm:mb-0 text-[22.25px] leading-[25.25px] lg:leading-[70px] lg:text-[50px]"
+            className="text-black font-source-serif max-w-[300px] lg:max-w-[600px] mb-[150px] sm:mb-0 text-[22.25px] leading-[25.25px] lg:leading-[70px] lg:text-[50px]"
           >
             Experience Nigeria's first affordable intercity travel platform, designed with local solutions for local
             challenges
@@ -247,7 +247,7 @@ export default function Footer({
         <div className="brand-width mt-12 md:mt-2">
           <div className="md:flex md:items-start md:space-x-12">
             <div className="">
-              <h2 className="font-serif text-[20.57px] max-w-[186px] lg:max-w-[613px] lg:text-[61px] leading-tight text-emerald-50">
+              <h2 className="font-source-serif text-[20.57px] max-w-[186px] lg:max-w-[613px] lg:text-[61px] leading-tight text-emerald-50">
                 Save up to 50% on your travel costs get ready to go!
               </h2>
 

@@ -10,10 +10,10 @@ const AboutFeatures = () => {
             <p className='text-[#77877E] font-light text-sm md:text-[20px]'>Soole isn’t just another ride-sharing app it’s a community-first solution to Nigeria’s intercity transport challenges. Here’s what makes us different</p>
         </div>
 
-        <div className='mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 '>
+        <div className='mt-20 grid grid-cols-1 overflow-hidden place-content-center  place-items-center sm:grid-cols-2 lg:grid-cols-3 gap-4 '>
             {aboutfeatures.map((feature) => (
-                <div key={feature.imageUrl} className={`bg-[${feature.backgroundColor}] mb-12 max-w-[386px] min-h-[404.79998779296875px] mt-20 relative p-[23px] md:p-[33px] rounded-[14.26px] md:rounded-[20px]`}>
-                    <div className='absolute left-2   bottom-[50%]'>
+                <div key={feature.imageUrl} className={`bg-[${feature.backgroundColor}] flex flex-col justify-center items-center mb-12 max-w-[386px] min-h-[404.79998779296875px] mt-20 relative p-[23px] md:p-[33px] rounded-[14.26px] md:rounded-[20px]`}>
+                    <div className='absolute   bottom-[50%]'>
                         <Image
                             src={feature.imageUrl}
                             width={300}

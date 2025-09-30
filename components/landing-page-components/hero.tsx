@@ -63,7 +63,7 @@ const Hero = () => {
           <div className="flex flex-col gap-12">
             <h1 
               ref={titleRef}
-              className="text-[#F9FFEB] text-center md:text-start max-w-[666px] text-[32px]  md:text-[51.75px] leading-[28px] md:leading-[59.39px]"
+              className="text-[#F9FFEB] font-source-serif text-center md:text-start max-w-[666px] text-[32px]  md:text-[51.75px] leading-[28px] md:leading-[59.39px]"
             >
               Travel together, comfortably and safely with Soole
             </h1>

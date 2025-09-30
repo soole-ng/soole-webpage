@@ -51,7 +51,7 @@ const Features = () => {
         >
           <div className='flex items-center gap-4 '>
             <Icons.badge className='size-8 md:size-12' />
-            <h3 className='text-[18.5px] text-[#042011] font-semibold md:text-[25px]'>{feature.heading}</h3>
+            <h3 className='text-[18.5px] text-[#042011] font-funnel-display font-semibold md:text-[25px]'>{feature.heading}</h3>
           </div>
           <p className='text-[#042011] md:text-[20px] text-justify '>{feature.description}</p>
         </div>
