@@ -11,7 +11,7 @@ const AboutFeatures = () => {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.6,
+        duration: 0.1,
         staggerChildren: 0.2
       }
     }

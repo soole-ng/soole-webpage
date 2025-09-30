@@ -1,6 +1,6 @@
-"use client"
-import { motion } from "framer-motion"
-import Navbar from "../shared/navbar"
+"use client";
+import { motion } from "framer-motion";
+import Navbar from "../shared/navbar";
 
 const Hero = () => {
   return (
@@ -21,9 +21,9 @@ const Hero = () => {
       />
       <div className="relative z-10">
         <Navbar />
-        <section className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 lg:justify-center">
+        <section className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 lg:justify-end">
           {/* Contents */}
-          <div className="flex  md:justify-end    w-full flex-col space-y-20">
+          <div className="flex  md:justify-end mt-4 md:mt-12 lg:mt-64    w-full flex-col space-y-20">
             <div className="flex flex-col gap-12">
               <motion.h1
                 className="text-[#F9FFEB] font-source-serif text-center md:text-start max-w-[666px] text-[32px]  md:text-[51.75px] leading-[28px] md:leading-[59.39px]"
@@ -39,8 +39,8 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.3 }}
               >
-                Soole connects travelers heading in the same direction, making trips safer, more affordable, and more
-                social.
+                Soole connects travelers heading in the same direction, making
+                trips safer, more affordable, and more social.
               </motion.p>
             </div>
 
@@ -51,7 +51,8 @@ const Hero = () => {
               transition={{ duration: 0.75, delay: 0.4 }}
             >
               <h4 className="text-white text-center md:text-start text-base">
-                Join 200+ early users already on the waitlist to get first access.
+                Join 200+ early users already on the waitlist to get first
+                access.
               </h4>
               <div className="bg-[#1F2528] w-full max-w-[458px] rounded-[32px] #B3B5B4 flex items-center p-2 text-sm  md:p-2">
                 <input
@@ -68,7 +69,7 @@ const Hero = () => {
         </section>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;
