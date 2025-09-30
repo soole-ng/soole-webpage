@@ -13,7 +13,7 @@ const Hero = () => {
       <div
         className="hidden md:block absolute inset-0"
         style={{
-          backgroundImage: "url('/images/hero-bg.png')",
+          backgroundImage: "url('/images/hero-bg.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
