@@ -37,72 +37,11 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
 
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
-  // Close on outside click
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        mobileRef.current &&
-        !mobileRef.current.contains(event.target as Node)
-      ) {
-        setIsMobileOpen(false);
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // GSAP Animation
-  useEffect(() => {
-    const tl = gsap.timeline();
-
-    // Set initial states - elements start from above and invisible
-    gsap.set(
-      [
-        logoRef.current,
-        desktopLinksRef.current,
-        contactButtonRef.current,
-        mobileToggleRef.current,
-      ],
-      {
-        y: -30,
-        opacity: 0,
-      }
-    );
-
-    // Animate elements in sequence with slight stagger
-    tl.to(logoRef.current, {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power2.out",
-    })
-      .to(
-        [desktopLinksRef.current, mobileToggleRef.current],
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          ease: "power2.out",
-        },
-        "-=0.4"
-      ) // Start 0.4s before previous animation ends
-      .to(
-        contactButtonRef.current,
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          ease: "power2.out",
-        },
-        "-=0.4"
-      );
-  }, []);
   const router = useRouter();
   return (
     <nav
       ref={navRef}
-      className="flex justify-between items-center brand-width p-4"
+      className="flex justify-between items-center brand-width p-[30px]"
     >
       <Link ref={logoRef} href={"/"}>
         {whiteBg ? <Icons.darkLogo /> : <Icons.logo />}

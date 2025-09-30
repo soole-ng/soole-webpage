@@ -119,7 +119,7 @@
     @apply border-border outline-ring/50;
   }
   .brand-width{
-    @apply max-w-[1247px] mx-auto p-[20px] 
+    @apply max-w-[1247px] mx-auto p-[30px] 
   }
   body {
     @apply bg-background text-foreground;
