@@ -1,3 +1,4 @@
+import { Paperclip } from "lucide-react";
 import React from "react";
 
 const TechnicalSupportForm = () => {
@@ -19,9 +20,9 @@ const TechnicalSupportForm = () => {
         </div>
         <form>
           <div className="flex flex-col p-8 space-y-4">
-            <div className="flex justify-between space-x-4">
+            <div className="flex md:flex-row flex-col space-y-3 justify-between space-x-4">
               <div className="flex w-full flex-col mb-2 gap-4">
-                <label className="text-[#25373F] font-medium">First Name</label>
+                <label className="text-[#25373F] geist-mono font-medium">First Name</label>
                 <input
                   type="text"
                   placeholder="First Name"
@@ -64,13 +65,13 @@ const TechnicalSupportForm = () => {
               />
             </div>
             <div className="flex items-center space-x-4">
-              <button type="button" className="px-4 py-2 border-[#112B1D] border rounded">
+              <button type="button" className="px-4 py-2 flex gap-2 items-center text-sm text-[#112B1D] border-[#112B1D] border rounded">
+                <Paperclip />
                 Attach File
               </button>
-              <p className="text-gray-500 text-sm">Max. 5000 words</p>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="w-24 h-12 bg-yellow-200 flex items-center justify-center">
+            {/* <div className="flex items-center space-x-4">
+              <div className="w-24 h-12 bg-[#FFCA85] border-black border flex items-center justify-center">
                 6wpQIE
               </div>
               <div className="flex flex-col gap-2">
@@ -83,14 +84,15 @@ const TechnicalSupportForm = () => {
                   className="max-w-[300px] p-2 border rounded-[10px] border-[#25373F4D]"
                 />
               </div>
-            </div>
-            <button
+            </div> */}
+           <div className="flex w-full justify-end items-end">
+             <button
               type="submit"
-              className="w-full py-2 bg-green-800 text-white rounded"
+              className=" py-2 bg-[#112B1D] px-6 md:px-12  text-white w-fit rounded"
             >
               Submit
             </button>
-            <p className="text-gray-500 text-xs">Privacy - Terms</p>
+           </div>
           </div>
         </form>
       </div>
