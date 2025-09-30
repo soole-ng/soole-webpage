@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { Icons } from "./icons";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
   {
@@ -37,6 +38,67 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
       return children.some(child => pathname === child.href);
     }
     return false;
+  };
+
+  // Mobile menu animation variants
+  const mobileMenuVariants = {
+    hidden: {
+      opacity: 0,
+      x: "100%",
+      transition: {
+        duration: 0.3
+      }
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.3,
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    },
+    exit: {
+      opacity: 0,
+      x: "100%",
+      transition: {
+        duration: 0.2
+      }
+    }
+  };
+
+  const menuItemVariants = {
+    hidden: {
+      opacity: 0,
+      x: 20,
+      transition: {
+        duration: 0.2
+      }
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.3
+      }
+    }
+  };
+
+  const buttonVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+      transition: {
+        duration: 0.2
+      }
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3
+      }
+    }
   };
   const mobileRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -141,91 +203,140 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
         className="md:hidden inline-block"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
-        {/* {isMobileOpen ? <Icons.close /> :  */}
-        {whiteBg ? <Icons.menu /> : <Icons.darkmenu />}
-
-        {/* } */}
+        {isMobileOpen ? <Icons.close /> : (whiteBg ? <Icons.menu /> : <Icons.darkmenu />)}
       </button>
 
       {/* Mobile Menu */}
-      {isMobileOpen && (
-        <div
-          ref={mobileRef}
-          className="absolute top-0 right-0 w-64 h-[464px] rounded-[8px] bg-white shadow-lg p-6 space-y-2 flex flex-col gap-6 z-50"
-        >
-          {links.map((link) => {
-            const isActive = isLinkActive(link.href, link.children);
-            return (
-              <div key={link.id}>
-                {link.dropdown ? (
-                  <div>
-                    <button
-                      onClick={toggleDropdown}
-                      className={`flex items-center text-black text-[14px] justify-between w-full text-left ${
-                        isActive ? "font-bold" : "font-medium"
-                      }`}
-                    >
-                      {link.name}
-                      <svg
-                        className={`w-4 h-4 transition-transform ${
-                          isDropdownOpen ? "rotate-180" : ""
+      <AnimatePresence>
+        {isMobileOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileOpen(false)}
+            />
+            
+            <motion.div
+              ref={mobileRef}
+              className="absolute top-0 right-0 w-64 h-[464px] rounded-[8px] bg-white shadow-lg p-6 space-y-2 flex flex-col gap-6 z-50"
+              variants={mobileMenuVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              {/* Close button */}
+              <motion.button
+                onClick={() => setIsMobileOpen(false)}
+                className="self-end p-2 hover:bg-gray-100 rounded-full transition-colors"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Icons.close />
+              </motion.button>
+            {links.map((link, index) => {
+              const isActive = isLinkActive(link.href, link.children);
+              return (
+                <motion.div 
+                  key={link.id}
+                  variants={menuItemVariants}
+                >
+                  {link.dropdown ? (
+                    <div>
+                      <motion.button
+                        onClick={toggleDropdown}
+                        className={`flex items-center text-black text-[14px] justify-between w-full text-left ${
+                          isActive ? "font-bold" : "font-medium"
                         }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                        whileTap={{ scale: 0.95 }}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                    {isDropdownOpen && (
-                      <div className="mt-4 flex flex-col gap-2">
-                        {link.children?.map((child) => {
-                          const isChildActive = pathname === child.href;
-                          return (
-                            <Link
-                              key={child.id}
-                              href={child.href}
-                              className={`text-black text-[14px] hover:text-black ${
-                                isChildActive ? "font-bold" : "font-normal"
-                              }`}
-                              onClick={() => setIsMobileOpen(false)}
-                            >
-                              {child.name}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link
-                    href={link.href}
-                    className={`text-black text-[14px] hover:text-black ${
-                      isActive ? "font-bold" : "font-normal"
-                    }`}
-                    onClick={() => setIsMobileOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                )}
-              </div>
-            );
-          })}
+                        {link.name}
+                        <motion.svg
+                          className={`w-4 h-4 transition-transform`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </motion.svg>
+                      </motion.button>
+                      <AnimatePresence>
+                        {isDropdownOpen && (
+                          <motion.div 
+                            className="mt-4 flex flex-col gap-2"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            {link.children?.map((child, childIndex) => {
+                              const isChildActive = pathname === child.href;
+                              return (
+                                <motion.div
+                                  key={child.id}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: childIndex * 0.1 }}
+                                >
+                                  <Link
+                                    href={child.href}
+                                    className={`text-black text-[14px] hover:text-black block ${
+                                      isChildActive ? "font-bold" : "font-normal"
+                                    }`}
+                                    onClick={() => setIsMobileOpen(false)}
+                                  >
+                                    {child.name}
+                                  </Link>
+                                </motion.div>
+                              );
+                            })}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <motion.div whileTap={{ scale: 0.95 }}>
+                      <Link
+                        href={link.href}
+                        className={`text-black text-[14px] hover:text-black block ${
+                          isActive ? "font-bold" : "font-normal"
+                        }`}
+                        onClick={() => setIsMobileOpen(false)}
+                      >
+                        {link.name}
+                      </Link>
+                    </motion.div>
+                  )}
+                </motion.div>
+              );
+            })}
 
-          {/* Contact Us button */}
-          <button
-            onClick={() => router.push("/contact-us")}
-            className="bg-[#C9EC7C] px-3 py-2 mt-auto rounded-md font-medium text-black"
-          >
-            Contact Us
-          </button>
-        </div>
-      )}
+              {/* Contact Us button */}
+              <motion.button
+                onClick={() => {
+                  router.push("/contact-us");
+                  setIsMobileOpen(false);
+                }}
+                className="bg-[#C9EC7C] px-3 py-2 mt-auto rounded-md font-medium text-black"
+                variants={buttonVariants}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Contact Us
+              </motion.button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
