@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { Icons } from "./icons";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const links = [
   {
@@ -56,10 +57,18 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
     const tl = gsap.timeline();
 
     // Set initial states - elements start from above and invisible
-    gsap.set([logoRef.current, desktopLinksRef.current, contactButtonRef.current, mobileToggleRef.current], {
-      y: -30,
-      opacity: 0,
-    });
+    gsap.set(
+      [
+        logoRef.current,
+        desktopLinksRef.current,
+        contactButtonRef.current,
+        mobileToggleRef.current,
+      ],
+      {
+        y: -30,
+        opacity: 0,
+      }
+    );
 
     // Animate elements in sequence with slight stagger
     tl.to(logoRef.current, {
@@ -68,23 +77,36 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
       duration: 0.6,
       ease: "power2.out",
     })
-    .to([desktopLinksRef.current, mobileToggleRef.current], {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power2.out",
-    }, "-=0.4") // Start 0.4s before previous animation ends
-    .to(contactButtonRef.current, {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power2.out",
-    }, "-=0.4");
+      .to(
+        [desktopLinksRef.current, mobileToggleRef.current],
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power2.out",
+        },
+        "-=0.4"
+      ) // Start 0.4s before previous animation ends
+      .to(
+        contactButtonRef.current,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power2.out",
+        },
+        "-=0.4"
+      );
   }, []);
-
+  const router = useRouter();
   return (
-    <nav ref={navRef} className="flex justify-between items-center brand-width p-4">
-      <Link ref={logoRef} href={"/"}>{whiteBg ? <Icons.darkLogo /> : <Icons.logo />}</Link>
+    <nav
+      ref={navRef}
+      className="flex justify-between items-center brand-width p-4"
+    >
+      <Link ref={logoRef} href={"/"}>
+        {whiteBg ? <Icons.darkLogo /> : <Icons.logo />}
+      </Link>
 
       {/* Desktop Links */}
       <div ref={desktopLinksRef} className="hidden md:flex gap-6 items-center">
@@ -144,7 +166,11 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
       </div>
 
       {/* Desktop Contact Button */}
-      <button ref={contactButtonRef} className="bg-[#C9EC7C] hidden md:inline-block px-3 py-2 font-medium rounded-md text-black">
+      <button
+        ref={contactButtonRef}
+        onClick={() => router.push("/contact-us")}
+        className="bg-[#C9EC7C] hidden md:inline-block px-3 py-2 font-medium rounded-md text-black"
+      >
         Contact Us
       </button>
 
@@ -219,7 +245,10 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
           ))}
 
           {/* Contact Us button */}
-          <button className="bg-[#C9EC7C] px-3 py-2 mt-auto rounded-md font-medium text-black">
+          <button
+            onClick={() => router.push("/contact-us")}
+            className="bg-[#C9EC7C] px-3 py-2 mt-auto rounded-md font-medium text-black"
+          >
             Contact Us
           </button>
         </div>
