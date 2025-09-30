@@ -1,5 +1,6 @@
 "use client"
 import React from 'react';
+import { motion } from 'framer-motion';
 
 // TypeScript types
 export type PrivacyPolicyListItem = {
@@ -113,39 +114,153 @@ export const privacyPolicyData: PrivacyPolicyData = {
 };
 
 const SoolePrivacyPolicy = () => {
+    // Animation variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                duration: 0.6,
+                staggerChildren: 0.2
+            }
+        }
+    };
+
+    const titleVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.8
+            }
+        }
+    };
+
+    const textVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.6
+            }
+        }
+    };
+
+    const sectionVariants = {
+        hidden: { opacity: 0, y: 40 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.7
+            }
+        }
+    };
+
+    const listVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                duration: 0.5,
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const listItemVariants = {
+        hidden: { opacity: 0, x: -20 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: {
+                duration: 0.4
+            }
+        }
+    };
+
     return(
-        <section className="brand-width my-8 mb-[50px] md:mb-[190px]">
-    <h1 className="text-[24px] lg:text-[36px] lg:text-start text-center font-bold text-[#25373F] mb-4">{privacyPolicyData.title}</h1>
-    <p className="mb-8 text-[20px] leading-[150%]">{privacyPolicyData.intro}</p>
-    {privacyPolicyData.sections.map((section, idx) => (
-      <div key={idx} className="mb-8">
-        {section.heading && (
-          <h2 className="text-[28px] text-[#25373F]  font-medium mb-2">{section.heading}</h2>
-        )}
-        {section.content && (
-          <p className="mb-4 text-[#25373F] text-[20px] whitespace-pre-line">{section.content}</p>
-        )}
-        {section.list && (
-          <ul className="list-disc list-inside mb-4 pl-3">
-            {section.list.map((item, itemIdx) => (
-              <li key={itemIdx} className="mb-1 text-[#25373F] text-lg">
-                {item.title ? (
-                  <span>
-                    <span className="font-semibold">{item.title}:</span> {item.text}
-                  </span>
-                ) : (
-                  item.text
-                )}
-              </li>
+        <motion.section 
+            className="brand-width my-8 mb-[50px] md:mb-[190px]"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+        >
+            <motion.h1 
+                className="text-[24px] lg:text-[36px] lg:text-start text-center font-bold text-[#25373F] mb-4"
+                variants={titleVariants}
+            >
+                {privacyPolicyData.title}
+            </motion.h1>
+            <motion.p 
+                className="mb-8 text-[20px] leading-[150%]"
+                variants={textVariants}
+            >
+                {privacyPolicyData.intro}
+            </motion.p>
+            {privacyPolicyData.sections.map((section, idx) => (
+                <motion.div 
+                    key={idx} 
+                    className="mb-8"
+                    variants={sectionVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                >
+                    {section.heading && (
+                        <motion.h2 
+                            className="text-[28px] text-[#25373F] font-medium mb-2"
+                            variants={textVariants}
+                        >
+                            {section.heading}
+                        </motion.h2>
+                    )}
+                    {section.content && (
+                        <motion.p 
+                            className="mb-4 text-[#25373F] text-[20px] whitespace-pre-line"
+                            variants={textVariants}
+                        >
+                            {section.content}
+                        </motion.p>
+                    )}
+                    {section.list && (
+                        <motion.ul 
+                            className="list-disc list-inside mb-4 pl-3"
+                            variants={listVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.2 }}
+                        >
+                            {section.list.map((item, itemIdx) => (
+                                <motion.li 
+                                    key={itemIdx} 
+                                    className="mb-1 text-[#25373F] text-lg"
+                                    variants={listItemVariants}
+                                >
+                                    {item.title ? (
+                                        <span>
+                                            <span className="font-semibold">{item.title}:</span> {item.text}
+                                        </span>
+                                    ) : (
+                                        item.text
+                                    )}
+                                </motion.li>
+                            ))}
+                        </motion.ul>
+                    )}
+                    {section.note && (
+                        <motion.p 
+                            className="italic text-[#25373F]"
+                            variants={textVariants}
+                        >
+                            {section.note}
+                        </motion.p>
+                    )}
+                </motion.div>
             ))}
-          </ul>
-        )}
-        {section.note && (
-          <p className="italic text-[#25373F]">{section.note}</p>
-        )}
-      </div>
-    ))}
-  </section>
+        </motion.section>
     )
 }
 
