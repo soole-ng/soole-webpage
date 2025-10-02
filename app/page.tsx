@@ -5,6 +5,7 @@ import GetStartStarted from "@/components/landing-page-components/get-started";
 import Hero from "@/components/landing-page-components/hero";
 import SlantPhoneSection from "@/components/landing-page-components/slant-section";
 import Footer from "@/components/shared/footer";
+import FloatingWhatsApp from "@/components/shared/floating-whatsapp";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
 <GetStartStarted />
 <SlantPhoneSection />
 <Footer />
+<FloatingWhatsApp />
     </main>
   );
 }

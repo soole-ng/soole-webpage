@@ -73,13 +73,13 @@ type NavLink = { label: string; href: string };
 type ContactItem = { type: "location" | "phone" | "email"; label: string; href?: string; meta?: string };
 
 export const companyLinks: NavLink[] = [
-  { label: "Products", href: "#" },
-  { label: "Ride", href: "#" },
-  { label: "Drive", href: "#" },
-  { label: "About us", href: "#" },
-  { label: "FAQ", href: "#" },
-  { label: "Privacy Policy", href: "#" },
-  { label: "Contact Us", href: "#" },
+  { label: "Products", href: "/drivers" },
+  { label: "Ride", href: "/rides" },
+  { label: "Drive", href: "/drivers" },
+  { label: "About us", href: "/about-us" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Contact Us", href: "/contact-us" },
 ];
 
 export const moreLinks: NavLink[] = [

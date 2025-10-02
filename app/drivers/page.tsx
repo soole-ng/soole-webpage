@@ -5,6 +5,7 @@ import GetStartStarted from "@/components/landing-page-components/get-started";
 import SlantPhoneSection from "@/components/landing-page-components/slant-section";
 import Footer from "@/components/shared/footer";
 import SecondHero from "@/components/shared/second-hero";
+import FloatingWhatsApp from "@/components/shared/floating-whatsapp";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
 <GetStartStarted page="driver" />
 <SlantPhoneSection backgroundColor="#C9EC7C" textColor="#0C1316" />
 <Footer />
+<FloatingWhatsApp />
     </main>
   );
 }

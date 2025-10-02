@@ -7,6 +7,7 @@ import SlantPhoneSection from "@/components/landing-page-components/slant-sectio
 import Footer from "@/components/shared/footer";
 import AboutHero from "./components/about-hero";
 import AboutFeatures from "./components/about-features";
+import FloatingWhatsApp from "@/components/shared/floating-whatsapp";
 
 export default function AboutUs() {
   return (
@@ -17,6 +18,7 @@ export default function AboutUs() {
       
       <SlantPhoneSection backgroundColor="#C9EC7C" textColor="#0C1316" />
       <Footer />
+      <FloatingWhatsApp />
     </main>
   );
 }
