@@ -14,8 +14,11 @@ interface SuccessModalProps {
 }
 
 export const SuccessModal = ({ isOpen, onClose }: SuccessModalProps) => {
+  console.log("SuccessModal - isOpen:", isOpen);
+  
   return (
     <Dialog open={isOpen} onOpenChange={(open) => {
+      console.log("Dialog onOpenChange called with:", open);
       if (!open) onClose();
     }}>
       <DialogContent className="sm:max-w-md">

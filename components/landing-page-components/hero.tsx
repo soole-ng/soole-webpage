@@ -38,8 +38,10 @@ const Hero = () => {
 
     try {
       const result = await submitEmail(data.email);
+      console.log("Submit result:", result);
 
       if (result.success) {
+        console.log("Setting showSuccessModal to true");
         setShowSuccessModal(true);
         reset(); // Clear the form
       } else {
@@ -49,6 +51,7 @@ const Hero = () => {
         });
       }
     } catch (error) {
+      console.error("Submit error:", error);
       setSubmitMessage({
         type: "error",
         text: "An unexpected error occurred. Please try again.",
