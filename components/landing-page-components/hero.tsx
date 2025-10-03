@@ -1,15 +1,75 @@
 "use client";
 import { motion } from "framer-motion";
 import Navbar from "../shared/navbar";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { submitEmail } from "@/app/actions/submit-email";
+import { useState } from "react";
+import { SuccessModal } from "../ui/success-modal";
+
+// Define the schema for email validation
+const emailSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+});
+
+type EmailFormData = z.infer<typeof emailSchema>;
 
 const Hero = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<EmailFormData>({
+    resolver: zodResolver(emailSchema),
+  });
+
+  const onSubmit = async (data: EmailFormData) => {
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    try {
+      const result = await submitEmail(data.email);
+
+      if (result.success) {
+        setShowSuccessModal(true);
+        reset(); // Clear the form
+      } else {
+        setSubmitMessage({
+          type: "error",
+          text: result.message || "Failed to join waitlist. Please try again.",
+        });
+      }
+    } catch (error) {
+      setSubmitMessage({
+        type: "error",
+        text: "An unexpected error occurred. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <div
-      className="bg-[#0C1316] h-[80vh] md:h-screen bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: "url('/images/hero-bg-mobile.png')",
-      }}
-    >
+    <>
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+      />
+      <div
+        className="bg-[#0C1316] h-[80vh] md:h-screen bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/images/hero-bg-mobile.png')",
+        }}
+      >
       <div
         className="hidden md:block absolute inset-0"
         style={{
@@ -54,21 +114,46 @@ const Hero = () => {
                 Join 200+ early users already on the waitlist to get first
                 access.
               </h4>
-              <div className="bg-[#1F2528] w-full max-w-[458px] rounded-[32px] #B3B5B4 flex items-center p-2 text-sm  md:p-2">
-                <input
-                  className="px-2 md:px-3 flex-1  text-xs md:text-[14px] outline-none text-[#B3B5B4] "
-                  placeholder="Enter your email"
-                  type="email"
-                />
-                <button className="bg-white w-fit md:px-3 px-2 py-1 md:py-2 font-medium  text-[#042011] text-xs md:text-[14px]  rounded-[32px]">
-                  Join Waitlist
-                </button>
-              </div>
+              <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-[458px]">
+                <div className="bg-[#1F2528] w-full rounded-[32px] #B3B5B4 flex items-center p-2 text-sm  md:p-2">
+                  <input
+                    {...register("email")}
+                    className="px-2 md:px-3 py-2 flex-1 h-full text-xs md:text-[14px] outline-none text-[#B3B5B4] bg-transparent"
+                    placeholder="Enter your email"
+                    type="email"
+                    disabled={isSubmitting}
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-white w-fit md:px-3 px-2 py-1 md:py-2 font-medium text-[#042011] text-xs md:text-[14px] rounded-[32px] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? "Joining..." : "Join Waitlist"}
+                  </button>
+                </div>
+                {errors.email && (
+                  <p className="text-red-400 text-sm mt-2 px-2">
+                    {errors.email.message}
+                  </p>
+                )}
+                {submitMessage && (
+                  <p
+                    className={`text-sm mt-2 px-2 ${
+                      submitMessage.type === "success"
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {submitMessage.text}
+                  </p>
+                )}
+              </form>
             </motion.div>
           </div>
         </section>
       </div>
     </div>
+    </>
   );
 };
 
