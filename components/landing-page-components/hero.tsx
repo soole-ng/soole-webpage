@@ -67,21 +67,24 @@ const Hero = () => {
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
       />
-      <div
-        className="bg-[#0C1316] h-[80vh] md:h-screen bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/images/hero-bg-mobile.png')",
-        }}
-      >
-      <div
-        className="hidden md:block absolute inset-0"
-        style={{
-          backgroundImage: "url('/images/hero-bg.webp')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
+      <div className="bg-[#0C1316] h-[80vh] md:h-screen relative overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0 w-full h-full">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/images/hero-video.mp4" type="video/mp4" />
+            {/* Fallback image if video doesn't load */}
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/20" />
       <div className="relative z-10">
         <Navbar />
         <section className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 lg:justify-end">
