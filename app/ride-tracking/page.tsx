@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import {
   ArrowLeft,
   CarFront,
@@ -43,7 +43,7 @@ const RideLiveMap = dynamic(
   },
 );
 
-export default function RideTrackingPage() {
+function RideTrackingContent() {
   const searchParams = useSearchParams();
   const trackingId = searchParams.get("tracking_id")?.trim() ?? "";
 
@@ -288,5 +288,13 @@ export default function RideTrackingPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function RideTrackingPage() {
+  return (
+    <Suspense>
+      <RideTrackingContent />
+    </Suspense>
   );
 }
