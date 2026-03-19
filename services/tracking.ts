@@ -7,8 +7,12 @@ export interface RideTrackingPoint {
   longitude: number;
 }
 
-export interface TrackRideSuccessResponse extends RideTrackingPoint {
+export interface RoutePoint extends RideTrackingPoint {
   recorded_at: string;
+}
+
+export interface TrackRideSuccessResponse {
+  route: RoutePoint[];
   driver_fullname: string;
   driver_picture: string;
   car_name: string;
@@ -32,14 +36,17 @@ export interface TrackRideQueryError {
 }
 
 const tripEnded = (payload: TrackRideSuccessResponse) => {
+  if (!payload.route || payload.route.length === 0) return false;
+  const lastPoint = payload.route[payload.route.length - 1];
+
   const toRad = (value: number) => (value * Math.PI) / 180;
   const earthRadiusKm = 6371;
-  const dLat = toRad(payload.destination_point.latitude - payload.latitude);
-  const dLng = toRad(payload.destination_point.longitude - payload.longitude);
+  const dLat = toRad(payload.destination_point.latitude - lastPoint.latitude);
+  const dLng = toRad(payload.destination_point.longitude - lastPoint.longitude);
 
   const aa =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(payload.latitude)) *
+    Math.cos(toRad(lastPoint.latitude)) *
       Math.cos(toRad(payload.destination_point.latitude)) *
       Math.sin(dLng / 2) *
       Math.sin(dLng / 2);
@@ -83,10 +90,10 @@ export const useTrackRide = (ride_id: string) => {
     refetchInterval: (query) => {
       const payload = query.state.data;
       if (!payload) {
-        return 15000;
+        return 300000; // 5 minutes
       }
 
-      return tripEnded(payload) ? false : 15000;
+      return tripEnded(payload) ? false : 300000; // 5 minutes
     },
   });
 };

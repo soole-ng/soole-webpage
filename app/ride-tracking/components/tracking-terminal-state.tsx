@@ -47,9 +47,9 @@ export function TrackingTerminalState({
       <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 text-center shadow-sm">
         <h1 className="text-xl font-semibold text-zinc-900">{title}</h1>
         <p className="mt-2 text-sm text-zinc-600">{description}</p>
-        {apiData && isRideOver && (
+        {apiData && isRideOver && apiData.route && apiData.route.length > 0 && (
           <p className="mt-2 text-xs text-zinc-500">
-            Last update: {formatRecordedAt(apiData.recorded_at)}
+            Last update: {formatRecordedAt(apiData.route[apiData.route.length - 1].recorded_at)}
           </p>
         )}
         {canRetry && (

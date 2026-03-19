@@ -263,25 +263,23 @@ function RideTrackingContent() {
                     </div>
                   )}
                 </div>
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-zinc-100 text-zinc-700">
-                  <CarFront className="size-5" />
-                </div>
+            
                 <div>
                   <p className="text-sm font-semibold text-zinc-900">
                     {apiData.driver_fullname}
                   </p>
-                  <p className="inline-flex items-center gap-1 text-xs text-zinc-600">
+                  {/* <p className="inline-flex items-center gap-1 text-xs text-zinc-600">
                     4.8
                     <Star className="size-3 fill-current" />
-                  </p>
+                  </p> */}
                 </div>
               </div>
 
               <div className="text-right">
-                <p className="text-xl font-semibold tracking-wide text-zinc-900">
+                <p className="text-base font-semibold tracking-wide text-zinc-900">
                   {apiData.car_plate}
                 </p>
-                <p className="text-xs text-zinc-500">{apiData.car_name}</p>
+                <p className="text-base text-zinc-500">{apiData.car_name}</p>
               </div>
             </div>
           </div>

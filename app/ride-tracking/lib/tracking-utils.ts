@@ -93,11 +93,12 @@ export function isTripEnded(current: MapPoint, destination: MapPoint) {
 export function computeTrackingData(
   apiData: TrackRideSuccessResponse | null,
 ): ComputedTrackingData | null {
-  if (!apiData) {
+  if (!apiData || !apiData.route || apiData.route.length === 0) {
     return null;
   }
 
-  const current = { lat: apiData.latitude, lng: apiData.longitude };
+  const lastPoint = apiData.route[apiData.route.length - 1];
+  const current = { lat: lastPoint.latitude, lng: lastPoint.longitude };
   const origin = {
     lat: apiData.origin_point.latitude,
     lng: apiData.origin_point.longitude,
@@ -116,8 +117,8 @@ export function computeTrackingData(
     destination,
     status,
     etaMinutes: ended ? 0 : estimateEtaMinutes(current, destination),
-    updatedAtLabel: formatRecordedAt(apiData.recorded_at),
-    updatedAtTime: formatShortTime(apiData.recorded_at),
+    updatedAtLabel: formatRecordedAt(lastPoint.recorded_at),
+    updatedAtTime: formatShortTime(lastPoint.recorded_at),
     initials: getInitials(apiData.driver_fullname),
   };
 }

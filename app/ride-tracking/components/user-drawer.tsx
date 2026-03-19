@@ -105,7 +105,7 @@ export function UserDrawer({
                     Destination: {data.destination_state}
                   </p>
                   <p className="text-sm text-zinc-600">
-                    Last ping: {formatRecordedAt(data.recorded_at)}
+                    Last ping: {formatRecordedAt(data.route?.[data.route.length - 1]?.recorded_at ?? "")}
                   </p>
                 </div>
               </div>
