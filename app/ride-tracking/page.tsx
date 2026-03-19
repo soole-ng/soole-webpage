@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useCallback, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 
 import {
@@ -48,6 +48,9 @@ function RideTrackingContent() {
 
   const [refreshing, setRefreshing] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [focusTarget, setFocusTarget] = useState<"origin" | "destination" | null>(null);
+
+  const handleFocusHandled = useCallback(() => setFocusTarget(null), []);
 
   const refetchTracking = async () => {
     setRefreshing(true);
@@ -98,6 +101,8 @@ function RideTrackingContent() {
           current={computed.current}
           status={computed.status}
           lastUpdatedLabel={computed.updatedAtTime}
+          focusTarget={focusTarget}
+          onFocusHandled={handleFocusHandled}
         />
       </div>
 
@@ -117,6 +122,7 @@ function RideTrackingContent() {
         computed={computed}
         drawerOpen={drawerOpen}
         onDrawerOpenChange={setDrawerOpen}
+        onNavigate={setFocusTarget}
       />
     </main>
   );

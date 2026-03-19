@@ -10,6 +10,7 @@ type RideDetailsPanelProps = {
   computed: ComputedTrackingData;
   drawerOpen: boolean;
   onDrawerOpenChange: (open: boolean) => void;
+  onNavigate: (target: "origin" | "destination") => void;
 };
 
 export function RideDetailsPanel({
@@ -17,9 +18,10 @@ export function RideDetailsPanel({
   computed,
   drawerOpen,
   onDrawerOpenChange,
+  onNavigate,
 }: RideDetailsPanelProps) {
   return (
-    <section className="absolute inset-x-0 bottom-0 z-[750] rounded-t-3xl border-t border-zinc-200 bg-white/96 p-4 shadow-[0_-12px_30px_rgba(0,0,0,0.2)] backdrop-blur lg:inset-y-4 lg:right-4 lg:left-auto lg:w-[390px] lg:rounded-3xl lg:border">
+    <section className="absolute inset-x-0 bottom-0 z-[750] rounded-t-3xl border-t border-zinc-200 bg-white/96 p-4 h-[50vh] shadow-[0_-12px_30px_rgba(0,0,0,0.2)] backdrop-blur lg:top-[100px] lg:bottom-4 lg:right-4 lg:left-auto lg:w-[390px] lg:rounded-3xl lg:border">
       <div className="space-y-4">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -32,7 +34,7 @@ export function RideDetailsPanel({
           </div>
 
           <div className="flex items-center gap-2">
-            <button
+            {/* <button
               type="button"
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm transition hover:bg-zinc-50"
               aria-label="Call"
@@ -45,7 +47,7 @@ export function RideDetailsPanel({
               aria-label="Report"
             >
               <Flag className="size-4" />
-            </button>
+            </button> */}
             <UserDrawer
               open={drawerOpen}
               onOpenChange={onDrawerOpenChange}
@@ -76,6 +78,7 @@ export function RideDetailsPanel({
                 <Button
                   variant="secondary"
                   className="h-8 rounded-full bg-zinc-100 px-4 text-xs text-zinc-800 hover:bg-zinc-200"
+                  onClick={() => onNavigate("origin")}
                 >
                   Navigate
                 </Button>
