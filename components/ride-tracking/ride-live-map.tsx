@@ -78,7 +78,7 @@ export function RideLiveMap({
     <MapContainer
       center={[current.lat, current.lng]}
       zoom={13}
-      className="h-full w-full"
+      className="h-full w-full [&_.leaflet-control-zoom]:!mt-40"
       zoomControl
       attributionControl={false}
       scrollWheelZoom
