@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import type { DivIcon } from "leaflet";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { DivIcon, LatLngTuple } from "leaflet";
 import L from "leaflet";
 import {
   CircleMarker,
@@ -32,18 +32,104 @@ type RideLiveMapProps = {
   onFocusHandled?: () => void;
 };
 
+/* ─── Road-network route geometry ─── */
+
+/** Build a cache key from two points so we don't refetch the same route */
+function cacheKey(a: MapPoint, b: MapPoint) {
+  return `${a.lat.toFixed(5)},${a.lng.toFixed(5)}-${b.lat.toFixed(5)},${b.lng.toFixed(5)}`;
+}
+
+const routeCache = new Map<string, LatLngTuple[]>();
+
+/** Try OSRM demo server */
+async function tryOSRM(from: MapPoint, to: MapPoint): Promise<LatLngTuple[] | null> {
+  const url = `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson`;
+  const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+  if (!res.ok) return null;
+
+  const json = await res.json();
+  const coords: [number, number][] = json?.routes?.[0]?.geometry?.coordinates ?? [];
+  if (!coords.length) return null;
+
+  return coords.map(([lng, lat]) => [lat, lng] as LatLngTuple);
+}
+
+/** Try OpenRouteService (free public API, good global coverage) */
+async function tryORS(from: MapPoint, to: MapPoint): Promise<LatLngTuple[] | null> {
+  const url = `https://api.openrouteservice.org/v2/directions/driving-car?start=${from.lng},${from.lat}&end=${to.lng},${to.lat}`;
+  const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+  if (!res.ok) return null;
+
+  const json = await res.json();
+  const coords: [number, number][] =
+    json?.features?.[0]?.geometry?.coordinates ?? [];
+  if (!coords.length) return null;
+
+  // GeoJSON [lng, lat] → Leaflet [lat, lng]
+  return coords.map(([lng, lat]) => [lat, lng] as LatLngTuple);
+}
+
+async function fetchRouteGeometry(
+  from: MapPoint,
+  to: MapPoint,
+): Promise<LatLngTuple[]> {
+  const key = cacheKey(from, to);
+  if (routeCache.has(key)) return routeCache.get(key)!;
+
+  // Try providers in order
+  const result =
+    (await tryOSRM(from, to).catch(() => null)) ??
+    (await tryORS(from, to).catch(() => null));
+
+  if (result && result.length > 0) {
+    routeCache.set(key, result);
+    return result;
+  }
+
+  // Final fallback: straight line
+  return [
+    [from.lat, from.lng],
+    [to.lat, to.lng],
+  ];
+}
+
+function useRouteGeometry(from: MapPoint, to: MapPoint): LatLngTuple[] {
+  const fallback = useMemo<LatLngTuple[]>(
+    () => [
+      [from.lat, from.lng],
+      [to.lat, to.lng],
+    ],
+    [from, to],
+  );
+
+  const [coords, setCoords] = useState<LatLngTuple[]>(fallback);
+  const activeKey = useRef("");
+
+  useEffect(() => {
+    const key = cacheKey(from, to);
+    activeKey.current = key;
+
+    fetchRouteGeometry(from, to).then((result) => {
+      // only apply if this is still the active request
+      if (activeKey.current === key) setCoords(result);
+    });
+  }, [from, to]);
+
+  return coords;
+}
+
+/* ─── Map helper components ─── */
+
 function FitBounds({ points }: { points: MapPoint[] }) {
   const map = useMap();
 
   useEffect(() => {
-    if (!points.length) {
-      return;
-    }
+    if (!points.length) return;
 
-    map.fitBounds(points.map((point) => [point.lat, point.lng]), {
-      padding: [36, 36],
-      maxZoom: 14,
-    });
+    map.fitBounds(
+      points.map((point) => [point.lat, point.lng]),
+      { padding: [36, 36], maxZoom: 14 },
+    );
   }, [map, points]);
 
   return null;
@@ -83,18 +169,24 @@ function FocusHandler({
   return null;
 }
 
-function useDestinationIcon() {
+function useLocationIcon(color: string) {
   return useMemo<DivIcon>(
     () =>
       L.divIcon({
         className: "",
-        html: '<div style="width: 12px; height: 12px; background: #0f172a; border: 2px solid #ffffff; border-radius: 2px;"></div>',
-        iconSize: [12, 12],
-        iconAnchor: [6, 6],
+        iconSize: [28, 40],
+        iconAnchor: [14, 40],
+        popupAnchor: [0, -40],
+        html: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="40" viewBox="0 0 28 40" fill="none">
+          <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 26 14 26s14-15.5 14-26C28 6.268 21.732 0 14 0z" fill="${color}" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="14" cy="14" r="6" fill="#fff"/>
+        </svg>`,
       }),
-    []
+    [color],
   );
 }
+
+/* ─── Main map component ─── */
 
 export function RideLiveMap({
   origin,
@@ -105,14 +197,20 @@ export function RideLiveMap({
   focusTarget = null,
   onFocusHandled,
 }: RideLiveMapProps) {
-  const destinationIcon = useDestinationIcon();
+  const originIcon = useLocationIcon("#34A853");
+  const destinationIcon = useLocationIcon("#EA4335");
 
-  const routePath = useMemo(() => [origin, destination], [origin, destination]);
-  const traveledPath = useMemo(
-    () => (status === "over" ? [origin, destination] : [origin, current]),
-    [status, origin, destination, current]
+  /* Fetch real road-following geometry */
+  const fullRouteCoords = useRouteGeometry(origin, destination);
+  const traveledCoords = useRouteGeometry(
+    origin,
+    status === "over" ? destination : current,
   );
-  const fitPoints = useMemo(() => [origin, current, destination], [origin, current, destination]);
+
+  const fitPoints = useMemo(
+    () => [origin, current, destination],
+    [origin, current, destination],
+  );
 
   const isHighlighted = focusTarget !== null;
 
@@ -126,13 +224,8 @@ export function RideLiveMap({
       scrollWheelZoom
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
-      />
-
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png"
+        attribution="&copy; Google Maps"
+        url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
       />
 
       <FitBounds points={fitPoints} />
@@ -144,41 +237,36 @@ export function RideLiveMap({
         onFocusHandled={onFocusHandled}
       />
 
-      {/* Full route (dashed) */}
+      {/* Full route — dashed, follows real roads */}
       <Polyline
-        positions={routePath.map((point) => [point.lat, point.lng])}
+        positions={fullRouteCoords}
         pathOptions={{
-          color: isHighlighted ? "#6366f1" : "#94a3b8",
-          weight: isHighlighted ? 7 : 5,
-          dashArray: "7 8",
-          opacity: isHighlighted ? 1 : 0.7,
+          color: "#4285F4",
+          weight: 5,
+          dashArray: "8 10",
+          opacity: 0.5,
         }}
       />
 
-      {/* Traveled route (solid) */}
+      {/* Traveled route — solid, follows real roads */}
       <Polyline
-        positions={traveledPath.map((point) => [point.lat, point.lng])}
+        positions={traveledCoords}
         pathOptions={{
-          color: isHighlighted ? "#4f46e5" : "#0f766e",
-          weight: isHighlighted ? 8 : 6,
+          color: "#4285F4",
+          weight: 6,
           lineCap: "round",
+          opacity: 1,
         }}
       />
 
-      <CircleMarker
-        center={[origin.lat, origin.lng]}
-        radius={isHighlighted && focusTarget === "origin" ? 10 : 6}
-        pathOptions={{
-          color: isHighlighted && focusTarget === "origin" ? "#4f46e5" : "#111827",
-          fillColor: isHighlighted && focusTarget === "origin" ? "#6366f1" : "#111827",
-          fillOpacity: 1,
-          weight: isHighlighted && focusTarget === "origin" ? 3 : 2,
-        }}
-      >
+      <Marker position={[origin.lat, origin.lng]} icon={originIcon}>
         <Popup>Origin</Popup>
-      </CircleMarker>
+      </Marker>
 
-      <Marker position={[destination.lat, destination.lng]} icon={destinationIcon}>
+      <Marker
+        position={[destination.lat, destination.lng]}
+        icon={destinationIcon}
+      >
         <Popup>Destination</Popup>
       </Marker>
 
@@ -192,7 +280,11 @@ export function RideLiveMap({
           fillOpacity: 1,
         }}
       >
-        <Popup>{status === "over" ? "Trip completed" : `Updated ${lastUpdatedLabel}`}</Popup>
+        <Popup>
+          {status === "over"
+            ? "Trip completed"
+            : `Updated ${lastUpdatedLabel}`}
+        </Popup>
       </CircleMarker>
     </MapContainer>
   );
