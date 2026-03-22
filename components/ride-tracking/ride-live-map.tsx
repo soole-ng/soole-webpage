@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { DivIcon, LatLngTuple } from "leaflet";
 import L from "leaflet";
 import {
@@ -120,17 +120,18 @@ function useRouteGeometry(from: MapPoint, to: MapPoint): LatLngTuple[] {
 
 /* ─── Map helper components ─── */
 
-function FitBounds({ points }: { points: MapPoint[] }) {
+function InitialCurrentViewport({ current }: { current: MapPoint }) {
   const map = useMap();
+  const hasCenteredRef = useRef(false);
 
   useEffect(() => {
-    if (!points.length) return;
+    if (hasCenteredRef.current) {
+      return;
+    }
 
-    map.fitBounds(
-      points.map((point) => [point.lat, point.lng]),
-      { padding: [36, 36], maxZoom: 14 },
-    );
-  }, [map, points]);
+    hasCenteredRef.current = true;
+    map.setView([current.lat, current.lng], 16, { animate: false });
+  }, [map, current]);
 
   return null;
 }
@@ -200,19 +201,10 @@ export function RideLiveMap({
   const originIcon = useLocationIcon("#34A853");
   const destinationIcon = useLocationIcon("#EA4335");
 
-  /* Fetch real road-following geometry */
-  const fullRouteCoords = useRouteGeometry(origin, destination);
   const traveledCoords = useRouteGeometry(
     origin,
     status === "over" ? destination : current,
   );
-
-  const fitPoints = useMemo(
-    () => [origin, current, destination],
-    [origin, current, destination],
-  );
-
-  const isHighlighted = focusTarget !== null;
 
   return (
     <MapContainer
@@ -228,24 +220,13 @@ export function RideLiveMap({
         url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
       />
 
-      <FitBounds points={fitPoints} />
+      <InitialCurrentViewport current={current} />
       <FocusHandler
         focusTarget={focusTarget}
         origin={origin}
         destination={destination}
         current={current}
         onFocusHandled={onFocusHandled}
-      />
-
-      {/* Full route — dashed, follows real roads */}
-      <Polyline
-        positions={fullRouteCoords}
-        pathOptions={{
-          color: "#4285F4",
-          weight: 5,
-          dashArray: "8 10",
-          opacity: 0.5,
-        }}
       />
 
       {/* Traveled route — solid, follows real roads */}
