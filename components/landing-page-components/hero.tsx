@@ -67,7 +67,7 @@ const Hero = () => {
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
       />
-      <div className="bg-[#0C1316] h-[80vh] md:h-screen relative overflow-hidden">
+      <div className="bg-[#0C1316]  h-[65vh] md:h-screen relative overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0 w-full h-full">
           <video
@@ -90,9 +90,9 @@ const Hero = () => {
         <section className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 lg:justify-end">
           {/* Contents */}
           <div className="flex justify-center  lg:justify-end mt-4 md:mt-10 lg:mt-64    w-full flex-col space-y-20">
-            <div className="flex flex-col gap-12">
+            <div className="flex flex-col gap-6 md:gap-12">
               <motion.h1
-                className="text-[#F9FFEB] font-source-serif text-start md:text-start max-w-[666px] text-[32px]  md:text-[51.75px] leading-[28px] md:leading-[59.39px]"
+                className="text-[#F9FFEB] font-source-serif text-start md:text-start max-w-[666px] text-[32px]  md:text-[51.75px] leading-[38px] md:leading-[59.39px]"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.2 }}
@@ -100,7 +100,7 @@ const Hero = () => {
                 Travel together, comfortably and safely with Soole
               </motion.h1>
               <motion.p
-                className="text-[#F9FFEB] md:text-start text-start text-[16px]  md:text-[20px] leading-[17px] md:leading-[28px] max-w-[625px]"
+                className="text-[#F9FFEB] md:text-start text-start text-[16px]  md:text-[20px] leading-[24px] md:leading-[28px] max-w-[625px]"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.3 }}
@@ -111,7 +111,7 @@ const Hero = () => {
             </div>
 
             <motion.div
-              className="flex flex-col gap-[24px] md:gap-[32px]"
+              className="flex flex-col gap-[20px] md:gap-[32px]"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.4 }}
