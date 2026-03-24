@@ -35,6 +35,39 @@ export interface TrackRideQueryError {
   message: string;
 }
 
+const defaultTrackingErrorMessage = "Unable to load tracking data right now.";
+
+const extractErrorMessage = (payload: unknown): string | null => {
+  if (!payload) return null;
+
+  if (typeof payload === "string") {
+    const trimmed = payload.trim();
+    if (!trimmed) return null;
+
+    try {
+      const parsed = JSON.parse(trimmed) as unknown;
+      return extractErrorMessage(parsed) ?? trimmed;
+    } catch {
+      return trimmed;
+    }
+  }
+
+  if (typeof payload === "object") {
+    const body = payload as Record<string, unknown>;
+    const candidate =
+      body.message ??
+      body.detail ??
+      body.error ??
+      body.title;
+
+    if (typeof candidate === "string" && candidate.trim()) {
+      return candidate.trim();
+    }
+  }
+
+  return null;
+};
+
 const tripEnded = (payload: TrackRideSuccessResponse) => {
   if (!payload.route || payload.route.length === 0) return false;
   const lastPoint = payload.route[payload.route.length - 1];
@@ -58,16 +91,24 @@ const tripEnded = (payload: TrackRideSuccessResponse) => {
 const normalizeTrackRideError = (error: unknown): TrackRideQueryError => {
   if (axios.isAxiosError(error)) {
     const status = error.response?.status;
+    const payloadMessage = extractErrorMessage(error.response?.data);
+
+    const fallbackMessage =
+      status === 404
+        ? "Invalid tracking token or Ride does not exist"
+        : status === 410
+          ? "This tracking link has expired."
+          : defaultTrackingErrorMessage;
+
     const message =
-      (error.response?.data as { message?: string } | undefined)?.message ||
-      error.message ||
-      "Unable to load tracking data right now.";
+      payloadMessage ||
+      (status ? fallbackMessage : error.message || defaultTrackingErrorMessage);
 
     return { status, message };
   }
 
   return {
-    message: "Unable to load tracking data right now.",
+    message: defaultTrackingErrorMessage,
   };
 };
 

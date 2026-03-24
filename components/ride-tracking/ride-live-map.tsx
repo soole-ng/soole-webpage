@@ -1,17 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import type { DivIcon, LatLngTuple } from "leaflet";
-import L from "leaflet";
+import { useEffect, useRef } from "react";
 import {
-  CircleMarker,
-  MapContainer,
-  Marker,
-  Polyline,
-  Popup,
-  TileLayer,
-  useMap,
-} from "react-leaflet";
+  Navigatr,
+  type LatLng,
+  type NavigatrMap,
+  type NavigatrMarker,
+} from "@navigatr/web";
 
 type RideStatus = "ongoing" | "over";
 
@@ -32,162 +27,48 @@ type RideLiveMapProps = {
   onFocusHandled?: () => void;
 };
 
-/* ─── Road-network route geometry ─── */
-
-/** Build a cache key from two points so we don't refetch the same route */
 function cacheKey(a: MapPoint, b: MapPoint) {
   return `${a.lat.toFixed(5)},${a.lng.toFixed(5)}-${b.lat.toFixed(5)},${b.lng.toFixed(5)}`;
 }
 
-const routeCache = new Map<string, LatLngTuple[]>();
+const routeCache = new Map<string, LatLng[]>();
 
-/** Try OSRM demo server */
-async function tryOSRM(from: MapPoint, to: MapPoint): Promise<LatLngTuple[] | null> {
-  const url = `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson`;
-  const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
-  if (!res.ok) return null;
-
-  const json = await res.json();
-  const coords: [number, number][] = json?.routes?.[0]?.geometry?.coordinates ?? [];
-  if (!coords.length) return null;
-
-  return coords.map(([lng, lat]) => [lat, lng] as LatLngTuple);
-}
-
-/** Try OpenRouteService (free public API, good global coverage) */
-async function tryORS(from: MapPoint, to: MapPoint): Promise<LatLngTuple[] | null> {
-  const url = `https://api.openrouteservice.org/v2/directions/driving-car?start=${from.lng},${from.lat}&end=${to.lng},${to.lat}`;
-  const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
-  if (!res.ok) return null;
-
-  const json = await res.json();
-  const coords: [number, number][] =
-    json?.features?.[0]?.geometry?.coordinates ?? [];
-  if (!coords.length) return null;
-
-  // GeoJSON [lng, lat] → Leaflet [lat, lng]
-  return coords.map(([lng, lat]) => [lat, lng] as LatLngTuple);
-}
-
-async function fetchRouteGeometry(
-  from: MapPoint,
-  to: MapPoint,
-): Promise<LatLngTuple[]> {
-  const key = cacheKey(from, to);
-  if (routeCache.has(key)) return routeCache.get(key)!;
-
-  // Try providers in order
-  const result =
-    (await tryOSRM(from, to).catch(() => null)) ??
-    (await tryORS(from, to).catch(() => null));
-
-  if (result && result.length > 0) {
-    routeCache.set(key, result);
-    return result;
-  }
-
-  // Final fallback: straight line
+function fallbackLine(from: MapPoint, to: MapPoint): LatLng[] {
   return [
-    [from.lat, from.lng],
-    [to.lat, to.lng],
+    { lat: from.lat, lng: from.lng },
+    { lat: to.lat, lng: to.lng },
   ];
 }
 
-function useRouteGeometry(from: MapPoint, to: MapPoint): LatLngTuple[] {
-  const fallback = useMemo<LatLngTuple[]>(
-    () => [
-      [from.lat, from.lng],
-      [to.lat, to.lng],
-    ],
-    [from, to],
-  );
+function nearestRouteIndex(polyline: LatLng[], current: MapPoint): number {
+  if (polyline.length === 0) return 0;
 
-  const [coords, setCoords] = useState<LatLngTuple[]>(fallback);
-  const activeKey = useRef("");
+  let nearest = 0;
+  let minDistance = Number.POSITIVE_INFINITY;
 
-  useEffect(() => {
-    const key = cacheKey(from, to);
-    activeKey.current = key;
+  for (let i = 0; i < polyline.length; i += 1) {
+    const dLat = polyline[i].lat - current.lat;
+    const dLng = polyline[i].lng - current.lng;
+    const distance = dLat * dLat + dLng * dLng;
 
-    fetchRouteGeometry(from, to).then((result) => {
-      // only apply if this is still the active request
-      if (activeKey.current === key) setCoords(result);
-    });
-  }, [from, to]);
-
-  return coords;
-}
-
-/* ─── Map helper components ─── */
-
-function InitialCurrentViewport({ current }: { current: MapPoint }) {
-  const map = useMap();
-  const hasCenteredRef = useRef(false);
-
-  useEffect(() => {
-    if (hasCenteredRef.current) {
-      return;
+    if (distance < minDistance) {
+      minDistance = distance;
+      nearest = i;
     }
+  }
 
-    hasCenteredRef.current = true;
-    map.setView([current.lat, current.lng], 16, { animate: false });
-  }, [map, current]);
-
-  return null;
+  return nearest;
 }
 
-function FocusHandler({
-  focusTarget,
-  origin,
-  destination,
-  current,
-  onFocusHandled,
-}: {
-  focusTarget: MapFocusTarget;
-  origin: MapPoint;
-  destination: MapPoint;
-  current: MapPoint;
-  onFocusHandled?: () => void;
-}) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (!focusTarget) return;
-
-    const target = focusTarget === "origin" ? origin : destination;
-
-    map.fitBounds(
-      [
-        [current.lat, current.lng],
-        [target.lat, target.lng],
-      ],
-      { padding: [60, 60], maxZoom: 15, animate: true, duration: 0.8 },
-    );
-
-    onFocusHandled?.();
-  }, [focusTarget, map, origin, destination, current, onFocusHandled]);
-
-  return null;
+function createPinIconHtml(color: string) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="40" viewBox="0 0 28 40" fill="none">
+    <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 26 14 26s14-15.5 14-26C28 6.268 21.732 0 14 0z" fill="${color}" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="14" cy="14" r="6" fill="#fff"/>
+  </svg>`;
 }
 
-function useLocationIcon(color: string) {
-  return useMemo<DivIcon>(
-    () =>
-      L.divIcon({
-        className: "",
-        iconSize: [28, 40],
-        iconAnchor: [14, 40],
-        popupAnchor: [0, -40],
-        html: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="40" viewBox="0 0 28 40" fill="none">
-          <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 26 14 26s14-15.5 14-26C28 6.268 21.732 0 14 0z" fill="${color}" stroke="#fff" stroke-width="1.5"/>
-          <circle cx="14" cy="14" r="6" fill="#fff"/>
-        </svg>`,
-      }),
-    [color],
-  );
-}
-
-/* ─── Main map component ─── */
+const CURRENT_MARKER_ICON_HTML = `<div style="width:18px;height:18px;border-radius:9999px;background:#0ea5e9;border:2px solid #fff;box-shadow:0 0 0 4px rgba(14,165,233,0.25);"></div>`;
+const ROUTE_STYLE = { color: "#4285F4", weight: 6, opacity: 1 };
 
 export function RideLiveMap({
   origin,
@@ -198,75 +79,165 @@ export function RideLiveMap({
   focusTarget = null,
   onFocusHandled,
 }: RideLiveMapProps) {
-  const originIcon = useLocationIcon("#34A853");
-  const destinationIcon = useLocationIcon("#EA4335");
-
-  const traveledCoords = useRouteGeometry(
-    origin,
-    status === "over" ? destination : current,
+  const containerIdRef = useRef(
+    `ride-live-map-${Math.random().toString(36).slice(2, 11)}`,
   );
+  const navRef = useRef<Navigatr | null>(null);
+  const mapRef = useRef<NavigatrMap | null>(null);
+  const originMarkerRef = useRef<NavigatrMarker | null>(null);
+  const destinationMarkerRef = useRef<NavigatrMarker | null>(null);
+  const currentMarkerRef = useRef<NavigatrMarker | null>(null);
+  const activePolylineRef = useRef<LatLng[]>([]);
+  const currentRef = useRef(current);
+  const statusRef = useRef(status);
 
-  return (
-    <MapContainer
-      center={[current.lat, current.lng]}
-      zoom={13}
-      className="h-full w-full [&_.leaflet-control-zoom]:!mt-40"
-      zoomControl
-      attributionControl={false}
-      scrollWheelZoom
-    >
-      <TileLayer
-        attribution="&copy; Google Maps"
-        url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
-      />
+  useEffect(() => {
+    if (mapRef.current) return;
 
-      <InitialCurrentViewport current={current} />
-      <FocusHandler
-        focusTarget={focusTarget}
-        origin={origin}
-        destination={destination}
-        current={current}
-        onFocusHandled={onFocusHandled}
-      />
+    const nav = new Navigatr();
+    const map = nav.map({
+      container: containerIdRef.current,
+      center: { lat: current.lat, lng: current.lng },
+      zoom: 16,
+    });
 
-      {/* Traveled route — solid, follows real roads */}
-      <Polyline
-        positions={traveledCoords}
-        pathOptions={{
-          color: "#4285F4",
-          weight: 6,
-          lineCap: "round",
-          opacity: 1,
-        }}
-      />
+    navRef.current = nav;
+    mapRef.current = map;
 
-      <Marker position={[origin.lat, origin.lng]} icon={originIcon}>
-        <Popup>Origin</Popup>
-      </Marker>
+    originMarkerRef.current = map.addMarker({
+      lat: origin.lat,
+      lng: origin.lng,
+      label: "Origin",
+      iconHtml: createPinIconHtml("#34A853"),
+    });
+    destinationMarkerRef.current = map.addMarker({
+      lat: destination.lat,
+      lng: destination.lng,
+      label: "Destination",
+      iconHtml: createPinIconHtml("#EA4335"),
+    });
+    currentMarkerRef.current = map.addMarker({
+      lat: current.lat,
+      lng: current.lng,
+      label: "Driver location",
+      iconHtml: CURRENT_MARKER_ICON_HTML,
+    });
 
-      <Marker
-        position={[destination.lat, destination.lng]}
-        icon={destinationIcon}
-      >
-        <Popup>Destination</Popup>
-      </Marker>
+    return () => {
+      map.clearRoute();
+      map.removeDriverMarker();
+      originMarkerRef.current?.remove();
+      destinationMarkerRef.current?.remove();
+      currentMarkerRef.current?.remove();
+      originMarkerRef.current = null;
+      destinationMarkerRef.current = null;
+      currentMarkerRef.current = null;
+      mapRef.current = null;
+      navRef.current = null;
+    };
+  }, [origin, destination, current, status, lastUpdatedLabel]);
 
-      <CircleMarker
-        center={[current.lat, current.lng]}
-        radius={9}
-        pathOptions={{
-          color: "#ffffff",
-          weight: 2,
-          fillColor: "#0ea5e9",
-          fillOpacity: 1,
-        }}
-      >
-        <Popup>
-          {status === "over"
-            ? "Trip completed"
-            : `Updated ${lastUpdatedLabel}`}
-        </Popup>
-      </CircleMarker>
-    </MapContainer>
-  );
+  useEffect(() => {
+    originMarkerRef.current?.setLatLng(origin);
+  }, [origin]);
+
+  useEffect(() => {
+    destinationMarkerRef.current?.setLatLng(destination);
+  }, [destination]);
+
+  useEffect(() => {
+    currentRef.current = current;
+    currentMarkerRef.current?.setLatLng(current);
+  }, [current]);
+
+  useEffect(() => {
+    statusRef.current = status;
+
+    const container = document.getElementById(containerIdRef.current);
+    if (!container) return;
+
+    container.dataset.lastUpdated =
+      status === "over" ? "Trip completed" : `Updated ${lastUpdatedLabel}`;
+  }, [status, lastUpdatedLabel]);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    const map = mapRef.current;
+    if (!nav || !map) return;
+
+    const key = cacheKey(origin, destination);
+    const cached = routeCache.get(key);
+    let isCanceled = false;
+
+    const drawRoute = (polyline: LatLng[]) => {
+      if (isCanceled) return;
+
+      const safePolyline = polyline.length > 1 ? polyline : fallbackLine(origin, destination);
+      activePolylineRef.current = safePolyline;
+      map.clearRoute();
+      map.drawRoute(safePolyline, ROUTE_STYLE);
+
+      const currentIndex =
+        statusRef.current === "over"
+          ? safePolyline.length - 1
+          : nearestRouteIndex(safePolyline, currentRef.current);
+      map.updateTraveledRoute(safePolyline, currentIndex);
+    };
+
+    if (cached) {
+      drawRoute(cached);
+      return () => {
+        isCanceled = true;
+      };
+    }
+
+    nav
+      .route({
+        origin: { lat: origin.lat, lng: origin.lng },
+        destination: { lat: destination.lat, lng: destination.lng },
+        mode: "drive",
+      })
+      .then((route) => {
+        const polyline =
+          route.polyline.length > 1 ? route.polyline : fallbackLine(origin, destination);
+        routeCache.set(key, polyline);
+        drawRoute(polyline);
+      })
+      .catch(() => {
+        drawRoute(fallbackLine(origin, destination));
+      });
+
+    return () => {
+      isCanceled = true;
+    };
+  }, [origin, destination]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const activePolyline = activePolylineRef.current;
+    if (!map || activePolyline.length < 2) return;
+
+    const currentIndex =
+      status === "over"
+        ? activePolyline.length - 1
+        : nearestRouteIndex(activePolyline, current);
+    map.updateTraveledRoute(activePolyline, currentIndex);
+  }, [current, status]);
+
+  useEffect(() => {
+    if (!focusTarget) return;
+
+    const map = mapRef.current;
+    if (!map) return;
+
+    const target = focusTarget === "origin" ? origin : destination;
+    map.fitRoute([
+      { lat: current.lat, lng: current.lng },
+      { lat: target.lat, lng: target.lng },
+    ]);
+
+    onFocusHandled?.();
+  }, [focusTarget, origin, destination, current, onFocusHandled]);
+
+  return <div id={containerIdRef.current} className="h-full w-full" />;
 }
