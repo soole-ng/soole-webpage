@@ -117,8 +117,7 @@ const Hero = () => {
               transition={{ duration: 0.75, delay: 0.4 }}
             >
               <h4 className="text-white text-center md:text-start text-base">
-                Join 200+ early users already on the waitlist to get first
-                access.
+                Join the waitlist to get first access.
               </h4>
               <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-[458px]">
                 <div className="bg-[#1F2528] w-full rounded-[32px] #B3B5B4 flex items-center p-2 text-sm  md:p-2">
