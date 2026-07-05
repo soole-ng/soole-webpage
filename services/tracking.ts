@@ -89,11 +89,13 @@ export const useTrackRide = (ride_id: string) => {
     enabled: !!ride_id,
     refetchInterval: (query) => {
       const payload = query.state.data;
+      // Matches the driver app's location-ping cadence (1/minute) - polling
+      // slower than that just shows a stale pin between refreshes.
       if (!payload) {
-        return 300000; // 5 minutes
+        return 60000; // 1 minute
       }
 
-      return tripEnded(payload) ? false : 300000; // 5 minutes
+      return tripEnded(payload) ? false : 60000; // 1 minute
     },
   });
 };
