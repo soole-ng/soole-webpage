@@ -21,6 +21,8 @@ export interface TrackRideSuccessResponse {
   destination_state: string;
   origin_point: RideTrackingPoint;
   destination_point: RideTrackingPoint;
+  current_speed_kmh: number | null;
+  average_speed_kmh: number | null;
 }
 
 export type TrackRideErrorStatus = 404 | 410;

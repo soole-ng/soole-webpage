@@ -78,10 +78,25 @@ export function formatShortTime(recordedAt: string) {
   }).format(date);
 }
 
-export function estimateEtaMinutes(current: MapPoint, destination: MapPoint) {
-  const remainingKm = haversineKm(current, destination);
-  const avgCitySpeedKmPerHour = 28;
-  const minutes = Math.round((remainingKm / avgCitySpeedKmPerHour) * 60);
+// Real roads are never a straight line between two points - matches the
+// backend's ROAD_CIRCUITY_FACTOR (rides/services/telemetry.py), applied
+// here to the haversine distance so ETA isn't based on "as the crow
+// flies" figures.
+const ROAD_CIRCUITY_FACTOR = 1.3;
+const FALLBACK_CITY_SPEED_KMH = 28;
+
+export function estimateEtaMinutes(
+  current: MapPoint,
+  destination: MapPoint,
+  speedKmh?: number | null,
+) {
+  const remainingKm = haversineKm(current, destination) * ROAD_CIRCUITY_FACTOR;
+  // Real live/average speed from recorded GPS pings when available (e.g.
+  // just started, or the driver's phone hasn't reported enough pings yet
+  // to derive a speed) - falls back to a flat city-driving estimate.
+  const speed =
+    speedKmh && speedKmh > 0 ? speedKmh : FALLBACK_CITY_SPEED_KMH;
+  const minutes = Math.round((remainingKm / speed) * 60);
 
   return Math.max(1, minutes);
 }
@@ -110,13 +125,16 @@ export function computeTrackingData(
 
   const ended = isTripEnded(current, destination);
   const status: RideStatus = ended ? "over" : "ongoing";
+  // Prefer the smoothed average (resists a momentary stop at a light or
+  // junction reading as 0) over the last-two-pings instantaneous speed.
+  const liveSpeedKmh = apiData.average_speed_kmh ?? apiData.current_speed_kmh;
 
   return {
     origin,
     current,
     destination,
     status,
-    etaMinutes: ended ? 0 : estimateEtaMinutes(current, destination),
+    etaMinutes: ended ? 0 : estimateEtaMinutes(current, destination, liveSpeedKmh),
     updatedAtLabel: formatRecordedAt(lastPoint.recorded_at),
     updatedAtTime: formatShortTime(lastPoint.recorded_at),
     initials: getInitials(apiData.driver_fullname),
