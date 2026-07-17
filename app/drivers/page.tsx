@@ -1,6 +1,7 @@
 import DarkFeatureContainer from "@/components/landing-page-components/dark-feature-container";
 import FeatureContainer from "@/components/landing-page-components/feature-container";
 import Features from "@/components/landing-page-components/features";
+import DriverModes from "@/components/landing-page-components/driver-modes";
 import GetStartStarted from "@/components/landing-page-components/get-started";
 import SlantPhoneSection from "@/components/landing-page-components/slant-section";
 import Footer from "@/components/shared/footer";
@@ -16,6 +17,7 @@ export default function Home() {
         backgroundImage="/images/third-hero.png"
       />
 <Features />
+<DriverModes />
 <FeatureContainer />
 <GetStartStarted page="driver" />
 <SlantPhoneSection backgroundColor="#C9EC7C" textColor="#0C1316" />
