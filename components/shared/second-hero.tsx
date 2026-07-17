@@ -94,15 +94,16 @@ const SecondHero = ({backgroundImage, mainText, subText, isOrganization = false}
       {isOrganization && (
         <div className="absolute inset-0 bg-black/65" />
       )}
+      <div className="relative z-10">
       <Navbar />
-      <motion.section 
+      <motion.section
         className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 lg:justify-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Contents */}
-        <motion.div 
+        <motion.div
           className="flex  md:justify-center   w-full flex-col space-y-20"
           variants={containerVariants}
         >
@@ -209,6 +210,7 @@ const SecondHero = ({backgroundImage, mainText, subText, isOrganization = false}
           </motion.div>
         </motion.div>
       </motion.section>
+      </div>
     </div>
   );
 };

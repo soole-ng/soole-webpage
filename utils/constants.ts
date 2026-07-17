@@ -73,7 +73,7 @@ type NavLink = { label: string; href: string };
 type ContactItem = { type: "location" | "phone" | "email"; label: string; href?: string; meta?: string };
 
 export const companyLinks: NavLink[] = [
-  { label: "Products", href: "/drivers" },
+  { label: "Passenger", href: "/riders" },
   { label: "Drive", href: "/drivers" },
   { label: "Organizations", href: "/organizations" },
   { label: "About us", href: "/about-us" },
