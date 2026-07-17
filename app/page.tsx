@@ -4,6 +4,7 @@ import Features from "@/components/landing-page-components/features";
 import GetStartStarted from "@/components/landing-page-components/get-started";
 import Hero from "@/components/landing-page-components/hero";
 import SlantPhoneSection from "@/components/landing-page-components/slant-section";
+import OrganizationPreview from "@/components/landing-page-components/organization-preview";
 import Footer from "@/components/shared/footer";
 import FloatingWhatsApp from "@/components/shared/floating-whatsapp";
 
@@ -17,6 +18,7 @@ export default function Home() {
 <DarkFeatureContainer />
 <GetStartStarted />
 <SlantPhoneSection />
+<OrganizationPreview />
 <Footer />
 <FloatingWhatsApp />
     </main>
