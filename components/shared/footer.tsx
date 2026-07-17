@@ -4,72 +4,14 @@ import { companyLinks, contactDetails, moreLinks, socialLinks } from "@/utils/co
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Icons } from "./icons"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { submitEmail } from "@/app/actions/submit-email"
-import { useState } from "react"
-import { SuccessModal } from "../ui/success-modal"
-
-// Define the schema for email validation
-const emailSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-})
-
-type EmailFormData = z.infer<typeof emailSchema>
 
 export default function Footer({
   hideFooter = false,
 }: {
   hideFooter?: boolean
 }) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showSuccessModal, setShowSuccessModal] = useState(false)
-  const [submitMessage, setSubmitMessage] = useState<{
-    type: "success" | "error"
-    text: string
-  } | null>(null)
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<EmailFormData>({
-    resolver: zodResolver(emailSchema),
-  })
-
-  const onSubmit = async (data: EmailFormData) => {
-    setIsSubmitting(true)
-    setSubmitMessage(null)
-
-    try {
-      const result = await submitEmail(data.email)
-      console.log("Submit result:", result)
-
-      if (result.success) {
-        console.log("Setting showSuccessModal to true")
-        setShowSuccessModal(true)
-        reset() // Clear the form
-      } else {
-        setSubmitMessage({
-          type: "error",
-          text: result.message || "Failed to join waitlist. Please try again.",
-        })
-      }
-    } catch (error) {
-      console.error("Submit error:", error)
-      setSubmitMessage({
-        type: "error",
-        text: "An unexpected error occurred. Please try again.",
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
   return (
     <>
-      <SuccessModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} />
       <section className="relative overflow-hidden">
         <div className="brand-width my-12 flex lg:flex-row flex-col justify-between">
           {!hideFooter && (
@@ -116,41 +58,45 @@ export default function Footer({
                   Save up to 50% on your travel costs get ready to go!
                 </motion.h2>
 
-                <motion.form
-                  onSubmit={handleSubmit(onSubmit)}
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="w-full max-w-[458px]"
+                  className="mt-6 flex flex-row gap-4 flex-wrap justify-start"
                 >
-                  <div className="bg-[#1F2528] mt-4 w-full rounded-[32px] #B3B5B4 flex items-center p-2.5 text-sm md:p-2 transition-all duration-300">
-                    <input
-                      {...register("email")}
-                      className="px-2 md:px-3 flex-1 text-xs md:text-[14px] outline-none text-[#B3B5B4] bg-transparent"
-                      placeholder="Enter your email"
-                      type="email"
-                      disabled={isSubmitting}
-                    />
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="bg-white w-fit md:px-3 px-3 py-2 md:py-2 font-medium text-[#042011] text-xs md:text-[14px] rounded-[32px] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? "Joining..." : "Join Waitlist"}
-                    </button>
-                  </div>
-                  {errors.email && <p className="text-red-400 text-sm mt-2 px-2">{errors.email.message}</p>}
-                  {submitMessage && (
-                    <p
-                      className={`text-sm mt-2 px-2 ${
-                        submitMessage.type === "success" ? "text-green-400" : "text-red-400"
-                      }`}
-                    >
-                      {submitMessage.text}
-                    </p>
-                  )}
-                </motion.form>
+                  <a
+                    href="#"
+                    className="rounded-[12px] flex gap-2 items-center py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer transition-all duration-300 hover:bg-neutral-900 active:scale-95"
+                  >
+                    <Icons.appleIcon className="size-4 md:size-8" />
+                    <div className="text-start">
+                      <span className="block font-light text-[8px] md:text-xs text-white leading-tight">
+                        Download on the
+                      </span>
+                      <span className="block font-semibold text-[11px] md:text-[14px] text-white leading-tight">
+                        App Store
+                      </span>
+                    </div>
+                  </a>
+
+                  <a
+                    href="https://play.google.com/store/apps/details?id=ng.soole.soole_app&pcampaignid=web_share"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-[12px] flex gap-2 items-center py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer transition-all duration-300 hover:bg-neutral-900 active:scale-95"
+                  >
+                    <Icons.playstore className="size-4 md:size-8" />
+                    <div className="text-start">
+                      <span className="block font-light text-[8px] md:text-xs text-white leading-tight">
+                        GET IT ON
+                      </span>
+                      <span className="block font-semibold text-[11px] md:text-[14px] text-white leading-tight">
+                        Google Play
+                      </span>
+                    </div>
+                  </a>
+                </motion.div>
               </div>
             </div>
           </div>

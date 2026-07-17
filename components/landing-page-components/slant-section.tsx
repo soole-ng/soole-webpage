@@ -93,39 +93,43 @@ const SlantPhoneSection = ({backgroundColor = "#0C1316", textColor = "#F9FFEB"} 
             className="flex flex-row justify-center lg:justify-start gap-4 mt-4 "
             variants={textVariants}
           >
-            <motion.div 
-              className="rounded-[12px] flex gap-2 items-center  py-1 px-2 md:px-3 md:py-2 border-[#E5E7EB] border  bg-black cursor-pointer transition-all duration-300 hover:bg-gray-900"
+            <motion.a 
+              href="#"
+              className="rounded-[12px] flex gap-2 items-center py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer transition-all duration-300 hover:bg-gray-900"
               variants={buttonVariants}
               whileHover="hover"
               whileTap={{ scale: 0.95 }}
             >
               <Icons.appleIcon className="size-4 md:size-8" />
-              <div>
-                <h2 className="font-light text-[7.7px] md:text-xs text-white">
-                  Coming soon on
+              <div className="text-start">
+                <h2 className="font-light text-[8px] md:text-xs text-white leading-tight">
+                  Download on the
                 </h2>
-                <p className="font-semibold text-[11px] md:text-[14px] text-white">
+                <p className="font-semibold text-[11px] md:text-[14px] text-white leading-tight">
                   App Store
                 </p>
               </div>
-            </motion.div>
+            </motion.a>
 
-            <motion.div 
-              className="rounded-[12px] flex gap-2 items-center w-fit px-3 border-[#E5E7EB] border  bg-black cursor-pointer transition-all duration-300 hover:bg-gray-900"
+            <motion.a 
+              href="https://play.google.com/store/apps/details?id=ng.soole.soole_app&pcampaignid=web_share"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-[12px] flex gap-2 items-center w-fit py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer transition-all duration-300 hover:bg-gray-900"
               variants={buttonVariants}
               whileHover="hover"
               whileTap={{ scale: 0.95 }}
             >
               <Icons.playstore className="size-4 md:size-8" />
-              <div>
-                <h2 className="font-light text-[7.7px] md:text-xs text-white">
-                  Coming soon on
+              <div className="text-start">
+                <h2 className="font-light text-[8px] md:text-xs text-white leading-tight">
+                  GET IT ON
                 </h2>
-                <p className="font-semibold text-[11px] md:text-[14px] text-white">
-                  Play Store
+                <p className="font-semibold text-[11px] md:text-[14px] text-white leading-tight">
+                  Google Play
                 </p>
               </div>
-            </motion.div>
+            </motion.a>
           </motion.div>
         </motion.div>
 
