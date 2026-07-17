@@ -50,7 +50,7 @@ export default function OrgTrustBadges() {
                 <p className="text-[#042011] font-funnel-display font-bold text-base md:text-lg leading-tight">
                   {point.value}
                 </p>
-                <p className="text-[#042011]/60 text-xs">{point.label}</p>
+                <p className="text-[#042011]/60 text-sm">{point.label}</p>
               </motion.div>
             );
           })}
