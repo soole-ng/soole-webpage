@@ -25,9 +25,9 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/20" />
       <div className="relative z-10">
         <Navbar />
-        <section className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 lg:justify-end">
+        <section className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 pb-16 md:pb-20 lg:pb-24 lg:justify-end">
           {/* Contents */}
-          <div className="flex justify-center  lg:justify-end mt-4 md:mt-10 lg:mt-64    w-full flex-col space-y-20">
+          <div className="flex justify-center  lg:justify-end mt-4 md:mt-10 lg:mt-40    w-full flex-col space-y-20">
             <div className="flex flex-col gap-12">
               <motion.h1
                 className="text-[#F9FFEB] font-source-serif text-start md:text-start max-w-[666px] text-[32px]  md:text-[51.75px] leading-[28px] md:leading-[59.39px]"
