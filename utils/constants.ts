@@ -76,6 +76,7 @@ export const companyLinks: NavLink[] = [
   { label: "Products", href: "/drivers" },
   { label: "Ride", href: "/rides" },
   { label: "Drive", href: "/drivers" },
+  { label: "Organizations", href: "/organizations" },
   { label: "About us", href: "/about-us" },
   { label: "FAQ", href: "/faq" },
   { label: "Privacy Policy", href: "/privacy-policy" },
@@ -195,5 +196,47 @@ export const faqs = [
   {
     "question": "How do I contact Soole support?",
     "answer": ""
+  }
+];
+
+export const org_steps = [
+  {
+    title: "Register your Organization",
+    description: "Sign up your transport company on our web dashboard and provide business details for approval."
+  },
+  {
+    title: "Add Vehicles and Drivers",
+    description: "Register vehicle documents and add verified drivers to build your company fleet."
+  },
+  {
+    title: "Create and Dispatch Trips",
+    description: "Schedule route schedules, set passenger fares, and dispatch drivers for booking."
+  },
+  {
+    title: "Track Live & Earn",
+    description: "Monitor trips in real-time on the map and receive passenger booking payouts directly to your secure wallet."
+  }
+];
+
+export const orgFeatures = [
+  {
+    id: 1,
+    heading: "Fleet Control",
+    description: "Register vehicles, approve drivers, and monitor dashboard analytics in real-time."
+  },
+  {
+    id: 2,
+    heading: "Live Trip Tracking",
+    description: "Monitor driver routes, track vehicle speeds, and view trip progress on an interactive live map."
+  },
+  {
+    id: 3,
+    heading: "Secure Wallets & Payouts",
+    description: "Review booking revenue, process commissions, and perform instant bank payouts."
+  },
+  {
+    id: 4,
+    heading: "Free Business Visibility",
+    description: "Give your business instant visibility. No need to develop, monitor, and manage your own app, simply register your organization with us free of charge."
   }
 ];

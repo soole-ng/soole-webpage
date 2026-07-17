@@ -1,9 +1,9 @@
 "use client";
-import { steps, driver_steps } from "@/utils/constants";
+import { steps, driver_steps, org_steps } from "@/utils/constants";
 import Image from "next/image";
 import React, { useState } from "react";
 
-type PageType = 'both' | 'rider' | 'driver';
+type PageType = 'both' | 'rider' | 'driver' | 'organization';
 
 interface GetStartStartedProps {
   page?: PageType;
@@ -24,6 +24,8 @@ const GetStartStarted = ({ page = 'both' }: GetStartStartedProps) => {
       return "Start Earning with Soole - Join as a Driver Today";
     } else if (page === 'rider') {
       return "Become a Soole Rider in Minutes";
+    } else if (page === 'organization') {
+      return "Getting Started as an Organization";
     } else {
       // Landing page - dynamic based on active tab
       return activeTab === "driver" 
@@ -39,6 +41,7 @@ const GetStartStarted = ({ page = 'both' }: GetStartStartedProps) => {
   const getCurrentSteps = () => {
     if (page === 'driver') return driver_steps;
     if (page === 'rider') return steps;
+    if (page === 'organization') return org_steps;
     return activeTab === "rider" ? steps : driver_steps;
   };
 
