@@ -1,19 +1,20 @@
 "use client"
 
+import Image from "next/image"
 import Navbar from "@/components/shared/navbar"
 import { motion } from "framer-motion"
 
 const AboutHero = () => {
   return (
-    <div
-      className="bg-[#0C1316] h-[975px] md:h-screen"
-      style={{
-        backgroundImage: "url('/images/about-hero.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
+    <div className="bg-[#0C1316] h-[975px] md:h-screen relative overflow-hidden">
+      <Image
+        src="/images/about-hero.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.1 }}>
         <Navbar />
       </motion.div>

@@ -20,7 +20,7 @@ export default function OrganizationsPage() {
         isOrganization={true}
         mainText="Empower Your Transport Business with Soole"
         subText="Manage drivers, register fleet vehicles, schedule intercity trips, track locations in real-time, and process payouts effortlessly on a single secure dashboard."
-        backgroundImage="/images/soole-organization.png"
+        backgroundImage="/images/soole-organization.jpg"
       />
 
       {/* Trust Badges / Social Proof */}

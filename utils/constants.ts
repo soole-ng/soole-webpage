@@ -166,7 +166,7 @@ export const aboutfeatures=  [
   {
     "section": "Nationwide Coverage",
     "text": "Soole connects major cities and routes across Nigeria, growing every day as more drivers join.",
-    "imageUrl": "/images/soole-organization.png",
+    "imageUrl": "/images/soole-organization.jpg",
     "backgroundColor": "#0C1316",
     "textColor": "#C1C1C1"
   }
