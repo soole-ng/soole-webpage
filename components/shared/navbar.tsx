@@ -114,7 +114,7 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
   return (
     <nav
       ref={navRef}
-      className="flex justify-between items-center brand-width p-[30px]"
+      className="relative flex justify-between items-center brand-width p-[30px]"
     >
       <Link ref={logoRef} href={"/"}>
         {whiteBg ? <Icons.darkLogo /> : <Icons.logo />}

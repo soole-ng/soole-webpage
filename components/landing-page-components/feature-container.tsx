@@ -62,7 +62,7 @@ const FeatureContainer = () => {
             alt="feature image"
             height={856}
             width={425}
-            className="absolute -bottom-[20px] sm:-bottom-[25%] sm:-right-[5%]  -lg:bottom-0 "
+            className="absolute -bottom-[20px] sm:-bottom-[25%] sm:-right-[5%] lg:bottom-0"
           />
         </motion.div>
       </section>

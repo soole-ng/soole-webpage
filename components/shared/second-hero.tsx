@@ -76,7 +76,7 @@ const SecondHero = ({backgroundImage, mainText, subText, isOrganization = false}
 
   return (
     <div
-      className="bg-[#0C1316] h-[90vh] md:h-screen"
+      className="bg-[#0C1316] h-[90vh] md:h-screen relative overflow-hidden"
       style={{
         backgroundImage: isOrganization
           ? `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${backgroundImage || "/images/second-hero.png"}')`
