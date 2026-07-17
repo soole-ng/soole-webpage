@@ -78,7 +78,9 @@ const SecondHero = ({backgroundImage, mainText, subText, isOrganization = false}
     <div
       className="bg-[#0C1316] h-[90vh] md:h-screen"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${backgroundImage || "/images/second-hero.png"}')`,
+        backgroundImage: isOrganization
+          ? `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${backgroundImage || "/images/second-hero.png"}')`
+          : `url('${backgroundImage || "/images/second-hero.png"}')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

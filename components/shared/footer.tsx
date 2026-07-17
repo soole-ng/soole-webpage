@@ -117,7 +117,7 @@ export default function Footer({
                     Soole is a peer-to-peer intercity ride-sharing platform that connects travelers with verified
                     private drivers heading in the same direction. We offer a safer, more affordable, and eco-friendly
                     way to travel across Nigeria—bringing structure to informal transport while building a trusted
-                    community of riders and drivers.
+                    community of passengers and drivers.
                   </p>
 
                   <p className="mt-6 text-sm text-[#FFFFFF]">Travel smart. Travel safe. Travel together.</p>

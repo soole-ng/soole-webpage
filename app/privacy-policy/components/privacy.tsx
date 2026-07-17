@@ -24,7 +24,7 @@ export type PrivacyPolicyData = {
 // Text data object
 export const privacyPolicyData: PrivacyPolicyData = {
   title: "Soole’s Privacy policy Statement",
-  intro: `Soole Values Your Privacy. In Line With Internationally Recognized Data Protection Standards And Nigerian Regulatory Frameworks, Soole Is Committed To Safeguarding The Personal Information Of All Users—Drivers, Riders, And Partners. This Privacy Statement Outlines How We Collect, Use, Store, And Share Your Data When You Use Our Platform.`,
+  intro: `Soole Values Your Privacy. In Line With Internationally Recognized Data Protection Standards And Nigerian Regulatory Frameworks, Soole Is Committed To Safeguarding The Personal Information Of All Users—Drivers, Passengers, And Partners. This Privacy Statement Outlines How We Collect, Use, Store, And Share Your Data When You Use Our Platform.`,
   sections: [
     {
       heading: "What Personal Data does SOOLE collect?",
@@ -60,7 +60,7 @@ export const privacyPolicyData: PrivacyPolicyData = {
       heading: "How the Data collected is used?",
       content: `Unless ordered by an account owner or as required for legal, safety, or security reasons, our workers do not access meetings, webinars, or messaging content - specifically, audio, video, files, and messages. All data collected is used as below:`,
       list: [
-        { title: "To provide services", text: "Matching riders with drivers, verifying identities, and enabling secure trip tracking." },
+        { title: "To provide services", text: "Matching passengers with drivers, verifying identities, and enabling secure trip tracking." },
         { title: "To improve the platform", text: "Analyzing usage patterns to enhance features, performance, and user experience." },
         { title: "To process payments", text: "Facilitating wallet top-ups, fare payments, and driver earnings." },
         { title: "To communicate with you", text: "Sending trip updates, support messages, and service notifications." },

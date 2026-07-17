@@ -12,7 +12,7 @@ const links = [
     name: "Products",
     dropdown: true,
     children: [
-      { id: 1, name: "Rider", href: "/riders" },
+      { id: 1, name: "Passenger", href: "/riders" },
       { id: 2, name: "Driver", href: "/drivers" },
       { id: 3, name: "Organization", href: "/organizations" },
     ],

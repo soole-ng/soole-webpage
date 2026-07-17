@@ -15,7 +15,7 @@ type ActiveTab = "rider" | "driver" | "organization";
 const tabConfig = [
   {
     id: "rider" as ActiveTab,
-    label: "Rider",
+    label: "Passenger",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="8" r="4" />
@@ -60,7 +60,7 @@ const GetStartStarted = ({ page = 'both' }: GetStartStartedProps) => {
 
   const getHeading = (): string => {
     if (page === 'driver') return "Start Earning with Soole - Join as a Driver Today";
-    if (page === 'rider') return "Become a Soole Rider in Minutes";
+    if (page === 'rider') return "Become a Soole Passenger in Minutes";
     if (page === 'organization') return "Getting Started as an Organization";
     // Landing page - dynamic based on active tab
     if (activeTab === "driver") return "Start Earning with Soole - Join as a Driver Today";

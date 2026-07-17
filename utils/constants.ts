@@ -57,15 +57,15 @@ export const driver_steps = [
   },
   {
     title: "List Your Ride",
-    description: "Enter your departure city, destination, travel date, and available seats. Set your fare and publish your ride for riders to see."
+    description: "Enter your departure city, destination, travel date, and available seats. Set your fare and publish your ride for passengers to see."
   },
   {
     title: "Review Bookings",
-    description: "Check incoming ride requests, review rider profiles, and confirm bookings. You'll receive notifications and contact info."
+    description: "Check incoming ride requests, review passenger profiles, and confirm bookings. You'll receive notifications and contact info."
   },
   {
     title: "Drive and Get Rated",
-    description: "Meet your riders at the pickup point, complete the trip, and receive ratings to build your reputation in the Soole community."
+    description: "Meet your passengers at the pickup point, complete the trip, and receive ratings to build your reputation in the Soole community."
   }
 ];
 

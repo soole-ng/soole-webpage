@@ -13,7 +13,7 @@ export default function Home() {
     <main>
       <SecondHero 
       mainText="Travel Smart: Share Rides, Share Costs"
-      subText="Heading out of town? Soole lets you offer empty seats to verified riders going your way. Whether you're traveling for work, family, or leisure, earn extra income and help others move safely without changing your routine."
+      subText="Heading out of town? Soole lets you offer empty seats to verified passengers going your way. Whether you're traveling for work, family, or leisure, earn extra income and help others move safely without changing your routine."
         backgroundImage="/images/third-hero.png"
       />
 <Features />
