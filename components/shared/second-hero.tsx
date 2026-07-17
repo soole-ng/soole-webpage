@@ -97,14 +97,14 @@ const SecondHero = ({backgroundImage, mainText, subText, isOrganization = false}
       <div className="relative z-10">
       <Navbar />
       <motion.section
-        className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 lg:justify-center"
+        className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 pb-16 md:pb-20 lg:pb-24 lg:justify-end"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Contents */}
         <motion.div
-          className="flex  md:justify-center   w-full flex-col space-y-20"
+          className="flex justify-center lg:justify-end mt-4 md:mt-10 lg:mt-40 w-full flex-col space-y-20"
           variants={containerVariants}
         >
           <motion.div 

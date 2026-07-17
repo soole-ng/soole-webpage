@@ -15,6 +15,7 @@ const AboutHero = () => {
         sizes="100vw"
         className="object-cover object-center"
       />
+      <div className="relative z-10">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.1 }}>
         <Navbar />
       </motion.div>
@@ -50,8 +51,8 @@ const AboutHero = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              We're not just another ride-hailing app. Soole is a community-first marketplace that brings structure to
-              Nigeria's informal "soole" culture where passengers informally hitch rides with private drivers. By
+              We&apos;re not just another ride-hailing app. Soole is a community-first marketplace that brings structure to
+              Nigeria&apos;s informal &quot;soole&quot; culture where passengers informally hitch rides with private drivers. By
               introducing verification, real-time tracking, and transparent pricing, we make these shared journeys
               secure and accessible for everyone.
             </motion.p>
@@ -62,7 +63,7 @@ const AboutHero = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              Whether you're a student heading home, a trader traveling for business, or a driver looking to offset fuel
+              Whether you&apos;re a student heading home, a trader traveling for business, or a driver looking to offset fuel
               costs, Soole empowers you to travel with confidence. Our platform maps major transport hubs, supports
               price negotiation, and ensures every user is verified creating a trusted ecosystem where mobility meets
               opportunity.
@@ -70,6 +71,7 @@ const AboutHero = () => {
           </div>
         </div>
       </section>
+      </div>
     </div>
   )
 }

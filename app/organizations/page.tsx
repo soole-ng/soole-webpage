@@ -60,7 +60,7 @@ export default function OrganizationsPage() {
       </section>
 
       {/* Drivers Section / Secondary Preview */}
-      <section className="bg-[#0C1316] text-white py-16 md:py-24">
+      <section className="bg-[#0C1316] text-white py-16 md:py-24 overflow-hidden">
         <div className="brand-width flex flex-col lg:flex-row gap-12 items-center">
           {/* Left Description */}
           <div className="w-full lg:w-1/2 flex flex-col gap-6">
@@ -89,13 +89,13 @@ export default function OrganizationsPage() {
 
           {/* Right Image */}
           <motion.div
-            className="w-full lg:w-1/2 relative flex justify-center items-center"
+            className="w-full lg:w-1/2 relative flex justify-center items-center min-w-0"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="relative rounded-xl md:rounded-2xl overflow-hidden border border-neutral-700 shadow-2xl max-w-full">
+            <div className="relative rounded-xl md:rounded-2xl overflow-hidden border border-neutral-700 shadow-2xl max-w-full min-w-0">
               <Image
                 src="/images/drivers-screenshot.png"
                 alt="Soole Drivers Fleet Management"
