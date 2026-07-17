@@ -1,5 +1,6 @@
 "use client"
 import React from "react";
+import Image from "next/image";
 import Navbar from "../shared/navbar";
 import { Icons } from "./icons";
 import { motion } from "framer-motion";
@@ -75,17 +76,24 @@ const SecondHero = ({backgroundImage, mainText, subText, isOrganization = false}
   };
 
   return (
-    <div
-      className="bg-[#0C1316] h-[90vh] md:h-screen relative overflow-hidden"
-      style={{
-        backgroundImage: isOrganization
-          ? `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${backgroundImage || "/images/second-hero.png"}')`
-          : `url('${backgroundImage || "/images/second-hero.png"}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+    <div className="bg-[#0C1316] h-[90vh] md:h-screen relative overflow-hidden">
+      {/* next/image instead of a CSS background-image - lets Next serve a
+          resized/compressed/format-negotiated version instead of whatever
+          full-resolution file was dropped in public/images (one of these,
+          soole-organization.png, was 1.8MB served as-is). Painted first so
+          it sits behind the gradient overlay and page content below, same
+          as the old background-image did. */}
+      <Image
+        src={backgroundImage || "/images/second-hero.png"}
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+      {isOrganization && (
+        <div className="absolute inset-0 bg-black/65" />
+      )}
       <Navbar />
       <motion.section 
         className="brand-width h-full flex flex-col lg:flex-row items-center justify-between gap-10 mt-20 lg:mt-0 lg:justify-center"
