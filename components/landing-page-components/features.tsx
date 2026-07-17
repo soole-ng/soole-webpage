@@ -3,10 +3,23 @@ import { features } from "@/utils/constants"
 import { motion } from "framer-motion"
 import { Icons } from "../shared/icons"
 
-const Features = () => {
+interface FeatureItem {
+  id: number;
+  heading: string;
+  description: string;
+}
+
+interface FeaturesProps {
+  customFeatures?: FeatureItem[];
+  className?: string;
+}
+
+const Features = ({ customFeatures, className }: FeaturesProps) => {
+  const displayFeatures = customFeatures || features;
+
   return (
-    <div className="brand-width  my:[42px] md:my-[100px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]">
-      {features.map((feature, index) => (
+    <div className={`brand-width grid grid-cols-1 md:grid-cols-2 ${displayFeatures.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'} gap-[32px] ${className || "my-[42px] md:my-[100px]"}`}>
+      {displayFeatures.map((feature, index) => (
         <motion.div
           key={feature.id}
           className="flex-col max-w-[394.3333435058594px] gap-4 flex"
@@ -27,4 +40,4 @@ const Features = () => {
   )
 }
 
-export default Features
+export default Features;

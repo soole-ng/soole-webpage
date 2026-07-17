@@ -8,9 +8,10 @@ interface ISecondHero {
   backgroundImage?: string;
   mainText?: string;
   subText?: string;
+  isOrganization?: boolean;
 }
 
-const SecondHero = ({backgroundImage, mainText, subText}: ISecondHero) => {
+const SecondHero = ({backgroundImage, mainText, subText, isOrganization = false}: ISecondHero) => {
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -122,46 +123,79 @@ const SecondHero = ({backgroundImage, mainText, subText}: ISecondHero) => {
               className="text-white text-center md:text-start text-base"
               variants={textVariants}
             >
-             Download App Now
+             {isOrganization ? "Manage Your Operations" : "Download App Now"}
             </motion.h4>
            <motion.div 
-             className="flex flex-row justify-center lg:justify-start gap-4"
+             className="flex flex-row justify-center lg:justify-start gap-4 flex-wrap"
              variants={containerVariants}
            >
-                       <motion.div 
-                         className="rounded-[12px] flex gap-2 items-center  py-1 px-2 md:px-3 md:py-2 border-[#E5E7EB] border  bg-black cursor-pointer"
-                         variants={buttonVariants}
-                         whileHover="hover"
-                         whileTap={{ scale: 0.95 }}
-                       >
-                         <Icons.appleIcon className="size-4 md:size-8" />
-                         <div>
-                           <h2 className="font-light text-[7.7px] md:text-xs text-white">
-                             Coming soon on
-                           </h2>
-                           <p className="font-semibold text-[11px] md:text-[14px] text-white">
-                             App Store
-                           </p>
-                         </div>
-                       </motion.div>
-           
-                       <motion.div 
-                         className="rounded-[12px] flex gap-2 items-center w-fit px-3 border-[#E5E7EB] border  bg-black cursor-pointer"
-                         variants={buttonVariants}
-                         whileHover="hover"
-                         whileTap={{ scale: 0.95 }}
-                       >
-                         <Icons.playstore className="size-4 md:size-8" />
-                         <div>
-                           <h2 className="font-light text-[7.7px] md:text-xs text-white">
-                             Coming soon on
-                           </h2>
-                           <p className="font-semibold text-[11px] md:text-[14px] text-white">
-                             Play Store
-                           </p>
-                         </div>
-                       </motion.div>
-                     </motion.div>
+             {isOrganization ? (
+               <>
+                 <motion.a 
+                   href="https://dashboard.soole.ng/login"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="bg-[#C9EC7C] text-[#0C1316] font-semibold px-6 py-3 rounded-[32px] text-sm md:text-base hover:bg-[#b5d66c] transition-all duration-300 active:scale-95 text-center flex items-center justify-center"
+                   variants={buttonVariants}
+                   whileHover="hover"
+                   whileTap={{ scale: 0.95 }}
+                 >
+                   Access Dashboard
+                 </motion.a>
+                 <motion.a 
+                   href="https://dashboard.soole.ng/signup"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="border-[#E5E7EB] border text-white font-semibold px-6 py-3 rounded-[32px] text-sm md:text-base hover:bg-white hover:text-black transition-all duration-300 active:scale-95 text-center flex items-center justify-center"
+                   variants={buttonVariants}
+                   whileHover="hover"
+                   whileTap={{ scale: 0.95 }}
+                 >
+                   Register Organization
+                 </motion.a>
+               </>
+             ) : (
+               <>
+                        <motion.a 
+                          href="#"
+                          className="rounded-[12px] flex gap-2 items-center py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer"
+                          variants={buttonVariants}
+                          whileHover="hover"
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Icons.appleIcon className="size-4 md:size-8" />
+                          <div className="text-start">
+                            <h2 className="font-light text-[8px] md:text-xs text-white leading-tight">
+                              Download on the
+                            </h2>
+                            <p className="font-semibold text-[11px] md:text-[14px] text-white leading-tight">
+                              App Store
+                            </p>
+                          </div>
+                        </motion.a>
+            
+                        <motion.a 
+                          href="https://play.google.com/store/apps/details?id=ng.soole.soole_app&pcampaignid=web_share"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-[12px] flex gap-2 items-center w-fit py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer"
+                          variants={buttonVariants}
+                          whileHover="hover"
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Icons.playstore className="size-4 md:size-8" />
+                          <div className="text-start">
+                            <h2 className="font-light text-[8px] md:text-xs text-white leading-tight">
+                              GET IT ON
+                            </h2>
+                            <p className="font-semibold text-[11px] md:text-[14px] text-white leading-tight">
+                              Google Play
+                            </p>
+                          </div>
+                        </motion.a>
+               </>
+             )}
+           </motion.div>
           </motion.div>
         </motion.div>
       </motion.section>

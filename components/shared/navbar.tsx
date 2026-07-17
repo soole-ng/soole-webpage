@@ -14,6 +14,7 @@ const links = [
     children: [
       { id: 1, name: "Rider", href: "/riders" },
       { id: 2, name: "Driver", href: "/drivers" },
+      { id: 3, name: "Organization", href: "/organizations" },
     ],
     href: "/products",
   },
