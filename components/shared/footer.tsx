@@ -55,7 +55,7 @@ export default function Footer({
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="font-source-serif text-[20.57px] max-w-[186px] lg:max-w-[613px] lg:text-[61px] leading-tight text-emerald-50"
                 >
-                  Save up to 50% on your travel costs get ready to go!
+                  Save on your travel costs, get ready to go!
                 </motion.h2>
 
                 <motion.div

@@ -149,6 +149,27 @@ export const aboutfeatures=  [
     "imageUrl": "/images/about-6.png",
     "backgroundColor": "#0C1316",
     "textColor": "#C1C1C1"
+  },
+  {
+    "section": "Free Business Dashboard",
+    "text": "Manage your fleet, dispatch trips, and track earnings, all from one free dashboard, no developers needed.",
+    "imageUrl": "/images/dashboard-mockup.png",
+    "backgroundColor": "#0C1316",
+    "textColor": "#C1C1C1"
+  },
+  {
+    "section": "Live Trip Tracking",
+    "text": "Follow every ride in real time on the map, from pickup to drop-off, for total peace of mind.",
+    "imageUrl": "/images/steps.png",
+    "backgroundColor": "#C9EC7C",
+    "textColor": "#292D32"
+  },
+  {
+    "section": "Nationwide Coverage",
+    "text": "Soole connects major cities and routes across Nigeria, growing every day as more drivers join.",
+    "imageUrl": "/images/soole-organization.png",
+    "backgroundColor": "#0C1316",
+    "textColor": "#C1C1C1"
   }
 ];
 
@@ -175,27 +196,27 @@ export const faqs = [
   },
   {
     "question": "Can I use Soole without internet access?",
-    "answer": ""
+    "answer": "Yes, to an extent. If you lose network connection mid-trip, your location is logged offline and automatically synced once you're back online, so your trip history and tracking stay accurate. However, you'll need an internet connection to book a ride, make payments, or contact support."
   },
   {
     "question": "How does the SOS feature work?",
-    "answer": ""
+    "answer": "If you ever feel unsafe during a trip, you can trigger an SOS alert directly from the app. This instantly shares your live location, trip details, and an optional audio recording with your emergency contacts and our safety team, who can review the flagged trip and step in if needed."
   },
   {
     "question": "How are fares determined?",
-    "answer": ""
+    "answer": "Fares are set based on the distance and route of the trip, with drivers able to set competitive prices for the seats they offer. This keeps costs fair and significantly cheaper than traditional taxis or bus fares."
   },
   {
     "question": "What happens if I want to delete my account?",
-    "answer": ""
+    "answer": "You can request account deletion at any time from within the app or by contacting our support team. We'll remove your personal data in line with our Privacy Policy, except where we're legally required to retain certain records, such as tax or safety documentation."
   },
   {
     "question": "Does Soole work with transport unions?",
-    "answer": ""
+    "answer": "Yes. We collaborate with transport unions and government agencies to stay compliant with local regulations, and we may share relevant trip and vehicle data with them for planning, tax, and regulatory purposes."
   },
   {
     "question": "How do I contact Soole support?",
-    "answer": ""
+    "answer": "You can reach our support team by phone or WhatsApp at 07032220043 (7 days a week, 8am - 10pm), by email at info@soole.ng, or through the in-app support chat."
   }
 ];
 

@@ -53,17 +53,6 @@ export default function OrgCta() {
             Already have an account? Sign in
           </Link>
         </motion.div>
-
-        {/* Trust line */}
-        <motion.p
-          className="text-white/40 text-xs"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          Free to join &nbsp;·&nbsp; No tech expertise required &nbsp;·&nbsp; Verified & secure
-        </motion.p>
       </div>
     </section>
   );

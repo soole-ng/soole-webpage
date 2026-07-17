@@ -119,26 +119,26 @@ const AboutFeatures = () => {
           variants={gridVariants}
         >
             {aboutfeatures.map((feature, index) => (
-                <motion.div 
-                  key={feature.imageUrl} 
-                  className={`bg-[${feature.backgroundColor}] flex flex-col justify-center items-center mb-12 max-w-[386px] min-h-[404.79998779296875px] mt-20 relative p-[23px] md:p-[33px] rounded-[14.26px] md:rounded-[20px] cursor-pointer`}
+                <motion.div
+                  key={feature.imageUrl}
+                  className={`bg-[${feature.backgroundColor}] flex flex-col justify-center items-center mb-12 max-w-[386px] w-full min-h-[404.79998779296875px] mt-20 relative p-[23px] md:p-[33px] rounded-[14.26px] md:rounded-[20px] cursor-pointer`}
                   variants={cardVariants}
                   whileHover="hover"
                   whileTap={{ scale: 0.98 }}
                 >
-                    <motion.div 
-                      className='absolute bottom-[50%]'
+                    <motion.div
+                      className='absolute bottom-[50%] w-[260px] h-[300px] md:w-[300px] md:h-[340px]'
                       variants={imageVariants}
                     >
                         <Image
                             src={feature.imageUrl}
-                            width={300}
-                            height={300}
-                            alt='about feature'
+                            fill
+                            className='object-contain rounded-[12px]'
+                            alt={feature.section}
                         />
                     </motion.div>
-                    <motion.div 
-                      className='mt-[200px]'
+                    <motion.div
+                      className='mt-[190px] md:mt-[210px]'
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 + 0.5 }}

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const orgFaqs = [
   {
     q: "How much does it cost to use the Soole dashboard?",
-    a: "Registering your organization on the Soole platform is completely free of charge. We only take a small commission on completed passenger bookings — no upfront fees, no monthly subscriptions.",
+    a: "Registering your organization on the Soole platform is completely free of charge. We only take a small commission on completed passenger bookings, no upfront fees, no monthly subscriptions.",
   },
   {
     q: "How long does business verification take?",
@@ -21,7 +21,7 @@ const orgFaqs = [
   },
   {
     q: "Can I manage multiple routes and drivers from one dashboard?",
-    a: "Absolutely. The Soole Operations Dashboard lets you manage unlimited drivers, multiple vehicles, and different intercity routes all from a single login — no extra tools needed.",
+    a: "Absolutely. The Soole Operations Dashboard lets you manage unlimited drivers, multiple vehicles, and different intercity routes all from a single login, no extra tools needed.",
   },
   {
     q: "What happens if a driver's documents expire?",
@@ -36,9 +36,6 @@ export default function OrgFaqs() {
     <section className="bg-white py-12 md:py-20">
       <div className="brand-width flex flex-col gap-10">
         <div className="text-center flex flex-col gap-2">
-          <span className="text-xs uppercase tracking-wider text-[#058B42] font-bold">
-            Common Questions
-          </span>
           <h2 className="text-[#042011] font-funnel-display font-semibold text-[24px] md:text-[38px] lg:text-[49px]">
             Organization FAQs
           </h2>

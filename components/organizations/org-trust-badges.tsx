@@ -29,9 +29,6 @@ export default function OrgTrustBadges() {
   return (
     <section className="bg-[#F9FFEB] border-y border-[#C9EC7C]/40 py-6 md:py-8">
       <div className="brand-width">
-        <p className="text-center text-xs uppercase tracking-widest text-[#058B42] font-bold mb-6">
-          Join the growing network of transport companies across Nigeria
-        </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {trustPoints.map((point, i) => {
             const Icon = point.icon;
