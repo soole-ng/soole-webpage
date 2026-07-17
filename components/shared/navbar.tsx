@@ -201,7 +201,10 @@ const Navbar = ({ whiteBg = false }: NavbarProps) => {
       {/* Mobile Menu Toggle */}
       <button
         ref={mobileToggleRef}
-        className="md:hidden inline-block"
+        aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+        className={`md:hidden inline-flex items-center justify-center p-2 rounded-full ${
+          whiteBg ? "bg-black/5" : "bg-white/15 backdrop-blur-sm"
+        }`}
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
         {isMobileOpen ? <Icons.close /> : (whiteBg ? <Icons.menu /> : <Icons.darkmenu />)}

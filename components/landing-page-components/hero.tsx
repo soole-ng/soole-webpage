@@ -57,37 +57,48 @@ const Hero = () => {
               <h4 className="text-white text-center md:text-start text-base">
                 Download the Soole App
               </h4>
-              <div className="flex flex-row justify-center md:justify-start gap-4">
-                <a
-                  href="#"
-                  className="rounded-[12px] flex gap-2 items-center py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer transition-all duration-300 hover:bg-neutral-900 active:scale-95"
-                >
-                  <Icons.appleIcon className="size-4 md:size-8" />
-                  <div className="text-start">
-                    <span className="block font-light text-[8px] md:text-xs text-white leading-tight">
-                      Download on the
-                    </span>
-                    <span className="block font-semibold text-[11px] md:text-[14px] text-white leading-tight">
-                      App Store
-                    </span>
-                  </div>
-                </a>
+              <div className="inline-flex flex-col items-stretch gap-3 w-fit self-center md:self-start mx-auto md:mx-0">
+                <div className="flex flex-row justify-center md:justify-start gap-4">
+                  <a
+                    href="#"
+                    className="rounded-[12px] flex gap-2 items-center py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer transition-all duration-300 hover:bg-neutral-900 active:scale-95"
+                  >
+                    <Icons.appleIcon className="size-4 md:size-8" />
+                    <div className="text-start">
+                      <span className="block font-light text-[8px] md:text-xs text-white leading-tight">
+                        Download on the
+                      </span>
+                      <span className="block font-semibold text-[11px] md:text-[14px] text-white leading-tight">
+                        App Store
+                      </span>
+                    </div>
+                  </a>
+
+                  <a
+                    href="https://play.google.com/store/apps/details?id=ng.soole.soole_app&pcampaignid=web_share"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-[12px] flex gap-2 items-center py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer transition-all duration-300 hover:bg-neutral-900 active:scale-95"
+                  >
+                    <Icons.playstore className="size-4 md:size-8" />
+                    <div className="text-start">
+                      <span className="block font-light text-[8px] md:text-xs text-white leading-tight">
+                        GET IT ON
+                      </span>
+                      <span className="block font-semibold text-[11px] md:text-[14px] text-white leading-tight">
+                        Google Play
+                      </span>
+                    </div>
+                  </a>
+                </div>
 
                 <a
-                  href="https://play.google.com/store/apps/details?id=ng.soole.soole_app&pcampaignid=web_share"
+                  href="https://dashboard.soole.ng/signup"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-[12px] flex gap-2 items-center py-1.5 px-3 md:px-4 md:py-2 border-[#E5E7EB] border bg-black cursor-pointer transition-all duration-300 hover:bg-neutral-900 active:scale-95"
+                  className="bg-[#C9EC7C] text-black font-medium text-sm md:text-base py-3 md:py-4 rounded-[12px] text-center transition-all duration-300 hover:bg-[#b5d66c] active:scale-95"
                 >
-                  <Icons.playstore className="size-4 md:size-8" />
-                  <div className="text-start">
-                    <span className="block font-light text-[8px] md:text-xs text-white leading-tight">
-                      GET IT ON
-                    </span>
-                    <span className="block font-semibold text-[11px] md:text-[14px] text-white leading-tight">
-                      Google Play
-                    </span>
-                  </div>
+                  Register Your Organization
                 </a>
               </div>
             </motion.div>
