@@ -76,7 +76,7 @@ const SecondHero = ({backgroundImage, mainText, subText, isOrganization = false}
   };
 
   return (
-    <div className="bg-[#0C1316] h-[90vh] md:h-screen relative overflow-hidden">
+    <div className="bg-[#0C1316] min-h-[90vh] md:min-h-screen relative overflow-hidden">
       {/* next/image instead of a CSS background-image - lets Next serve a
           resized/compressed/format-negotiated version instead of whatever
           full-resolution file was dropped in public/images (one of these,
