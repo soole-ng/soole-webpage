@@ -99,10 +99,10 @@ export function UserDrawer({
                       : "Trip is currently in progress"}
                   </p>
                   <p className="mt-2 text-sm text-zinc-600">
-                    Origin: {data.origin_state}
+                    Origin: {data.origin_address || data.origin_state}
                   </p>
                   <p className="text-sm text-zinc-600">
-                    Destination: {data.destination_state}
+                    Destination: {data.destination_address || data.destination_state}
                   </p>
                   <p className="text-sm text-zinc-600">
                     Last ping: {formatRecordedAt(data.route?.[data.route.length - 1]?.recorded_at ?? "")}

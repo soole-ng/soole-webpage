@@ -19,6 +19,17 @@ export interface TrackRideSuccessResponse {
   car_plate: string;
   origin_state: string;
   destination_state: string;
+  /**
+   * Where the trip is actually picked up from and dropped at - the
+   * passenger's own two addresses when the link belongs to a passenger, the
+   * ride's otherwise.
+   *
+   * These used to arrive in origin_state/destination_state, which meant that
+   * field held a state name on some links and a street address on others.
+   * Optional because a backend that predates the split will not send them.
+   */
+  origin_address?: string;
+  destination_address?: string;
   origin_point: RideTrackingPoint;
   destination_point: RideTrackingPoint;
   current_speed_kmh: number | null;

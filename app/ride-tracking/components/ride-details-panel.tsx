@@ -135,7 +135,10 @@ export function RideDetailsPanel({
                         Origin
                       </p>
                       <p className="text-sm font-medium text-zinc-900">
-                        {apiData.origin_state}
+                        {/* The address, which is what "Origin" means to
+                            someone following a trip - the state only when
+                            that is all the backend has. */}
+                        {apiData.origin_address || apiData.origin_state}
                       </p>
                     </div>
                     <Button
@@ -153,7 +156,7 @@ export function RideDetailsPanel({
                         Destination
                       </p>
                       <p className="text-sm font-medium text-zinc-900">
-                        {apiData.destination_state}
+                        {apiData.destination_address || apiData.destination_state}
                       </p>
                     </div>
                     <p className="text-xs text-zinc-500">
