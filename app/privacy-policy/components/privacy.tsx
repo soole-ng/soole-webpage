@@ -25,7 +25,7 @@ export type PrivacyPolicyData = {
 // Text data object
 export const privacyPolicyData: PrivacyPolicyData = {
   title: "Soole's Privacy Policy",
-  lastUpdated: "July 2026",
+  lastUpdated: "August 2026",
   intro: `Soole values your privacy. In line with internationally recognized data protection standards and Nigerian regulatory frameworks, Soole is committed to safeguarding the personal information of all users, drivers, passengers, and partners. This privacy statement outlines how we collect, use, store, and share your data when you use our platform.`,
   sections: [
     {
@@ -43,6 +43,10 @@ export const privacyPolicyData: PrivacyPolicyData = {
         {
           title: "Trip & location data",
           text: "We collect pickup and drop-off points, GPS tracking during rides, offline location logs (synced when network returns), and trip history."
+        },
+        {
+          title: "Location while the app is closed",
+          text: "On a driver's device, location is collected in the background — including while the app is closed or the screen is locked — from the moment the driver starts a trip until the trip ends. This is what allows passengers to watch the vehicle approach their pickup point and follow the journey, and allows a nominated emergency contact to follow it too. Soole does not collect location at any other time, and background collection stops when the trip ends."
         },
         {
           title: "Payment information",
