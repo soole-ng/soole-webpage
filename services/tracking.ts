@@ -34,6 +34,14 @@ export interface TrackRideSuccessResponse {
   destination_point: RideTrackingPoint;
   current_speed_kmh: number | null;
   average_speed_kmh: number | null;
+  // Worked out by the backend, from the same code the fleet dashboard
+  // uses. This page used to compute its own from a copy of the backend's
+  // constants, which had already drifted - and it had nothing to show at
+  // all before the first GPS ping, which is exactly when somebody shares
+  // the link. Optional so an older backend still renders.
+  eta?: string | null;
+  duration_remaining_minutes?: number | null;
+  distance_remaining_km?: number | null;
 }
 
 export type TrackRideErrorStatus = 404 | 410;

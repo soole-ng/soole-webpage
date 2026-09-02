@@ -134,7 +134,17 @@ export function computeTrackingData(
     current,
     destination,
     status,
-    etaMinutes: ended ? 0 : estimateEtaMinutes(current, destination, liveSpeedKmh),
+    // The server's figure when it sends one.
+    //
+    // It knows the real road distance for this route, where this page only
+    // ever had a straight line and a copied constant; and it is the same
+    // calculation the fleet dashboard uses, so a passenger and an operator
+    // are not shown two different arrival times for one vehicle. Falls back
+    // to the local estimate when the backend does not send one.
+    etaMinutes: ended
+      ? 0
+      : apiData.duration_remaining_minutes ??
+        estimateEtaMinutes(current, destination, liveSpeedKmh),
     updatedAtLabel: formatRecordedAt(lastPoint.recorded_at),
     updatedAtTime: formatShortTime(lastPoint.recorded_at),
     initials: getInitials(apiData.driver_fullname),
