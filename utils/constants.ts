@@ -216,6 +216,54 @@ export const faqs = [
   {
     "question": "How do I contact Soole support?",
     "answer": "You can reach our support team by phone or WhatsApp at 07032220043 (7 days a week, 8am - 10pm), by email at info@soole.ng, or through the in-app support chat."
+  },
+  {
+    "question": "When does the driver actually receive my money?",
+    "answer": "Only when you say the journey happened. Part of the fare is released when you confirm in the app that you have been picked up, and the rest when you confirm you have arrived. If you never confirm, nothing is released - the driver is not paid for you and your fare stays put until the situation is sorted out. This is deliberate: your money does not move to anybody else until you say you travelled."
+  },
+  {
+    "question": "What is my Prepaid Balance?",
+    "answer": "It is money you have already paid for a trip that has not been travelled yet. While the trip is upcoming, that fare is held for it. If the trip is cancelled or never runs, the money is released and you can either put it towards another trip straight away or ask for it back."
+  },
+  {
+    "question": "Can I add money to my Soole balance?",
+    "answer": "No, and this is on purpose. Soole is not a wallet and we do not take deposits or hold customer funds. Money only ever reaches your balance by paying for a specific trip, and only leaves by that trip running, by going towards another trip, or by being refunded to your bank account."
+  },
+  {
+    "question": "My trip was cancelled. What happens to my money?",
+    "answer": "It is released back to you automatically and we let you know. From there it is your choice - use it towards another trip, or request a refund to your bank account. Nothing expires and nothing is forfeited."
+  },
+  {
+    "question": "What if the driver never showed up?",
+    "answer": "Report the trip from the app and choose \"The driver never came\". The trip details are attached automatically, so there is nothing for you to type out. Because a driver is only paid once you confirm you were picked up, nobody has been paid, and your fare is still there. Our team settles it and frees the money so it can be refunded."
+  },
+  {
+    "question": "How do I request a refund?",
+    "answer": "Open the trip in the app and choose Request Refund. Pick your bank and enter your account number - we check it and show you the account name that comes back, so you can confirm it is yours before submitting. You will see the status move from Request Sent to Paying out to Paid, and we notify you at each step."
+  },
+  {
+    "question": "How much do I get back in a refund?",
+    "answer": "The full amount you paid for that trip. Nothing is deducted for processing it, and we keep nothing from a trip that did not happen."
+  },
+  {
+    "question": "Why can I not request a refund on this trip?",
+    "answer": "Usually one of three reasons, and the app tells you which before you fill in any bank details. The trip has not been cancelled and has not expired, so it may still go ahead. Or the money is already committed to another trip you have coming up - finish or cancel that one first. Or you have already asked for a refund on this trip."
+  },
+  {
+    "question": "I asked for a refund and then booked another trip. What now?",
+    "answer": "Requesting a refund does not freeze the money, so it stayed available and you spent it. There is nothing left to refund on that request, and we will let you know and tell you what balance you still have. Nothing has been lost - the money went to the trip you booked."
+  },
+  {
+    "question": "Can I share my trip with someone so they can follow it?",
+    "answer": "Yes. Share the trip from the app and whoever you send the link to can watch the vehicle move on a map, with an estimated arrival time, without needing the app or an account. The link stops working once the trip is over."
+  },
+  {
+    "question": "What happens if my account is reported?",
+    "answer": "An account that is reported or looks compromised can be deactivated, which blocks access and ends any active sessions. Nothing is deleted - your trips, bookings and payment records stay intact, and it can be reversed if the report turns out to be mistaken. Being deactivated also does not take your money: anything you are owed is still owed to you."
+  },
+  {
+    "question": "Is there an emergency button during a trip?",
+    "answer": "Yes. There is an SOS control in the app during a trip that raises an alert with our team straight away, and your trip can be shared with someone you trust so they can follow your journey live."
   }
 ];
 

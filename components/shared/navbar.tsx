@@ -21,6 +21,7 @@ const links = [
   { id: 2, name: "About Us", href: "/about-us" },
   { id: 3, name: "FAQ", href: "/faq" },
   { id: 4, name: "Privacy Policy", href: "/privacy-policy" },
+  { id: 5, name: "Payments & Refunds", href: "/refund-policy" },
 ];
 
 type NavbarProps = {
