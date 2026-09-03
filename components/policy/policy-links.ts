@@ -9,17 +9,27 @@
  * second because it is the one most people arrive looking for, and the one
  * the app stores link to.
  */
+export type PolicyIconName =
+  | 'handshake'
+  | 'lock'
+  | 'wallet'
+  | 'calendar'
+  | 'shield'
+
 export type PolicyLink = {
   slug: string
   label: string
   title: string
   blurb: string
   updated: string
+  /** Drawn by PolicyIcon - one per policy, so a card is recognisable at a glance. */
+  icon: PolicyIconName
 }
 
 export const POLICIES: PolicyLink[] = [
   {
     slug: 'terms',
+    icon: 'handshake',
     label: 'Terms of Service',
     title: 'Terms of Service',
     blurb:
@@ -28,6 +38,7 @@ export const POLICIES: PolicyLink[] = [
   },
   {
     slug: 'privacy',
+    icon: 'lock',
     label: 'Privacy Policy',
     title: 'Privacy Policy',
     blurb:
@@ -36,6 +47,7 @@ export const POLICIES: PolicyLink[] = [
   },
   {
     slug: 'payments-refunds',
+    icon: 'wallet',
     label: 'Payments & Refunds',
     title: 'Payments and Refunds Policy',
     blurb:
@@ -44,6 +56,7 @@ export const POLICIES: PolicyLink[] = [
   },
   {
     slug: 'cancellation',
+    icon: 'calendar',
     label: 'Cancellation',
     title: 'Cancellation Policy',
     blurb:
@@ -52,6 +65,7 @@ export const POLICIES: PolicyLink[] = [
   },
   {
     slug: 'community',
+    icon: 'shield',
     label: 'Community & Safety',
     title: 'Community and Safety Guidelines',
     blurb:

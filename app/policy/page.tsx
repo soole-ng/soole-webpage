@@ -4,6 +4,7 @@ import Navbar from '@/components/shared/navbar'
 import FloatingWhatsApp from '@/components/shared/floating-whatsapp'
 import LegacyHashRedirect from './components/legacy-hash-redirect'
 import { POLICIES } from '@/components/policy/policy-links'
+import PolicyIcon from '@/components/policy/policy-icon'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -55,6 +56,9 @@ const PolicyHub = () => {
                 href={`/policy/${policy.slug}`}
                 className="group flex flex-col rounded-2xl border border-[#E5EFDB] bg-white p-6 md:p-7 transition-colors duration-200 hover:border-[#058B42]"
               >
+                <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#EEF7E0] text-[#058B42] transition-colors duration-200 group-hover:bg-[#058B42] group-hover:text-white">
+                  <PolicyIcon name={policy.icon} className="h-[22px] w-[22px]" />
+                </span>
                 <h2 className="text-[19px] md:text-[22px] font-bold text-[#042011] group-hover:text-[#058B42] transition-colors duration-200">
                   {policy.title}
                 </h2>
