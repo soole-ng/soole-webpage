@@ -27,7 +27,7 @@ export default function Footer({
             </motion.h6>
           )}
         </div>
-        <footer className="bg-[#0e1414] relative py-12">
+        <footer className="bg-[#0e1414] relative py-8 md:py-10">
           {/* Footer illustration image */}
           <div className="w-full relative">
             <motion.div
@@ -45,7 +45,7 @@ export default function Footer({
               />
             </motion.div>
           </div>
-          <div className="brand-width mt-12 md:mt-2">
+          <div className="brand-width mt-8 md:mt-2">
             <div className="md:flex md:items-start md:space-x-12">
               <div className="">
                 <motion.h2
@@ -103,7 +103,7 @@ export default function Footer({
 
           {/* Main footer columns */}
           <div className="border-[#1b2626]">
-            <div className="max-w-7xl mx-auto px-6 py-14 text-sm text-[#FFFFFF]">
+            <div className="max-w-7xl mx-auto px-6 py-8 md:py-10 text-sm text-[#FFFFFF]">
               <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -122,7 +122,7 @@ export default function Footer({
 
                   <p className="mt-6 text-sm text-[#FFFFFF]">Travel smart. Travel safe. Travel together.</p>
 
-                  <div className="mt-8 lg:inline hidden max-w-xs opacity-20">
+                  <div className="mt-5 lg:inline hidden max-w-xs opacity-20">
                     <svg viewBox="0 0 200 60" className="w-full text-emerald-800" fill="none" aria-hidden>
                       <path
                         d="M10 40c15-20 35-20 55-20s35 0 50 10 40 10 55 10"
@@ -210,7 +210,7 @@ export default function Footer({
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 1 }}
-                className="mt-10 border-t border-[#172121] pt-6 flex flex-col md:flex-row md:items-center md:justify-between"
+                className="mt-6 border-t border-[#172121] pt-5 flex flex-col md:flex-row md:items-center md:justify-between"
               >
                 <div className="text-xs text-white">
                   Copyright © {new Date().getFullYear()} Soole | All Rights Reserved
@@ -244,12 +244,12 @@ export default function Footer({
               >
                 Designed and developed by{" "}
                 <Link
-                  href="https://www.doysam.tech"
+                  href="https://mobilitiafrica.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white hover:text-emerald-400 transition-colors duration-300 underline"
                 >
-                  Doysam Innovations and Tech limited
+                  Mobiliti Africa
                 </Link>
               </motion.div>
             </div>
