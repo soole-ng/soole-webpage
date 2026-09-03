@@ -100,7 +100,7 @@ export const termsData: TermsData = {
                 },
                 {
                     title: "Be on time",
-                    text: "A driver is not obliged to wait indefinitely, and other passengers are in the vehicle. If you cannot make it, cancel - it is free."
+                    text: "A driver is not obliged to wait indefinitely, and other passengers are in the vehicle. If you can no longer travel, tell us through Report Ride or support rather than simply not appearing."
                 }
             ]
         },
@@ -128,7 +128,7 @@ export const termsData: TermsData = {
         },
         {
             heading: "6. Cancellations and refunds",
-            content: `Our Cancellation Policy and Payments and Refunds Policy, both on this page, form part of these terms. In short: cancelling is free, a trip that does not run is refunded in full, and a trip you travelled on is not refundable.`
+            content: `Our Cancellation Policy and Payments and Refunds Policy, both on this page, form part of these terms. In short: a seat cannot be cancelled until two hours after the trip should have started and has not, a trip that does not run is refunded in full, and a trip you travelled on is not refundable. If you can no longer travel before that point, contact us.`
         },
         {
             heading: "7. How you must behave",
@@ -311,13 +311,41 @@ const SooleTerms = () => {
                 </motion.p>
             </motion.section>
 
-            <div className="brand-width pb-16 md:pb-24">
-                <div className="space-y-10 md:space-y-14">
+            <div className="brand-width pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10 lg:gap-16">
+                {/* Table of contents */}
+                <motion.nav
+                    className="hidden lg:block sticky top-24 self-start"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <p className="text-xs font-bold uppercase tracking-widest text-[#042011]/50 mb-4">
+                        On this page
+                    </p>
+                    <ul className="flex flex-col gap-3 border-l border-[#E5EFDB]">
+                        {termsData.sections.map((section, idx) => (
+                            section.heading && (
+                                <li key={idx}>
+                                    <a
+                                        href={`#${slugify(section.heading)}`}
+                                        className="block pl-4 -ml-px border-l-2 border-transparent hover:border-[#058B42] text-sm text-[#25373F]/70 hover:text-[#058B42] transition-colors duration-200"
+                                    >
+                                        {section.heading}
+                                    </a>
+                                </li>
+                            )
+                        ))}
+                    </ul>
+                </motion.nav>
+
+                {/* Sections */}
+                <div className="flex flex-col divide-y divide-[#E5EFDB]">
                     {termsData.sections.map((section, index) => (
                         <motion.div
                             key={index}
                             id={section.heading ? slugify(section.heading) : undefined}
-                            className="space-y-4 scroll-mt-24"
+                            className="py-8 first:pt-0 space-y-4 scroll-mt-24"
                             variants={sectionVariants}
                             initial="hidden"
                             whileInView="visible"

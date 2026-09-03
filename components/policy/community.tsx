@@ -69,8 +69,8 @@ export const communityGuidelinesData: CommunityGuidelinesData = {
                     text: "The route, the pickup point and the price are what both sides accepted when the seat was booked. Renegotiating the fare mid-journey is not allowed."
                 },
                 {
-                    title: "Turn up, or say you are not coming",
-                    text: "A no-show costs a driver a seat they could have sold and delays everybody else in the vehicle. Cancelling is free - use it."
+                    title: "Turn up, or tell somebody you are not coming",
+                    text: "A no-show costs a driver a seat they could have sold and delays everybody else in the vehicle. A seat cannot be cancelled in the app until two hours after the trip should have started, so if your plans change before then, report the trip or contact support - and message the driver, who is otherwise waiting for you."
                 }
             ]
         },
@@ -225,13 +225,41 @@ const SooleCommunityGuidelines = () => {
                 </motion.p>
             </motion.section>
 
-            <div className="brand-width pb-16 md:pb-24">
-                <div className="space-y-10 md:space-y-14">
+            <div className="brand-width pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10 lg:gap-16">
+                {/* Table of contents */}
+                <motion.nav
+                    className="hidden lg:block sticky top-24 self-start"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <p className="text-xs font-bold uppercase tracking-widest text-[#042011]/50 mb-4">
+                        On this page
+                    </p>
+                    <ul className="flex flex-col gap-3 border-l border-[#E5EFDB]">
+                        {communityGuidelinesData.sections.map((section, idx) => (
+                            section.heading && (
+                                <li key={idx}>
+                                    <a
+                                        href={`#${slugify(section.heading)}`}
+                                        className="block pl-4 -ml-px border-l-2 border-transparent hover:border-[#058B42] text-sm text-[#25373F]/70 hover:text-[#058B42] transition-colors duration-200"
+                                    >
+                                        {section.heading}
+                                    </a>
+                                </li>
+                            )
+                        ))}
+                    </ul>
+                </motion.nav>
+
+                {/* Sections */}
+                <div className="flex flex-col divide-y divide-[#E5EFDB]">
                     {communityGuidelinesData.sections.map((section, index) => (
                         <motion.div
                             key={index}
                             id={section.heading ? slugify(section.heading) : undefined}
-                            className="space-y-4 scroll-mt-24"
+                            className="py-8 first:pt-0 space-y-4 scroll-mt-24"
                             variants={sectionVariants}
                             initial="hidden"
                             whileInView="visible"

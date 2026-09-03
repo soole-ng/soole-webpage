@@ -78,7 +78,7 @@ export const companyLinks: NavLink[] = [
   { label: "Organizations", href: "/organizations" },
   { label: "About us", href: "/about-us" },
   { label: "FAQ", href: "/faq" },
-  { label: "Policy", href: "/policy" },
+  { label: "Policies", href: "/policy" },
   { label: "Contact Us", href: "/contact-us" },
 ];
 

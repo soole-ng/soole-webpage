@@ -1,77 +1,85 @@
+import Link from 'next/link'
 import Footer from '@/components/shared/footer'
 import Navbar from '@/components/shared/navbar'
 import FloatingWhatsApp from '@/components/shared/floating-whatsapp'
-import PolicyNav from './components/policy-nav'
-import SooleTerms from '@/components/policy/terms'
-import SoolePrivacyPolicy from '@/components/policy/privacy'
-import SooleRefundPolicy from '@/components/policy/refund'
-import SooleCancellationPolicy from '@/components/policy/cancellation'
-import SooleCommunityGuidelines from '@/components/policy/community'
+import LegacyHashRedirect from './components/legacy-hash-redirect'
+import { POLICIES } from '@/components/policy/policy-links'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Policies | Soole',
   description:
-    "Soole's privacy, payments and refunds, cancellation and community policies - what we do with your data, what you pay, what happens when a trip does not run, and the rules everyone travels by.",
+    "Soole's terms of service, privacy policy, payments and refunds, cancellation policy and community guidelines.",
 }
 
 /**
- * Every Soole policy on one page.
+ * The policy hub.
  *
- * Privacy and Payments & Refunds were separate routes, which meant somebody
- * looking for "the legal bit" had to know which of the two they wanted before
- * they could start reading. They are one subject to a passenger.
+ * Five policies on one scrolling page meant the terms of service alone ran to
+ * seventeen sections before the privacy policy started, and anybody sent a
+ * link to one of them landed in the middle of another. Each policy now has
+ * its own page and its own URL, which is what makes it linkable from the app
+ * store listings and quotable in a support reply.
  *
- * Each policy keeps its own heading and its own last-updated date, because
- * they are revised independently and a single date across both would be a
- * claim we cannot keep true.
- *
- * The section ids are load-bearing: /privacy-policy is linked from inside the
- * shipped mobile app and from the app store listings, and it redirects here
- * with #privacy attached. Renaming these breaks links we cannot update
- * retroactively - a shipped build keeps pointing at the old URL forever.
+ * This page is the way in: what each one covers, so a reader picks the one
+ * they came for instead of scrolling to find out.
  */
-const PolicyPage = () => {
+const PolicyHub = () => {
   return (
     <main>
       <Navbar whiteBg />
+      <LegacyHashRedirect />
 
       <div className="bg-[#FAFCF7]">
-        <section className="brand-width pt-10 pb-2 md:pt-16 md:pb-4">
+        <section className="brand-width pt-10 pb-8 md:pt-16 md:pb-12">
           <span className="inline-block text-xs font-bold uppercase tracking-widest text-[#058B42] mb-3">
             Legal
           </span>
           <h1 className="text-[28px] md:text-[44px] lg:text-[52px] font-bold text-[#042011] leading-tight max-w-[820px]">
             Our policies
           </h1>
-          <p className="mt-4 text-[#25373F]/80 text-base md:text-lg max-w-[720px]">
-            How we handle your data, and what happens to your money. Written to
-            describe what the platform actually does today.
+          <p className="mt-4 text-[#25373F]/80 text-base md:text-lg max-w-[720px] leading-[1.7]">
+            How we handle your data, what happens to your money, and the rules
+            everybody travels by. Written to describe what the platform
+            actually does today - if anything here does not match what you
+            experience in the app, that is a fault on our side and we want to
+            hear about it.
+          </p>
+        </section>
+
+        <section className="brand-width pb-16 md:pb-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {POLICIES.map((policy) => (
+              <Link
+                key={policy.slug}
+                href={`/policy/${policy.slug}`}
+                className="group flex flex-col rounded-2xl border border-[#E5EFDB] bg-white p-6 md:p-7 transition-colors duration-200 hover:border-[#058B42]"
+              >
+                <h2 className="text-[19px] md:text-[22px] font-bold text-[#042011] group-hover:text-[#058B42] transition-colors duration-200">
+                  {policy.title}
+                </h2>
+                <p className="mt-3 text-[#25373F]/80 text-sm md:text-base leading-[1.65] flex-1">
+                  {policy.blurb}
+                </p>
+                <span className="mt-5 text-xs uppercase tracking-widest text-[#042011]/45">
+                  Updated {policy.updated}
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <p className="mt-10 text-sm text-[#25373F]/70 max-w-[720px] leading-[1.7]">
+            Questions about any of this? Reach us at{' '}
+            <a
+              href="mailto:info@soole.ng"
+              className="text-[#058B42] underline underline-offset-2"
+            >
+              info@soole.ng
+            </a>{' '}
+            or on 07032220043, seven days a week between 8am and 10pm.
           </p>
         </section>
       </div>
-
-      <PolicyNav />
-
-      <section id="terms" className="scroll-mt-24">
-        <SooleTerms />
-      </section>
-
-      <section id="privacy" className="scroll-mt-24">
-        <SoolePrivacyPolicy />
-      </section>
-
-      <section id="payments-refunds" className="scroll-mt-24">
-        <SooleRefundPolicy />
-      </section>
-
-      <section id="cancellation" className="scroll-mt-24">
-        <SooleCancellationPolicy />
-      </section>
-
-      <section id="community" className="scroll-mt-24">
-        <SooleCommunityGuidelines />
-      </section>
 
       <Footer hideFooter />
       <FloatingWhatsApp />
@@ -79,4 +87,4 @@ const PolicyPage = () => {
   )
 }
 
-export default PolicyPage
+export default PolicyHub

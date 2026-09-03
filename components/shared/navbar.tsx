@@ -20,10 +20,9 @@ const links = [
   },
   { id: 2, name: "About Us", href: "/about-us" },
   { id: 3, name: "FAQ", href: "/faq" },
-  // One entry, because privacy and payments are one subject to a passenger -
-  // and two nav items made somebody choose which policy they wanted before
-  // they were allowed to start reading.
-  { id: 4, name: "Policy", href: "/policy" },
+  // The hub, not one policy. Two nav items used to make somebody choose
+  // which policy they wanted before they were allowed to start reading.
+  { id: 4, name: "Policies", href: "/policy" },
 ];
 
 type NavbarProps = {

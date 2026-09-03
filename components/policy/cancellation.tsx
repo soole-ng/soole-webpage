@@ -30,46 +30,59 @@ export type CancellationPolicyData = {
 export const cancellationPolicyData: CancellationPolicyData = {
     title: "Soole's Cancellation Policy",
     lastUpdated: "September 2026",
-    intro: `Plans change, vehicles break down, and roads close. This explains what happens when a trip does not run: who can cancel, when, and what happens to the money. It sits alongside our Payments and Refunds policy, which covers how the money itself moves.`,
+    intro: `Soole is not a taxi you hail and drop. A driver posts a journey they are making, passengers book seats on it, and everybody plans around that. Because of this, a seat cannot simply be handed back on a whim - a passenger who books and disappears costs the driver a seat they could have sold and delays everyone else in the vehicle. This explains when a booking can be cancelled, what to do before then, and what happens to your money.`,
     sections: [
         {
-            heading: "Cancelling as a passenger",
-            content: `You can cancel a seat at any point before you are picked up. There is no cancellation fee, and no penalty for cancelling.`,
+            heading: "The two-hour rule",
+            content: `A booked seat cannot be cancelled in the app until two hours after the trip was due to start and it still has not happened. Until that point the trip is treated as going ahead, because in almost every case it is - a driver running late is still coming.`,
             list: [
                 {
-                    title: "Before the driver sets off",
-                    text: "Cancel from the trip screen. Your seat is released back to the driver immediately, so somebody else can take it."
+                    title: "Before the two hours are up",
+                    text: "The cancel option is not available. If your plans have changed or something is wrong, use Report Ride on the trip screen or contact support, and we will look at it with you."
                 },
                 {
-                    title: "After the driver has started the trip",
-                    text: "You can still cancel if you have not been picked up. The driver is told straight away so they are not waiting for you."
-                },
-                {
-                    title: "Once you have been picked up",
-                    text: "The journey has begun and the seat cannot be cancelled. If something goes wrong during the trip, report it - see our community guidelines below."
+                    title: "Once two hours have passed and the trip has not run",
+                    text: "You can cancel and request your money back yourself, from the trip screen."
                 }
             ],
-            note: "We ask for a reason when you cancel. It is not a test - it tells us whether a driver is repeatedly unresponsive or repeatedly not matching their profile, which is something we act on."
+            note: "The same two hours applies on our side: a trip that has not started two hours after its departure time expires on its own, and everybody who paid is refunded without having to ask."
+        },
+        {
+            heading: "If you can no longer travel",
+            content: `Tell us rather than simply not turning up. Use Report Ride on the trip, or contact support directly - the details are on this site and in the app.`,
+            list: [
+                {
+                    text: "We look at these individually. A passenger whose circumstances genuinely changed and a passenger who books seats and abandons them are not the same, and a fixed rule cannot tell them apart."
+                },
+                {
+                    text: "Telling the driver through the in-app chat is a courtesy that costs you nothing and saves them waiting. It is not a substitute for reporting it to us."
+                }
+            ]
+        },
+        {
+            heading: "Once you have been picked up",
+            content: `The journey has begun and the seat cannot be cancelled at all - not by you, and not after you arrive. A completed journey and a trip that never ran must stay distinguishable, or a driver could be denied payment for work they actually did.`,
+            note: "If something went wrong on the journey, report the trip. That is settled by a person looking at what happened, which is the right process for it - and you can report a trip whether or not any money is in question."
         },
         {
             heading: "Cancelling as a driver",
-            content: `A driver can cancel a trip they have posted, and is asked for a reason. Every passenger who has booked is notified immediately, and every seat is refunded in full.`,
+            content: `A driver can cancel a trip they have posted, and is asked why. Every passenger who booked is notified immediately, and every seat is refunded in full without anybody having to ask.`,
             list: [
                 {
-                    text: "Vehicle breakdown, medical emergency, a blocked route or weather are all recognised reasons, and none of them count against you."
+                    text: "Vehicle breakdown, medical emergency, a blocked route and weather are all recognised reasons. Things go wrong; that is understood."
                 },
                 {
-                    text: "Cancelling repeatedly without good reason is treated differently. Passengers plan journeys around a posted trip, and a driver who cancels habitually is not offering a service."
+                    text: "Cancelling habitually is different. Passengers plan journeys around a posted trip, and a driver who repeatedly calls them off is not offering a service."
                 },
                 {
                     text: "A driver cannot cancel a passenger who is already aboard."
                 }
             ],
-            note: "Drivers are never charged for cancelling. What a driver loses is the trip; what we watch is the pattern."
+            note: "Drivers are not charged for cancelling. What a driver loses is the trip; what we pay attention to is the pattern."
         },
         {
             heading: "Trips that expire",
-            content: `A trip that is never started expires on its own. Nobody has to do anything, and every passenger who paid is refunded exactly as if it had been cancelled - a trip that quietly never happened and a trip that was called off are the same thing from your side.`
+            content: `A trip that has not started two hours after its departure time expires automatically. Nobody has to do anything. Every passenger who paid is refunded exactly as if the driver had cancelled it - a trip that quietly never happened and a trip that was called off are the same thing from your side.`
         },
         {
             heading: "What happens to your money",
@@ -77,14 +90,14 @@ export const cancellationPolicyData: CancellationPolicyData = {
             list: [
                 {
                     title: "It goes to your prepaid balance first",
-                    text: "The money returns to your Soole balance, where it is immediately available to book another trip. For most people that is the useful outcome: they are still trying to travel."
+                    text: "The money returns to your Soole balance, where it is immediately available to book another trip. For most people that is the useful outcome: they are still trying to get somewhere."
                 },
                 {
                     title: "Or to your bank, if you ask",
-                    text: "Request a refund from the trip and we send it to your bank account. You will get a notification when it has been paid."
+                    text: "Request a refund from the trip and we send it to your bank account. You are notified once it has been paid."
                 }
             ],
-            note: "If you already spent the released balance on another trip, that money is genuinely on that other trip and cannot also come back to your bank. The app tells you this before you fill in any bank details, not after."
+            note: "If you already spent the released balance on another trip, that money is genuinely on that other trip and cannot also come back to your bank. The app tells you this before you choose a bank and type an account number, not after."
         },
         {
             heading: "When a refund is not available",
@@ -92,11 +105,11 @@ export const cancellationPolicyData: CancellationPolicyData = {
             list: [
                 {
                     title: "You travelled",
-                    text: "You confirmed your pickup and took the journey. There is nothing to refund. If something went wrong on the way, report the trip - that is a different process, and cancelling is not it."
+                    text: "You confirmed your pickup and took the journey. There is nothing to refund. If something went wrong on the way, report the trip."
                 },
                 {
                     title: "The trip is still going ahead",
-                    text: "Refunds are for trips that did not happen. A trip that has not been cancelled and has not expired is still a trip you have a seat on."
+                    text: "Refunds are for trips that did not happen. A trip that has not been cancelled and has not expired is still a trip you hold a seat on."
                 },
                 {
                     title: "It has already been refunded",
@@ -181,13 +194,41 @@ const SooleCancellationPolicy = () => {
                 </motion.p>
             </motion.section>
 
-            <div className="brand-width pb-16 md:pb-24">
-                <div className="space-y-10 md:space-y-14">
+            <div className="brand-width pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10 lg:gap-16">
+                {/* Table of contents */}
+                <motion.nav
+                    className="hidden lg:block sticky top-24 self-start"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <p className="text-xs font-bold uppercase tracking-widest text-[#042011]/50 mb-4">
+                        On this page
+                    </p>
+                    <ul className="flex flex-col gap-3 border-l border-[#E5EFDB]">
+                        {cancellationPolicyData.sections.map((section, idx) => (
+                            section.heading && (
+                                <li key={idx}>
+                                    <a
+                                        href={`#${slugify(section.heading)}`}
+                                        className="block pl-4 -ml-px border-l-2 border-transparent hover:border-[#058B42] text-sm text-[#25373F]/70 hover:text-[#058B42] transition-colors duration-200"
+                                    >
+                                        {section.heading}
+                                    </a>
+                                </li>
+                            )
+                        ))}
+                    </ul>
+                </motion.nav>
+
+                {/* Sections */}
+                <div className="flex flex-col divide-y divide-[#E5EFDB]">
                     {cancellationPolicyData.sections.map((section, index) => (
                         <motion.div
                             key={index}
                             id={section.heading ? slugify(section.heading) : undefined}
-                            className="space-y-4 scroll-mt-24"
+                            className="py-8 first:pt-0 space-y-4 scroll-mt-24"
                             variants={sectionVariants}
                             initial="hidden"
                             whileInView="visible"
