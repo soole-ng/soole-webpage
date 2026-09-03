@@ -2,14 +2,17 @@ import Footer from '@/components/shared/footer'
 import Navbar from '@/components/shared/navbar'
 import FloatingWhatsApp from '@/components/shared/floating-whatsapp'
 import PolicyNav from './components/policy-nav'
+import SooleTerms from '@/components/policy/terms'
 import SoolePrivacyPolicy from '@/components/policy/privacy'
 import SooleRefundPolicy from '@/components/policy/refund'
+import SooleCancellationPolicy from '@/components/policy/cancellation'
+import SooleCommunityGuidelines from '@/components/policy/community'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Policies | Soole',
   description:
-    "Soole's privacy policy and payments and refunds policy - what we do with your data, what you pay, and how to get your money back.",
+    "Soole's privacy, payments and refunds, cancellation and community policies - what we do with your data, what you pay, what happens when a trip does not run, and the rules everyone travels by.",
 }
 
 /**
@@ -50,12 +53,24 @@ const PolicyPage = () => {
 
       <PolicyNav />
 
+      <section id="terms" className="scroll-mt-24">
+        <SooleTerms />
+      </section>
+
       <section id="privacy" className="scroll-mt-24">
         <SoolePrivacyPolicy />
       </section>
 
       <section id="payments-refunds" className="scroll-mt-24">
         <SooleRefundPolicy />
+      </section>
+
+      <section id="cancellation" className="scroll-mt-24">
+        <SooleCancellationPolicy />
+      </section>
+
+      <section id="community" className="scroll-mt-24">
+        <SooleCommunityGuidelines />
       </section>
 
       <Footer hideFooter />

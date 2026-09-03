@@ -7,14 +7,17 @@ type PolicySection = {
 }
 
 const SECTIONS: PolicySection[] = [
+  { id: 'terms', label: 'Terms of Service' },
   { id: 'privacy', label: 'Privacy' },
   { id: 'payments-refunds', label: 'Payments & Refunds' },
+  { id: 'cancellation', label: 'Cancellation' },
+  { id: 'community', label: 'Community & Safety' },
 ]
 
 /**
  * Sticky switcher between the policies on this page.
  *
- * Plain anchors rather than tabs holding state: the two policies are long,
+ * Plain anchors rather than tabs holding state: the policies are long,
  * and a tab that hides one of them means a reader who lands on #payments-
  * refunds from the app cannot scroll up into privacy, or use the browser's
  * find-in-page across both. Anchors also survive JavaScript failing to load,
