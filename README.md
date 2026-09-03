@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Soole — Official Website
 
-## Getting Started
+The public site for **Soole.ng**, a Nigerian intercity ridesharing platform connecting passengers with verified drivers already heading their way.
 
-First, run the development server:
+This repository is the marketing site and public policy pages. It is not the product — the apps live in `soole-mobile-app`, the operator console in `soole-dashboard`, and the API in `soole-backend`.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Pages
+
+| Route | Purpose |
+|---|---|
+| `/` | Landing page |
+| `/riders` | How Soole works for passengers |
+| `/drivers` | How Soole works for drivers |
+| `/organizations` | Fleet and transport-company offering |
+| `/about-us` | Company |
+| `/contact-us` | Contact form |
+| `/faq` | Frequently asked questions |
+| `/privacy-policy` | Privacy policy |
+| `/refund-policy` | Payments and refund policy |
+| `/ride-tracking` | Live trip tracking for a shared trip link |
+
+### `/ride-tracking` is the one page that talks to the API
+
+Every other route is static content. Ride tracking reads a shared trip link and
+renders the driver, vehicle and route from the backend, so somebody following a
+relative's journey does not need the app installed. It calls the public tracking
+endpoint through `services/tracking.ts` — see `NEXT_PUBLIC_BASE_URL` below.
+
+### One price, everywhere
+
+The refund policy and FAQ quote a single figure: what the passenger pays. Soole's
+commission is included in it and is never broken out or named on the public site —
+a passenger is quoted one number and charged that number. Keep it that way when
+editing these pages.
+
+---
+
+## Structure
+
+```
+soole-official-website/
+├── app/
+│   ├── page.tsx              # Landing
+│   ├── layout.tsx            # Root layout, fonts, metadata
+│   ├── globals.css
+│   ├── actions/              # Server actions
+│   │   ├── submit-contact-form.ts
+│   │   └── submit-email.ts   # Waitlist / newsletter capture
+│   └── <route>/page.tsx      # One directory per route above
+├── components/
+│   ├── landing-page-components/
+│   ├── organizations/
+│   ├── ride-tracking/
+│   ├── shared/               # Header, footer, cross-page pieces
+│   └── ui/                   # shadcn/ui primitives
+├── services/
+│   ├── api.ts                # Axios instance pointed at the backend
+│   └── tracking.ts           # Ride tracking queries and response types
+├── lib/utils.ts              # cn() and helpers
+├── utils/constants.ts        # Shared constants
+└── public/                   # Images and static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Getting started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+Runs on **http://localhost:3210** (not 3000 — the port is set in `package.json`).
 
-To learn more about Next.js, take a look at the following resources:
+### Environment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create `.env.local`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Backend API, used by the ride-tracking page
+NEXT_PUBLIC_BASE_URL=https://your-api-url.com
 
-## Deploy on Vercel
+# Google Sheets, used by the contact form and email capture server actions
+GOOGLE_SHEET_ID=
+GOOGLE_SERVICE_ACCOUNT_EMAIL=
+GOOGLE_PRIVATE_KEY=
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`GOOGLE_PRIVATE_KEY` contains newlines. Keep it quoted, with the `\n` escapes
+intact, or the Sheets client fails to parse the key at runtime rather than at
+build time — the contact form will look fine and silently drop submissions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Other scripts
+
+```bash
+npm run build     # Production build
+npm run start     # Serve the production build
+npm run lint      # ESLint
+```
+
+---
+
+## Tech stack
+
+| Concern | Choice |
+|---|---|
+| Framework | Next.js (App Router, Turbopack) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Components | shadcn/ui (`components.json`) |
+| Data fetching | TanStack Query + Axios |
+| Form capture | Server actions writing to Google Sheets |
+
+---
+
+## Related repositories
+
+| Repository | What it is |
+|---|---|
+| `soole-backend` | Django + Django Ninja API, admin, payments |
+| `soole-mobile-app` | Flutter app for drivers and passengers |
+| `soole-dashboard` | React operator console for fleets |
