@@ -20,6 +20,14 @@ export type ComputedTrackingData = {
   updatedAtTime: string;
   initials: string;
   /**
+   * Every position the phone actually reported, oldest first, starting at
+   * the pickup point.
+   *
+   * This is the record of the journey. It is not asked of a routing service
+   * and contains nothing invented.
+   */
+  trail: MapPoint[];
+  /**
    * Whether to draw the road ahead of the vehicle.
    *
    * False for the first half hour of a journey. See routeAheadVisible.
@@ -197,6 +205,17 @@ export function computeTrackingData(
     updatedAtLabel: formatRecordedAt(lastPoint.recorded_at),
     updatedAtTime: formatShortTime(lastPoint.recorded_at),
     initials: getInitials(apiData.driver_fullname),
+    // Prefixed with the pickup point so the line starts at the green pin.
+    // The first position is recorded once tracking starts, which is at the
+    // kerb but rarely on the pin, and a trail that begins a street away from
+    // where the journey began looks like a missing beginning.
+    trail: [
+      origin,
+      ...apiData.route.map((point) => ({
+        lat: point.latitude,
+        lng: point.longitude,
+      })),
+    ],
     showRouteAhead: !ended && routeAheadVisible(apiData.route),
   };
 }

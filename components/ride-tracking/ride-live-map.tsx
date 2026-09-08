@@ -26,6 +26,11 @@ type RideLiveMapProps = {
   origin: MapPoint;
   destination: MapPoint;
   current: MapPoint;
+  /**
+   * Every position the phone actually reported, oldest first, starting at
+   * the pickup point. The record of the journey - nothing invented.
+   */
+  trail: MapPoint[];
   status: RideStatus;
   lastUpdatedLabel: string;
   /**
@@ -208,6 +213,7 @@ export function RideLiveMap({
   origin,
   destination,
   current,
+  trail,
   status,
   lastUpdatedLabel,
   showRouteAhead,
@@ -217,9 +223,28 @@ export function RideLiveMap({
   const originIcon = useLocationIcon("#34A853");
   const destinationIcon = useLocationIcon("#EA4335");
 
-  const traveledCoords = useRouteGeometry(
-    origin,
-    status === "over" ? destination : current,
+  /* Where the vehicle has actually been.
+   *
+   * The positions the phone reported, in order. This asked the routing
+   * service to draw a line from the pickup point to the current position
+   * instead - so the line called "Travelled" was a second guess, not a
+   * record: it showed the road a routing engine would have taken between
+   * those two points, which on an Abuja-to-Lagos trip is a different road
+   * from the one the driver took whenever they chose the other corridor.
+   *
+   * The real trail was on the wire the whole time and the map was never
+   * given it. A page whose job is to reassure somebody about a journey has
+   * to show the journey, not a plausible reconstruction of it.
+   *
+   * Straight segments between consecutive positions. They arrive a minute or
+   * two apart, so on any view that shows a journey the line reads as the
+   * road; zoomed right in it cuts corners, which is what a trail of real
+   * points looks like and is the honest shape for it. A gap where tracking
+   * stopped shows as a gap, rather than being filled in with a road nobody
+   * can say was driven. */
+  const traveledCoords = useMemo<LatLngTuple[]>(
+    () => trail.map((point) => [point.lat, point.lng] as LatLngTuple),
+    [trail],
   );
 
   /* The road still ahead, from where they are now to where they are going.

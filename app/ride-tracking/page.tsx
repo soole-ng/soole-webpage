@@ -100,6 +100,7 @@ function RideTrackingContent() {
           origin={computed.origin}
           destination={computed.destination}
           current={computed.current}
+          trail={computed.trail}
           status={computed.status}
           lastUpdatedLabel={computed.updatedAtTime}
           showRouteAhead={computed.showRouteAhead}
