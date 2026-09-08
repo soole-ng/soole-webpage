@@ -28,6 +28,11 @@ type RideLiveMapProps = {
   current: MapPoint;
   status: RideStatus;
   lastUpdatedLabel: string;
+  /**
+   * Whether to draw the road ahead of the vehicle. False for the first half
+   * hour - see routeAheadVisible in tracking-utils.
+   */
+  showRouteAhead: boolean;
   focusTarget?: MapFocusTarget;
   onFocusHandled?: () => void;
 };
@@ -93,7 +98,15 @@ async function fetchRouteGeometry(
   ];
 }
 
-function useRouteGeometry(from: MapPoint, to: MapPoint): LatLngTuple[] {
+function useRouteGeometry(
+  from: MapPoint,
+  to: MapPoint,
+  // A route nobody is going to see must not be fetched. The road ahead is
+  // hidden for the first half hour of every trip, and asking the routing
+  // service for it anyway would be a request per position update, for a line
+  // that is never drawn.
+  enabled = true,
+): LatLngTuple[] {
   const fallback = useMemo<LatLngTuple[]>(
     () => [
       [from.lat, from.lng],
@@ -106,6 +119,8 @@ function useRouteGeometry(from: MapPoint, to: MapPoint): LatLngTuple[] {
   const activeKey = useRef("");
 
   useEffect(() => {
+    if (!enabled) return;
+
     const key = cacheKey(from, to);
     activeKey.current = key;
 
@@ -113,7 +128,7 @@ function useRouteGeometry(from: MapPoint, to: MapPoint): LatLngTuple[] {
       // only apply if this is still the active request
       if (activeKey.current === key) setCoords(result);
     });
-  }, [from, to]);
+  }, [from, to, enabled]);
 
   return coords;
 }
@@ -195,6 +210,7 @@ export function RideLiveMap({
   current,
   status,
   lastUpdatedLabel,
+  showRouteAhead,
   focusTarget = null,
   onFocusHandled,
 }: RideLiveMapProps) {
@@ -218,7 +234,11 @@ export function RideLiveMap({
    * rather than cutting a straight line across the country. Once the trip is
    * over there is nothing ahead - the travelled line already reaches the
    * destination - so this collapses to the same point and is not drawn. */
-  const remainingCoords = useRouteGeometry(current, destination);
+  const remainingCoords = useRouteGeometry(
+    current,
+    destination,
+    showRouteAhead,
+  );
 
   return (
     <MapContainer
@@ -247,8 +267,16 @@ export function RideLiveMap({
         * sits on top of it where they overlap. Dashed rather than solid
         * because it is a plan, not a record: this is where the vehicle is
         * expected to go, and it should not read the same as where it has
-        * actually been. */}
-      {status !== "over" && (
+        * actually been.
+        *
+        * Not drawn at all for the first half hour. Abuja leaves for Lagos
+        * the same way whether the driver is going via Ilorin or via Lokoja,
+        * so the line drawn in the opening minutes is a coin toss - and it
+        * was drawn through Ilorin, which is exactly what "the driver has
+        * gone the wrong way" looks like to a relative following the page.
+        * Once they have been driving half an hour the road they are on
+        * answers the question. See routeAheadVisible in tracking-utils. */}
+      {showRouteAhead && (
         <Polyline
           positions={remainingCoords}
           pathOptions={{

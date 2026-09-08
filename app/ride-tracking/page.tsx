@@ -102,6 +102,7 @@ function RideTrackingContent() {
           current={computed.current}
           status={computed.status}
           lastUpdatedLabel={computed.updatedAtTime}
+          showRouteAhead={computed.showRouteAhead}
           focusTarget={focusTarget}
           onFocusHandled={handleFocusHandled}
         />
@@ -118,7 +119,7 @@ function RideTrackingContent() {
         etaMinutes={computed.etaMinutes}
       />
 
-      <RouteLegend status={computed.status} />
+      <RouteLegend showRouteAhead={computed.showRouteAhead} />
 
       <RideDetailsPanel
         apiData={apiData}

@@ -1,7 +1,10 @@
-import type { RideStatus } from "../lib/tracking-utils";
-
 type RouteLegendProps = {
-  status: RideStatus;
+  /**
+   * Whether the road ahead is being drawn. The legend exists to tell the two
+   * lines apart, so with only one line on the map there is nothing to tell
+   * apart and no legend.
+   */
+  showRouteAhead: boolean;
 };
 
 /**
@@ -19,16 +22,13 @@ type RouteLegendProps = {
  * make people feel safe about a journey, so a line it invented must not be
  * the thing that frightens them.
  *
- * It does correct itself: the road ahead is refetched from the vehicle's
- * current position every time one arrives, so a driver bound for Lokoja gets
- * a Lokoja line as soon as they are on it. This labels the moments in
- * between.
- *
- * Hidden once the trip is over - there is no road ahead then, and the map
- * draws no dashed line to explain.
+ * The bigger half of that answer is that the guess is not made at all until
+ * the driver has been going half an hour and the road they are on has
+ * settled the question - see routeAheadVisible in tracking-utils. This
+ * labels it once it appears, and stays out of the way until then.
  */
-export function RouteLegend({ status }: RouteLegendProps) {
-  if (status === "over") return null;
+export function RouteLegend({ showRouteAhead }: RouteLegendProps) {
+  if (!showRouteAhead) return null;
 
   return (
     <div className="pointer-events-none absolute left-4 top-40 z-[650] rounded-xl bg-white/95 px-3 py-2 text-zinc-900 shadow-lg">

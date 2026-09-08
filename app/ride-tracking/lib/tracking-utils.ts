@@ -1,4 +1,7 @@
-import type { TrackRideSuccessResponse } from "@/services/tracking";
+import type {
+  RoutePoint,
+  TrackRideSuccessResponse,
+} from "@/services/tracking";
 
 export type RideStatus = "ongoing" | "over";
 
@@ -16,6 +19,12 @@ export type ComputedTrackingData = {
   updatedAtLabel: string;
   updatedAtTime: string;
   initials: string;
+  /**
+   * Whether to draw the road ahead of the vehicle.
+   *
+   * False for the first half hour of a journey. See routeAheadVisible.
+   */
+  showRouteAhead: boolean;
 };
 
 export function getInitials(name: string) {
@@ -105,6 +114,46 @@ export function isTripEnded(current: MapPoint, destination: MapPoint) {
   return haversineKm(current, destination) <= 0.05;
 }
 
+/** How long a driver is given to pick a road before we draw one for them. */
+export const ROUTE_AHEAD_AFTER_MINUTES = 30;
+
+/**
+ * Whether enough of the journey has happened to guess the rest of it.
+ *
+ * The road ahead is a routing engine's opinion, and at the start of a trip
+ * it is an opinion with nothing to go on. Abuja to Lagos leaves Abuja the
+ * same way whether the driver is going via Ilorin or via Lokoja, so the line
+ * drawn in the first minutes is a coin toss - and it was drawn straight
+ * across the country through Ilorin, which is exactly what "the driver has
+ * gone the wrong way" looks like to a relative following the page.
+ *
+ * Half an hour of driving settles it. By then the vehicle is on one corridor
+ * or the other and the route from where they actually are is the route they
+ * are actually taking. Waiting costs nothing: the origin pin, the
+ * destination pin and the trail already say where the journey starts, ends
+ * and has got to.
+ *
+ * Measured from the first recorded position rather than the departure time,
+ * because that is the first moment we know anything at all about where the
+ * vehicle is. A trip shorter than half an hour never shows a road ahead, and
+ * does not need one - on a journey that short the two pins are close enough
+ * to read together.
+ *
+ * A caveat worth knowing rather than coding around: a driver who spends
+ * thirty minutes in Abuja traffic has disambiguated nothing, and the line
+ * will still be a guess when it appears. It self-corrects on the next
+ * position either way.
+ */
+export function routeAheadVisible(route: RoutePoint[], now = Date.now()) {
+  const first = route[0];
+  if (!first) return false;
+
+  const startedAt = new Date(first.recorded_at).getTime();
+  if (Number.isNaN(startedAt)) return false;
+
+  return now - startedAt >= ROUTE_AHEAD_AFTER_MINUTES * 60 * 1000;
+}
+
 export function computeTrackingData(
   apiData: TrackRideSuccessResponse | null,
 ): ComputedTrackingData | null {
@@ -148,5 +197,6 @@ export function computeTrackingData(
     updatedAtLabel: formatRecordedAt(lastPoint.recorded_at),
     updatedAtTime: formatShortTime(lastPoint.recorded_at),
     initials: getInitials(apiData.driver_fullname),
+    showRouteAhead: !ended && routeAheadVisible(apiData.route),
   };
 }
