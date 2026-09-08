@@ -14,6 +14,7 @@ import {
 import { TrackingTerminalState } from "./components/tracking-terminal-state";
 import { RideTrackingHeader } from "./components/ride-tracking-header";
 import { DropoffEtaWidget } from "./components/dropoff-eta-widget";
+import { RouteLegend } from "./components/route-legend";
 import { RideDetailsPanel } from "./components/ride-details-panel";
 import { computeTrackingData } from "./lib/tracking-utils";
 
@@ -116,6 +117,8 @@ function RideTrackingContent() {
         status={computed.status}
         etaMinutes={computed.etaMinutes}
       />
+
+      <RouteLegend status={computed.status} />
 
       <RideDetailsPanel
         apiData={apiData}
