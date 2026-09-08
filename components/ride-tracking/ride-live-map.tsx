@@ -255,8 +255,13 @@ export function RideLiveMap({
             color: "#4285F4",
             weight: 5,
             lineCap: "round",
-            opacity: 0.35,
-            dashArray: "10 12",
+            // 0.35 was chosen without ever seeing it on a real map: over
+            // Nigeria at country zoom the road ahead was there and
+            // effectively invisible, so the journey still looked like a dot
+            // near Abuja and a pin on Lagos with nothing joining them.
+            // Still dashed - it is a plan, not a record - but visible.
+            opacity: 0.8,
+            dashArray: "12 10",
           }}
         />
       )}
