@@ -206,6 +206,20 @@ export function RideLiveMap({
     status === "over" ? destination : current,
   );
 
+  /* The road still ahead, from where they are now to where they are going.
+   *
+   * Only the travelled part was drawn, so early in a journey the line was a
+   * stub beside the pickup pin and the rest of the map was empty - somebody
+   * following an Abuja-to-Lagos trip could see a dot near Abuja, a pin on
+   * Lagos, and nothing joining them. The whole point of the page is the
+   * shape of the journey.
+   *
+   * Fetched the same way as the travelled half, so it follows real roads
+   * rather than cutting a straight line across the country. Once the trip is
+   * over there is nothing ahead - the travelled line already reaches the
+   * destination - so this collapses to the same point and is not drawn. */
+  const remainingCoords = useRouteGeometry(current, destination);
+
   return (
     <MapContainer
       center={[current.lat, current.lng]}
@@ -228,6 +242,24 @@ export function RideLiveMap({
         current={current}
         onFocusHandled={onFocusHandled}
       />
+
+      {/* Road ahead — dashed and faded, drawn first so the travelled line
+        * sits on top of it where they overlap. Dashed rather than solid
+        * because it is a plan, not a record: this is where the vehicle is
+        * expected to go, and it should not read the same as where it has
+        * actually been. */}
+      {status !== "over" && (
+        <Polyline
+          positions={remainingCoords}
+          pathOptions={{
+            color: "#4285F4",
+            weight: 5,
+            lineCap: "round",
+            opacity: 0.35,
+            dashArray: "10 12",
+          }}
+        />
+      )}
 
       {/* Traveled route — solid, follows real roads */}
       <Polyline

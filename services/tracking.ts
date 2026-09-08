@@ -15,6 +15,14 @@ export interface TrackRideSuccessResponse {
   route: RoutePoint[];
   driver_fullname: string;
   driver_picture: string;
+  /**
+   * The driver's number, so whoever is following the trip can call them.
+   *
+   * Optional because a backend that predates it will not send the field -
+   * the panel simply shows no call link in that case rather than an empty
+   * one.
+   */
+  driver_phone?: string | null;
   car_name: string;
   car_plate: string;
   origin_state: string;
