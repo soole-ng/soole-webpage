@@ -242,7 +242,28 @@ export function RideLiveMap({
    *
    * Same source as the road ahead, so the two halves of the journey are
    * drawn the same way and meet without a seam at the driver's position. */
-  const traveledCoords = useRouteGeometry(origin, current);
+  /* Quantised, so this refetches when the driver has actually gone
+   * somewhere - not once a minute for ever.
+   *
+   * `current` is a new object on every position update and cacheKey is
+   * accurate to about a metre, so passing it raw missed the cache every
+   * time and put a router request on every update. Doubling the load on
+   * router.project-osrm.org is self-defeating: it is rate-limited, and its
+   * failures are exactly what produces the straight-line fallback this
+   * change exists to avoid.
+   *
+   * Three decimal places is roughly 110m. The route from a fixed origin
+   * does not meaningfully change over less than that, so anything smaller
+   * reuses the cached line. */
+  const traveledFrom = useMemo<MapPoint>(
+    () => ({
+      lat: Math.round(current.lat * 1000) / 1000,
+      lng: Math.round(current.lng * 1000) / 1000,
+    }),
+    [current.lat, current.lng],
+  );
+
+  const traveledCoords = useRouteGeometry(origin, traveledFrom);
 
   /* The road still ahead, from where they are now to where they are going.
    *
