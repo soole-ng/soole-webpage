@@ -30,6 +30,10 @@ type RideLiveMapProps = {
    * Every position the phone actually reported, oldest first, starting at
    * the pickup point. The record of the journey - nothing invented.
    */
+  /* The recorded positions. No longer drawn - the travelled line is
+   * routed now - but still passed, because map-matching these against
+   * the road network is the accurate version of that line and would
+   * need them back. */
   trail: MapPoint[];
   status: RideStatus;
   lastUpdatedLabel: string;
@@ -213,7 +217,6 @@ export function RideLiveMap({
   origin,
   destination,
   current,
-  trail,
   status,
   lastUpdatedLabel,
   showRouteAhead,
@@ -223,29 +226,23 @@ export function RideLiveMap({
   const originIcon = useLocationIcon("#34A853");
   const destinationIcon = useLocationIcon("#EA4335");
 
-  /* Where the vehicle has actually been.
+  /* The road from the pickup point to where they are now.
    *
-   * The positions the phone reported, in order. This asked the routing
-   * service to draw a line from the pickup point to the current position
-   * instead - so the line called "Travelled" was a second guess, not a
-   * record: it showed the road a routing engine would have taken between
-   * those two points, which on an Abuja-to-Lagos trip is a different road
-   * from the one the driver took whenever they chose the other corridor.
+   * Drawn by the router, not by joining the recorded positions.
    *
-   * The real trail was on the wire the whole time and the map was never
-   * given it. A page whose job is to reassure somebody about a journey has
-   * to show the journey, not a plausible reconstruction of it.
+   * Those positions arrive about a minute apart, so on a fast road two
+   * consecutive points are kilometres apart and the segment between them
+   * is a long straight line cutting across the map - which is what was
+   * reported. The honest-shape argument for using raw points only holds
+   * when they are dense enough to trace a road, and at this sampling rate
+   * they are not.
    *
-   * Straight segments between consecutive positions. They arrive a minute or
-   * two apart, so on any view that shows a journey the line reads as the
-   * road; zoomed right in it cuts corners, which is what a trail of real
-   * points looks like and is the honest shape for it. A gap where tracking
-   * stopped shows as a gap, rather than being filled in with a road nobody
-   * can say was driven. */
-  const traveledCoords = useMemo<LatLngTuple[]>(
-    () => trail.map((point) => [point.lat, point.lng] as LatLngTuple),
-    [trail],
-  );
+   * Product owner, 2026-09-19: the dashed likely route "is fine", it is
+   * the solid one that needs updating.
+   *
+   * Same source as the road ahead, so the two halves of the journey are
+   * drawn the same way and meet without a seam at the driver's position. */
+  const traveledCoords = useRouteGeometry(origin, current);
 
   /* The road still ahead, from where they are now to where they are going.
    *
